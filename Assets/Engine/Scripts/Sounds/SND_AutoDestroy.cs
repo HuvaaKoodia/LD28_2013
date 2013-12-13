@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HudTestScr : MonoBehaviour {
-
+public class SND_AutoDestroy : MonoBehaviour {
+	
+	public GameObject Target;
+	public AudioSource source;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -11,9 +14,8 @@ public class HudTestScr : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-	}
-	
-	void OnClick(){
-		Debug.Log("SAdasd!");
+		if (!source.isPlaying){
+			Destroy(Target);
+		}
 	}
 }
