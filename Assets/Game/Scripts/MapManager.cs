@@ -31,7 +31,7 @@ public class MapManager : MonoBehaviour
 	gridX=md.map_data.GetLength(1);
 	gridY=md.map_data.GetLength(0);
 		
-	tiles_map=new Tile[gridX,gridY];
+	tiles_map=new Tile[gridY,gridX];
 
 		for (int i = 0; i < gridY; i++)
 		{
@@ -51,10 +51,10 @@ public class MapManager : MonoBehaviour
 			for (int e = 0; e < gridX; e++)
 			{
 				//Debug.Log(tiles[i*e+1].tileObject);
-				switch (md.map_data[e,i])
+				switch (md.map_data[i,e])
 				{
 					case "p":
-						tiles_map[e,i].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[e,i].transform.position, Quaternion.identity);						
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, Quaternion.identity);						
 					break;
 					case "a":
 					break;

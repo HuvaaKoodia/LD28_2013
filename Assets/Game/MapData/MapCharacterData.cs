@@ -39,50 +39,66 @@ public class MapCharacterData{
 			int y_abs=(int)(Mathf.Sign(y_dif)*Mathf.Min(1,Mathf.Abs(y_dif)));
 			int x_abs=(int)(Mathf.Sign(x_dif)*Mathf.Min(1,Mathf.Abs(x_dif)));
 			
+			if (x_abs!=0&&y_abs!=0){
+				if (Mathf.Abs(y_dif)>Mathf.Abs(x_dif)){
+					x_abs=0;
+				}
+				else{
+					y_abs=0; 
+				}
+				
+			}
 			
 			
 			var NEXT_POS=mapman.tiles_map[tx+x_abs,ty+y_abs];
 			
-			bool block=false;
-			if (NEXT_POS.Blocked()){
-				block=true;
-				if (NEXT_POS.TilePosition==endPos){
+			/*
+			 * if (NEXT_POS.TilePosition==endPos){
 					tx+=x_abs;
 					ty+=y_abs;
 					continue;
 				}
+			 * */
+			
+			if (NEXT_POS.Blocked()){
+				
+				
 				//move to other direction
 				
-				if (x_abs==0)
+ 				if (x_abs==0)
 				{
 					y_abs=0;
 					
-					x_abs=1;
+					x_abs=(int)Mathf.Sign(x_dif);
 					
-					if (tx+x_abs>1)
+					//if (tx+x_abs>1)
 					
-					if (x_abs==0&&y_abs==0){
-						
+					if (tx+x_abs>mapman.gridX-1||tx+x_abs<0){
+						x_abs*=-1;
 					}
 					
 				}
 				else if (y_abs==0)
 				{
-					y_abs=1;
+					y_abs=(int)Mathf.Sign(y_dif);
 					x_abs=0;
 					
-					if (x_abs==0&&y_abs==0){
+					if (ty+y_abs>mapman.gridY-1||ty+y_abs<0){
+						y_abs*=-1; 
+					}
+					
+					//if (x_abs==0&&y_abs==0){
 							
-					}
+					//}
 				}
-				else{
-					if (Mathf.Abs(y_dif)>Mathf.Abs(x_dif)){
-						x_abs=0;
-					}
-					else{
-						y_abs=0; 
-					}
-				}
+//				else{
+//					if (Mathf.Abs(y_dif)>Mathf.Abs(x_dif)){
+//						x_abs=0;
+//					}
+//					else{
+//						y_abs=0; 
+//					}
+//				}
 			}
 			
 			
