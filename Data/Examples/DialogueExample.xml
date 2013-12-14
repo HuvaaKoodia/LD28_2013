@@ -1,0 +1,17 @@
+<Root>
+  <!--Dialogue requires a name but doesn't need a type.
+Common types: ENDL, RANDOM.-->
+  <Dialogue Name="DialogueName" Type="DialogueType">
+    <!--The dialogue text can refer to variables in the query. (syntax: #[variable name]#)-->
+    <Text>The character is called #Name#</Text>
+    <!--The link's random value has an effect only if the dialogue type is RANDOM
+Links are chosen with a random test from 0 to 100, starting from the one with the highest random value.-->
+    <Link>DialogueName1</Link>
+    <Link Random="80">DialogueName2</Link>
+    <Link>DialogueName3</Link>
+    <!--The link can directly call a dialogue like this.(syntax: "[text]" to [Dialogue])-->
+    <Link>"Hello friend!" to GreetFriend</Link>
+    <!--The link can directly call a rule check like this.(syntax: "[text]" to [CharacterScope] [EventScope])-->
+    <Link>"Hello friend!" to Friend OnGreet</Link>
+  </Dialogue>
+</Root>

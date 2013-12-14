@@ -1,0 +1,8 @@
+<Root>
+  <Scene Name="Scene1">
+    <Location>Forest</Location>
+    <Character>Player</Character>
+    <Character>Ally</Character>
+    <Object>Rock</Object>
+  </Scene>
+</Root>

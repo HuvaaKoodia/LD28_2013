@@ -1,12 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\NGUI\Scripts\Editor\UIAtlasMaker.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Engine\DialogueSys\GameScripts\CharacterMain.cs">
     <Files>
-      <File FileName="Assets\Engine\Sys\EngineController.cs" Line="15" Column="17" />
-      <File FileName="Assets\HudTestScr.cs" Line="1" Column="1" />
-      <File FileName="Assets\Engine\Sys\Subs.cs" Line="144" Column="2" />
-      <File FileName="Assets\Engine\Sys\Timer.cs" Line="45" Column="28" />
-      <File FileName="Assets\NGUI\Scripts\Editor\UIAtlasMaker.cs" Line="18" Column="29" />
+      <File FileName="Assets\Engine\DialogueSys\Data\QueryData.cs" Line="23" Column="10" />
+      <File FileName="Assets\Engine\Sys\EngineController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\Sys\Subs.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\Sys\Timer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\Sys\GameController.cs" Line="26" Column="4" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\SceneManager.cs" Line="21" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\DialogueManager.cs" Line="195" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\MenuSys\SpeechBubbleMain.cs" Line="28" Column="18" />
+      <File FileName="Assets\Engine\DialogueSys\MenuSys\AnswerButtonMain.cs" Line="30" Column="25" />
+      <File FileName="Assets\Engine\DialogueSys\Database\RuleDatabase.cs" Line="124" Column="7" />
+      <File FileName="Assets\NGUI\Scripts\Interaction\UIButton.cs" Line="1" Column="1" />
+      <File FileName="Assets\NGUI\Scripts\Interaction\UIButtonMessage.cs" Line="75" Column="33" />
+      <File FileName="Assets\NGUI\Scripts\Editor\UIAtlasMaker.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\GameScripts\CharacterMain.cs" Line="22" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

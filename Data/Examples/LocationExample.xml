@@ -1,0 +1,7 @@
+<Root disabled="true">
+  <!--You can disable the whole file with the disabled attribute.-->
+  <Location Name="Forest">
+    <Var>IsDay True</Var>
+    <Var>IsCold True</Var>
+  </Location>
+</Root>

@@ -1,0 +1,38 @@
+<Root>
+  <!--The name of the rule is currently only used for debugging purposes.-->
+  <Rule Name="PlayerNotOkDaytimeInCity">
+    <!--Location doubles as a query scope value for the rule.
+A rule without a location is assigned to the Global scope which is checked for every query.-->
+    <Location>City</Location>
+    <!--Character doubles as a query scope value for the rule.
+A rule without a character is checked for every query.-->
+    <Character>Player</Character>
+    <!--Event doubles as a query scope value for the rule.
+Rules with events override those without.-->
+    <Event>OnStart</Event>
+    <!--Criterions can be declared outside or inside the rule.-->
+    <Criterion>IsDay</Criterion>
+    <Criterion>Player_HP L 50</Criterion>
+    <!--You can also add multiple criterions in the same tag.-->
+    <Criterion>Player_HP G 10;HighMorale</Criterion>
+    <Result>
+      <!--Result contains the piece of dialogue this rule links to. See dialogue example for full link syntax.-->
+      <Link>DialogueName2</Link>
+      <!--It can also have multiple variable assignments-->
+      <Assign>Afraid = true</Assign>
+      <!--Which can also be added in the same tag.-->
+      <Assign>Morale - 1;EnemyAggression + 1</Assign>
+      <!--Result can also handle objects in the current characters inventory.-->
+      <!--You can add them ( 1, n or random amount between min max)-->
+      <Object>Add Gem</Object>
+      <Object>Add Coin 5</Object>
+      <Object>Add Coin 2 6</Object>
+      <!--Or Remove them with the same syntax.-->
+      <Object>Remove Pants</Object>
+      <Object>Remove Horse 5</Object>
+      <Object>Remove Fingers 2 6</Object>
+    </Result>
+  </Rule>
+  <Criterion Name="IsDay" Test="IsNight E false" />
+  <Criterion Name="HighMorale" Test="Morale G 90" />
+</Root>

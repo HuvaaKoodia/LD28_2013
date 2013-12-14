@@ -1,0 +1,13 @@
+<Root>
+  <Character Type="Player" Name="Tester">
+    <Var>InDanger false</Var>
+    <Var>HP 45</Var>
+    <Var>Warmness 10</Var>
+  </Character>
+  <Character Type="Ally" Name="Testee">
+    <Var>InDanger true</Var>
+    <Var>HP 55</Var>
+    <Var>Warmness 3</Var>
+    <Object>Sword</Object>
+  </Character>
+</Root>

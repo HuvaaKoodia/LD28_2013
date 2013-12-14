@@ -1,0 +1,20 @@
+<Root>
+
+	<Dialogue Name="OnInteract_PoliceToJunkie_Street">
+	<Text>You see a possible junkie.</Text>
+	<Link>"Search him for drugs" to PLAYER OnSearch</Link>
+	<Link>"Leave him be." type ENDL</Link>
+	</Dialogue>
+
+	<Dialogue Name="OnSearch_PoliceToAny_Street_HasDrugs">
+	<Text>You found drugs!.</Text>
+	<Link>"Ur busted Punk!" type ENDL</Link>
+	<Link>"I'll let you go for some greens." type ENDL</Link>
+	</Dialogue>
+	
+	<Dialogue Name="OnSearch_PoliceToAny_Street_NoDrugs">
+	<Text>You found nothing!.</Text>
+	<Link>"Too bad. You're free to go." type ENDL</Link>
+	</Dialogue>
+	
+</Root>

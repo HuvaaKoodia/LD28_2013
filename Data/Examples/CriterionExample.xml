@@ -1,0 +1,6 @@
+<Root>
+  <!--The following operations are legal: E=equal,L=less,G=greater,LE=lessorequal,GE=greaterorequal-->
+  <Criterion Name="InTown" Test="Location E Town" />
+  <Criterion Name="PlayerNearDeath" Test="Player_HP LE 10" />
+  <Criterion Name="IsNight" Test="IsNight E true" />
+</Root>

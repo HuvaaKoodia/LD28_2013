@@ -146,36 +146,36 @@ public class Subs{
     /// Autofits the text to fit in an area with the preferred width.
     /// </summary>
     /// <param name="width"></param>
-//    public static string autofit_text(string text,int width,UIFont font)
-//    {
-//        text=text.Replace("\n", " \n ").Replace("\\n", " \n ");
-//		
-//        float tw = 0;
-//        string all_words="",word="";
-//        string[] words = text.Split(new char[1]{' '});
-//        for (int i = 0; i < words.Length; i++)
-//        {
-//            word = words[i].Replace(" ", "");
-//            if (word == "") continue;
-//
-//            if (word == "\n")
-//            {
-//                all_words += "\n";
-//                tw = 0;
-//                continue;
-//            }
-//            word+=" ";
-//            var measure=font.CalculatePrintedSize(word,true,UIFont.SymbolStyle.Uncolored).x*font.size;
-//            tw += measure;
-//            if (tw >= width)
-//            {
-//                all_words += "\n";
-//                tw = measure;
-//            }
-//            all_words += word;
-//        }
-//		return all_words;
-//    }
+    public static string autofit_text(string text,int width,UIFont font)
+    {
+        text=text.Replace("\n", " \n ").Replace("\\n", " \n ");
+		
+        float tw = 0;
+        string all_words="",word="";
+        string[] words = text.Split(new char[1]{' '});
+        for (int i = 0; i < words.Length; i++)
+        {
+            word = words[i].Replace(" ", "");
+            if (word == "") continue;
+
+            if (word == "\n")
+            {
+                all_words += "\n";
+                tw = 0;
+                continue;
+            }
+            word+=" ";
+            var measure=font.CalculatePrintedSize(word).x;
+            tw += measure;
+            if (tw >= width)
+            {
+                all_words += "\n";
+                tw = measure;
+            }
+            all_words += word;
+        }
+		return all_words;
+    }
 
 	public static string[] Split(string str,string separator){
 		return str.Split(new string[]{separator},System.StringSplitOptions.RemoveEmptyEntries);

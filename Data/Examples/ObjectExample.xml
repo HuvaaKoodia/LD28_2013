@@ -1,0 +1,9 @@
+<Root>
+  <Object Type="Sword" Name="Excalibur">
+    <Var>Magical True</Var>
+  </Object>
+  <!--An object without a name uses the type instead when needed.-->
+  <Object Type="Rock">
+    <Var>Magical False</Var>
+  </Object>
+</Root>
