@@ -28,16 +28,16 @@ public class MapManager : MonoBehaviour
 	{
 	MapData md = ml.Maps[0];
 		
-	gridX=md.map_data.GetLength(1);
-	gridY=md.map_data.GetLength(0);
+	gridX=md.map_data.GetLength(0);
+	gridY=md.map_data.GetLength(1);
 		
-	tiles_map=new Tile[gridY,gridX];
+	tiles_map=new Tile[gridX,gridY];
 
-		for (int i = 0; i < gridY; i++)
+		for (int i = 0; i < gridX; i++)
 		{
-			for (int e = 0; e < gridX; e++)
+			for (int e = 0; e < gridY; e++)
 			{	
-				Tile go = Instantiate(tilePrefab, new Vector3(e*tilePrefab.size.width, 0, i*tilePrefab.size.height), Quaternion.identity) as Tile;
+				Tile go = Instantiate(tilePrefab, new Vector3(i*tilePrefab.size.width, 0, e*tilePrefab.size.height), Quaternion.identity) as Tile;
 				tiles.Add(go);	
 				tiles_map[i,e]=go;
 				go.TilePosition=new Vector2(i,e);
@@ -46,9 +46,9 @@ public class MapManager : MonoBehaviour
 		
 		int tempId = 0;
 
-		for (int i = 0; i < gridY; i++)
+		for (int i = 0; i < gridX; i++)
 		{
-			for (int e = 0; e < gridX; e++)
+			for (int e = 0; e < gridY; e++)
 			{
 				//Debug.Log(tiles[i*e+1].tileObject);
 				switch (md.map_data[i,e])

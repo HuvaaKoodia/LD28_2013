@@ -38,19 +38,19 @@ public class MapLoader : MonoBehaviour{
 
 			foreach (XmlNode node in root){
 				if (node.Name=="Map"){
-					var map=new MapData(5,7);
+					var map=new MapData(7,5);
 
 					var spl=node.InnerText.Replace(" ","").Replace("\r","").Split('\n');
-					int i=0,j=0;
+					int y=0,x=0;
 					foreach (var line in spl){
 						if (line=="") continue;
-						while (j<map.map_data.GetLength(1)){
-							var ss=line.Substring(j,1).ToLower();
-							map.map_data[i,j]=ss;
-							j++;
+						while (x<map.map_data.GetLength(0)){
+							var ss=line.Substring(x,1).ToLower();
+							map.map_data[x,y]=ss;
+							x++;
 						}
-						i++;
-						j=0;
+						y++;
+						x=0;
 					}
 					
 					Maps.Add(map);

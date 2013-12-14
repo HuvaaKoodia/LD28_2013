@@ -27,7 +27,7 @@ public class MapCharacterData{
 		
 		while (true)
 		{
-			Path_positions.Add(new Vector2(tx,ty));
+ 			Path_positions.Add(new Vector2(tx,ty));
 			
 			int x_dif=ex-tx;
 			int y_dif=ey-ty;
