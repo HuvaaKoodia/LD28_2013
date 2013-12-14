@@ -36,8 +36,6 @@ public class SceneManager : MonoBehaviour {
 		
 		CurrentPlayer.SetCharacterData(Core.character_database.GetCharacterLazy(current_player));
 		
-		Debug.LogError("Has gun: "+CurrentPlayer.Entity.Facts.GetBool("HasGun"));
-		Debug.LogError("money: "+CurrentPlayer.Entity.Facts.GetInt("Money"));
 		
 		var add_to_pos=Vector3.right*3;
 		
