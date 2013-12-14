@@ -5,12 +5,11 @@ using System.Collections.Generic;
 public class MapManager : MonoBehaviour 
 {
 	public Tile tilePrefab;
+	public TileObjects tileObjects;
 	public int gridX = 3;
 	public int gridY = 3;
 	public GameObject policeStationPrefab;
 	private List<Tile> tiles = new List<Tile>();
-	
-	public MapLoader ml;
 	
 	// Use this for initialization
 	void Start () 
@@ -26,8 +25,6 @@ public class MapManager : MonoBehaviour
 	
 	void GenerateGrid()
 	{
-		MapData md = ml.Maps[0];
-		
 		for (int i = 0; i < gridY; i++)
 		{
 			for (int e = 0; e < gridX; e++)
@@ -37,42 +34,14 @@ public class MapManager : MonoBehaviour
 			}
 		}		
 		
+		tiles[0].tileObject = (GameObject)Instantiate(policeStationPrefab, Vector3.zero, Quaternion.identity);
 		int tempId = 0;
-		Debug.Log(md.map_data[0,1]);
-		Debug.Log(md.map_data[0,2]);
-		Debug.Log(md.map_data[0,3]);
-		Debug.Log(md.map_data[0,4]);
-		for (int i = 0; i < gridY; i++)
+		
+		foreach (Tile t in tiles)
 		{
-			for (int e = 0; i < gridX; i++)
-			{
-				Debug.Log(tiles[i*e+1].tileObject);
-				switch (md.map_data[e,i])
-				{
-					case "p":
-						tiles[e*i+e].tileObject = (GameObject)Instantiate(policeStationPrefab, Vector3.zero, Quaternion.identity);						
-					break;
-					case "a":
-					break;
-					case "s":
-					break;
-					case "k":
-					break;
-					case "e":
-					break;
-					case "x":
-					break;
-					case ".":
-						tiles[i].tileObject = null;
-					break;
-				}
-			}
+			t.id = tempId++;
 		}
 		
-		for (int i = 0; i < tiles.Count; i++)
-		{
-			tiles[i].id = tempId++;
-		}
 	}
 	
 	void UpdateTiles()
@@ -94,6 +63,8 @@ public class MapManager : MonoBehaviour
 			
 			Debug.Log(tiles.Contains(t));
 			Debug.Log(t.id);
-       	}		
-	}	
+       	}
+		
+	}
+	
 }

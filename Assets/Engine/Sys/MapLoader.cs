@@ -39,7 +39,7 @@ public class MapLoader : MonoBehaviour{
 
 			foreach (XmlNode node in root){
 				if (node.Name=="Map"){
-					var map=new MapData(7,7);
+					var map=new MapData(5,5);
 
 					var spl=node.InnerText.Replace(" ","").Replace("\r","").Split('\n');
 					int i=0,j=0;
