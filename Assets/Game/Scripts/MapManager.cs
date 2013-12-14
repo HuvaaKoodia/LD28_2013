@@ -40,8 +40,7 @@ public class MapManager : MonoBehaviour
 		foreach (Tile t in tiles)
 		{
 			t.id = tempId++;
-		}
-		
+		}		
 	}
 	
 	void UpdateTiles()
@@ -63,8 +62,6 @@ public class MapManager : MonoBehaviour
 			
 			Debug.Log(tiles.Contains(t));
 			Debug.Log(t.id);
-       	}
-		
-	}
-	
+       	}		
+	}	
 }
