@@ -45,7 +45,6 @@ public class MapManager : MonoBehaviour
 		}	
 		
 		int tempId = 0;
-
 		for (int i = 0; i < gridX; i++)
 		{
 			for (int e = 0; e < gridY; e++)
@@ -54,7 +53,7 @@ public class MapManager : MonoBehaviour
 				switch (md.map_data[i,e])
 				{
 					case "p":
-						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, Quaternion.identity);						
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, Quaternion.AngleAxis(90, Vector3.left));	
 					break;
 					case "a":
 					break;
