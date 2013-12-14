@@ -10,12 +10,8 @@ public class MapManager : MonoBehaviour
 	public GameObject policeStationPrefab;
 	private List<Tile> tiles = new List<Tile>();
 	
-<<<<<<< HEAD
 	public Tile[,] tiles_map;
-=======
 	public MapLoader ml;
->>>>>>> dd36e956e41bbd51c9c7f4df823e3f077be82c54
-	
 	// Use this for initialization
 	void Start () 
 	{		
@@ -30,12 +26,10 @@ public class MapManager : MonoBehaviour
 	
 	void GenerateGrid()
 	{
-<<<<<<< HEAD
-		tiles_map=new Tile[gridX,gridY];
-=======
-		MapData md = ml.Maps[0];
+	MapData md = ml.Maps[0];
+	tiles_map=new Tile[gridX,gridY];
+
 		
->>>>>>> dd36e956e41bbd51c9c7f4df823e3f077be82c54
 		for (int i = 0; i < gridY; i++)
 		{
 			for (int e = 0; e < gridX; e++)
@@ -48,18 +42,8 @@ public class MapManager : MonoBehaviour
 		}		
 		
 		int tempId = 0;
-<<<<<<< HEAD
-		
-		
-		
-		foreach (Tile t in tiles)
-=======
-		Debug.Log(md.map_data[0,1]);
-		Debug.Log(md.map_data[0,2]);
-		Debug.Log(md.map_data[0,3]);
-		Debug.Log(md.map_data[0,4]);
+
 		for (int i = 0; i < gridY; i++)
->>>>>>> dd36e956e41bbd51c9c7f4df823e3f077be82c54
 		{
 			for (int e = 0; i < gridX; i++)
 			{
@@ -86,14 +70,11 @@ public class MapManager : MonoBehaviour
 			}
 		}
 		
-<<<<<<< HEAD
 		
-=======
 		for (int i = 0; i < tiles.Count; i++)
 		{
 			tiles[i].id = tempId++;
 		}
->>>>>>> dd36e956e41bbd51c9c7f4df823e3f077be82c54
 	}
 	
 	void UpdateTiles()
