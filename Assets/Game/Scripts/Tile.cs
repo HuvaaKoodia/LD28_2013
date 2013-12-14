@@ -7,7 +7,6 @@ public class Tile : MonoBehaviour
 	public int id;
 	public Rect size;
 	public Vector3 position;
-	public int maxObjects = 10;
 	public GameObject tileObject;
 	public List<CharacterMain> characters;
 	
