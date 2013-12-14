@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MapCharacterData : MonoBehaviour {
+public class MapCharacterData{
 	
 	public MapManager mapman;	
 	
@@ -11,25 +11,23 @@ public class MapCharacterData : MonoBehaviour {
 	
 	public Vector2 CurPos,MovePos;
 	
-	List<Vector2> Path_positions;
+	public List<Vector2> Path_positions=new List<Vector2>();
 	
-	void SetMovePos(Vector2 endPos)
+	public void SetMovePos(Vector2 endPos)
 	{
 		MovePos=endPos;
 		
-		Path_positions=new List<Vector2>();
-		
-		var temp_pos=CurPos;
+		Path_positions.Clear();
 		//find path
 		
 		int ex=(int)endPos.x,ey=(int)endPos.y;
+		int tx=(int)CurPos.x;
+		int ty=(int)CurPos.y;
+	
 		
-		while (true){
-			
-			Path_positions.Add(new Vector2(temp_pos.x,temp_pos.y));
-			
-			int tx=(int)temp_pos.x;
-			int ty=(int)temp_pos.y;
+		while (true)
+		{
+			Path_positions.Add(new Vector2(tx,ty));
 			
 			int x_dif=ex-tx;
 			int y_dif=ey-ty;
@@ -38,17 +36,61 @@ public class MapCharacterData : MonoBehaviour {
 				break;
 			}
 			
-			int x_abs=(int)Mathf.Sign(x_dif);
-			int y_abs=(int)Mathf.Sign(y_dif);
+			int y_abs=(int)(Mathf.Sign(y_dif)*Mathf.Min(1,Mathf.Abs(y_dif)));
+			int x_abs=(int)(Mathf.Sign(x_dif)*Mathf.Min(1,Mathf.Abs(x_dif)));
 			
-			if (mapman.tiles_map[tx,ty].Blocked()){
-				
+			
+			
+			var NEXT_POS=mapman.tiles_map[tx+x_abs,ty+y_abs];
+			
+			bool block=false;
+			if (NEXT_POS.Blocked()){
+				block=true;
+				if (NEXT_POS.TilePosition==endPos){
+					tx+=x_abs;
+					ty+=y_abs;
+					continue;
+				}
 				//move to other direction
+				
+				if (x_abs==0)
+				{
+					y_abs=0;
+					
+					x_abs=1;
+					
+					if (tx+x_abs>1)
+					
+					if (x_abs==0&&y_abs==0){
+						
+					}
+					
+				}
+				else if (y_abs==0)
+				{
+					y_abs=1;
+					x_abs=0;
+					
+					if (x_abs==0&&y_abs==0){
+							
+					}
+				}
+				else{
+					if (Mathf.Abs(y_dif)>Mathf.Abs(x_dif)){
+						x_abs=0;
+					}
+					else{
+						y_abs=0; 
+					}
+				}
 			}
 			
 			
+			
+			tx+=x_abs;
+			ty+=y_abs;
+			
 		}
-		
 	}
 	
 	// Use this for initialization
@@ -59,5 +101,16 @@ public class MapCharacterData : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void Move ()
+	{
+		Main.Move(Path_positions);
+	}
+	
+	public void SetToPathEnd ()
+	{
+		if (Path_positions.Count>0)
+			CurPos=Path_positions[Path_positions.Count-1];
 	}
 }

@@ -15,6 +15,10 @@ public class GameMapController : MonoBehaviour {
 	MapCharacterData CurrentCharacter;
 	List<MapCharacterData> Characters=new List<MapCharacterData>();
 	
+	List<GameObject> PathLines=new List<GameObject>();
+	
+	public GameObject PathObjPrefab;
+	
 	bool move_turn;
 	
 	// Use this for initialization
@@ -37,8 +41,9 @@ public class GameMapController : MonoBehaviour {
 				var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
 				MapCharacterData data=new MapCharacterData();
 				data.Main=c;
-				data.Data=Core.character_database.GetCharacterLazy(temp_chars[temp_i++]);
+  				data.Data=Core.character_database.GetCharacterLazy(temp_chars[temp_i++]);
 				data.mapman=MapMan;
+				c.mapman=MapMan;
 				data.CurPos=t.TilePosition;
 				Characters.Add(data);
 		   	}
@@ -51,10 +56,16 @@ public class GameMapController : MonoBehaviour {
 				Component comp;
 				if(Subs.GetObjectMousePos(out comp,100,"Tile"))
 			   	{			
+					Debug.Log("Set Move pos");
 					Tile t = comp.transform.parent.GetComponent<Tile>();
 					
 					//select move pos for map character
-					CurrentCharacter.MovePos=t.TilePosition;
+					CurrentCharacter.SetMovePos(t.TilePosition);
+					
+					foreach(var p in CurrentCharacter.Path_positions){
+						PathLines.Add(Instantiate(PathObjPrefab,MapMan.tiles_map[(int)p.x,(int)p.y].transform.position,Quaternion.identity) as GameObject);
+					}
+					
 					move_turn=false;
 				}
 			}
@@ -64,17 +75,35 @@ public class GameMapController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			if (!move_turn){
-				if (current_player_index>Characters.Count){
+				
+				while(PathLines.Count>0){
+					var p=PathLines[0];
+					Destroy(p);
+					PathLines.RemoveAt(0);
+				}
+				
+				if (current_player_index+1>Characters.Count){
 					//move turn
-					Debug.Log("Move turn");
+					Debug.Log("Move turn over");
 					current_player_index=0;
+					
+					foreach (var c in Characters){
+						c.Move();
+						
+					}	
 				}
 				else{
+					
+					foreach(var c in Characters)
+					{
+						c.SetToPathEnd();
+					}
+					
 					move_turn=true;
 					//start turn
 					Debug.Log("Player "+(current_player_index+1) +"turn ");	
 					
-					CurrentCharacter=Characters[current_player_index];
+					CurrentCharacter=Characters[current_player_index++];
 				}
 				
 			}

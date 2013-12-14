@@ -10,8 +10,12 @@ public class MapManager : MonoBehaviour
 	public GameObject policeStationPrefab;
 	private List<Tile> tiles = new List<Tile>();
 	
+<<<<<<< HEAD
 	public Tile[,] tiles_map;
+=======
 	public MapLoader ml;
+>>>>>>> dd36e956e41bbd51c9c7f4df823e3f077be82c54
+	
 	// Use this for initialization
 	void Start () 
 	{		
@@ -21,18 +25,17 @@ public class MapManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{	
-		//GridSelection();
+		GridSelection();
 	}
 	
 	void GenerateGrid()
 	{
-	MapData md = ml.Maps[0];
+<<<<<<< HEAD
+		tiles_map=new Tile[gridX,gridY];
+=======
+		MapData md = ml.Maps[0];
 		
-	gridX=md.map_data.GetLength(1);
-	gridY=md.map_data.GetLength(0);
-		
-	tiles_map=new Tile[gridX,gridY];
-
+>>>>>>> dd36e956e41bbd51c9c7f4df823e3f077be82c54
 		for (int i = 0; i < gridY; i++)
 		{
 			for (int e = 0; e < gridX; e++)
@@ -42,19 +45,29 @@ public class MapManager : MonoBehaviour
 				tiles_map[i,e]=go;
 				go.TilePosition=new Vector2(i,e);
 			}
-		}	
+		}		
 		
 		int tempId = 0;
-
+<<<<<<< HEAD
+		
+		
+		
+		foreach (Tile t in tiles)
+=======
+		Debug.Log(md.map_data[0,1]);
+		Debug.Log(md.map_data[0,2]);
+		Debug.Log(md.map_data[0,3]);
+		Debug.Log(md.map_data[0,4]);
 		for (int i = 0; i < gridY; i++)
+>>>>>>> dd36e956e41bbd51c9c7f4df823e3f077be82c54
 		{
-			for (int e = 0; e < gridX; e++)
+			for (int e = 0; i < gridX; i++)
 			{
-				//Debug.Log(tiles[i*e+1].tileObject);
+				Debug.Log(tiles[i*e+1].tileObject);
 				switch (md.map_data[e,i])
 				{
 					case "p":
-						tiles_map[e,i].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[e,i].transform.position, Quaternion.identity);						
+						tiles[e*i+e].tileObject = (GameObject)Instantiate(policeStationPrefab, Vector3.zero, Quaternion.identity);						
 					break;
 					case "a":
 					break;
@@ -70,15 +83,17 @@ public class MapManager : MonoBehaviour
 						tiles[i].tileObject = null;
 					break;
 				}
-				int ii=0;
 			}
 		}
 		
+<<<<<<< HEAD
 		
+=======
 		for (int i = 0; i < tiles.Count; i++)
 		{
 			tiles[i].id = tempId++;
 		}
+>>>>>>> dd36e956e41bbd51c9c7f4df823e3f077be82c54
 	}
 	
 	void UpdateTiles()

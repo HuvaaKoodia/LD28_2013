@@ -5,6 +5,7 @@ using DialogueSystem;
 public class CharacterMain : EntityMain {
 	
 	public GameObject graphics;
+	public GameObject graphics_offset;
 	
 	// Use this for initialization
 	void Start () {
