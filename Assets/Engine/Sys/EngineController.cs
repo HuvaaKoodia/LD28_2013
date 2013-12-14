@@ -8,13 +8,11 @@ public class EngineController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake () {
-		Timer.clearTimers();
 		NotificationCenter.resetInstance();
 	}
 	
 	//Update is called once per frame
 	void Update (){
-		Timer.UpdateTimers();
 
 		if (enable_Restart&&Input.GetKeyDown(KeyCode.R)){
 			Application.LoadLevel(Application.loadedLevel);

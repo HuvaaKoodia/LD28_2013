@@ -33,7 +33,7 @@ public class Timer{
 	/// <summary>
 	/// Creates an inactive timer.
 	/// </param>
-	public Timer():this(null,false){}
+	public Timer():this(null){}
 	/// <summary>
 	/// Creates an active timer with a certain delay.
 	/// </param>
@@ -42,7 +42,7 @@ public class Timer{
 	/// <summary>
 	/// Creates an inactive timer.
 	/// </param>
-	public Timer(TimerEvent tes){
+	public Timer(TimerEvent te){
 		Timer_Event=te;
 		OVER=false;
 	}
