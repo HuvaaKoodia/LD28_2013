@@ -1,21 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Engine\DialogueSys\GameScripts\CharacterMain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\Scripts\MapManager.cs">
     <Files>
-      <File FileName="Assets\Engine\DialogueSys\Data\QueryData.cs" Line="23" Column="10" />
-      <File FileName="Assets\Engine\Sys\EngineController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Engine\Sys\Subs.cs" Line="1" Column="1" />
-      <File FileName="Assets\Engine\Sys\Timer.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game\Sys\GameController.cs" Line="26" Column="4" />
-      <File FileName="Assets\Engine\DialogueSys\GameSys\SceneManager.cs" Line="21" Column="1" />
-      <File FileName="Assets\Engine\DialogueSys\GameSys\DialogueManager.cs" Line="195" Column="1" />
-      <File FileName="Assets\Engine\DialogueSys\MenuSys\SpeechBubbleMain.cs" Line="28" Column="18" />
-      <File FileName="Assets\Engine\DialogueSys\MenuSys\AnswerButtonMain.cs" Line="30" Column="25" />
-      <File FileName="Assets\Engine\DialogueSys\Database\RuleDatabase.cs" Line="124" Column="7" />
-      <File FileName="Assets\NGUI\Scripts\Interaction\UIButton.cs" Line="1" Column="1" />
-      <File FileName="Assets\NGUI\Scripts\Interaction\UIButtonMessage.cs" Line="75" Column="33" />
-      <File FileName="Assets\NGUI\Scripts\Editor\UIAtlasMaker.cs" Line="1" Column="1" />
-      <File FileName="Assets\Engine\DialogueSys\GameScripts\CharacterMain.cs" Line="22" Column="11" />
+      <File FileName="Assets\Game\Scripts\MapManager.cs" Line="38" Column="18" />
+      <File FileName="Assets\Game\Scripts\Tile.cs" Line="15" Column="3" />
+      <File FileName="Assets\Game\Scripts\TileObjects.cs" Line="9" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
