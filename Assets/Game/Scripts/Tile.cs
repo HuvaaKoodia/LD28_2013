@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Tile : MonoBehaviour 
 {
@@ -8,7 +9,9 @@ public class Tile : MonoBehaviour
 	public Vector3 position;
 	public int maxObjects = 10;
 	public GameObject tileObject;
-	public ArrayList characters;
+	public List<CharacterMain> characters;
+	
+	public Vector2 TilePosition;
 	
 	// Use this for initialization
 	void Start () 
@@ -23,5 +26,14 @@ public class Tile : MonoBehaviour
 	public void UpdateObjects () 
 	{
 		
+	}
+	
+	void AddCharacter(){
+		
+	}
+
+	public bool Blocked ()
+	{
+		return tileObject!=null;
 	}
 }

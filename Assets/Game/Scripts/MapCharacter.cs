@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Character : MonoBehaviour {
+public class MapCharacter : CharacterMain {
+	
 
+	
+	
 	// Use this for initialization
 	void Start () 
 	{
@@ -12,6 +16,8 @@ public class Character : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		
 	}
+	
+
 }

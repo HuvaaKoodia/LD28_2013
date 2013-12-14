@@ -12,10 +12,7 @@ public class CharacterMain : EntityMain {
 	}
 	
 	// Update is called once per frame
-	void Update (){
-
-
-	}
+	void Update (){}
 	
 	public void SetCharacterData(CharacterData data){
 		//DEV.TEMP

@@ -11,6 +11,8 @@ public class MapManager : MonoBehaviour
 	public GameObject policeStationPrefab;
 	private List<Tile> tiles = new List<Tile>();
 	
+	public Tile[,] tiles_map;
+	
 	// Use this for initialization
 	void Start () 
 	{		
@@ -25,22 +27,28 @@ public class MapManager : MonoBehaviour
 	
 	void GenerateGrid()
 	{
+		tiles_map=new Tile[gridX,gridY];
 		for (int i = 0; i < gridY; i++)
 		{
 			for (int e = 0; e < gridX; e++)
 			{	
 				Tile go = Instantiate(tilePrefab, new Vector3(e*tilePrefab.size.width, 0, i*tilePrefab.size.height), Quaternion.identity) as Tile;
-				tiles.Add(go);				
+				tiles.Add(go);	
+				tiles_map[i,e]=go;
+				go.TilePosition=new Vector2(i,e);
 			}
 		}		
 		
 		tiles[0].tileObject = (GameObject)Instantiate(policeStationPrefab, Vector3.zero, Quaternion.identity);
 		int tempId = 0;
 		
+		
+		
 		foreach (Tile t in tiles)
 		{
 			t.id = tempId++;
 		}
+		
 		
 	}
 	
