@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using DialogueSystem;
 
 
@@ -21,15 +22,42 @@ public class SceneManager : MonoBehaviour {
 		
 	}
 	
+	public void LoadScene(TileData data,MapCharacterData currentCharacter){
+		
+		Location.SetLocation(Core.location_database.GetLocation(data.LocationName));
+		
+		var go=Instantiate(CharacterPrefab,CurrentCharacterPos.position,Quaternion.identity) as GameObject;
+		CurrentPlayer=go.GetComponent<CharacterMain>();
+		
+		CurrentPlayer.SetCharacterData(currentCharacter.Data);
+		
+		var add_to_pos=Vector3.right*3;
+		
+		foreach (var c in data.characters){
+			if (c==currentCharacter) continue;
+			
+			go=Instantiate(CharacterPrefab,CurrentCharacterPos.position+add_to_pos,Quaternion.identity) as GameObject;
+			var cm=go.GetComponent<CharacterMain>();
+			
+			cm.SetCharacterData(c.Data);
+			Location.AddCharacter(cm);
+			
+			add_to_pos+=Vector3.right*2;
+		}
+//	
+//		foreach(var f in Object1.Character.Facts.Facts){
+//			Debug.Log(f.Key+" "+f.Value.Value);
+//		}
+
+		Location.AddCharacter(CurrentPlayer);
+		
+	}
+	
 	public void LoadScene(){
 		
 		Location.SetLocation(Core.location_database.GetLocation("Street"));
 		
-		
-		
 		string current_player=Location.Location.Facts.GetString("CurrentPlayer");
-		
-		
 		
 		var go=Instantiate(CharacterPrefab,CurrentCharacterPos.position,Quaternion.identity) as GameObject;
 		CurrentPlayer=go.GetComponent<CharacterMain>();

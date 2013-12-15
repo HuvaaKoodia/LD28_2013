@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -12,10 +12,15 @@ public class MapManager : MonoBehaviour
 	
 	public Tile[,] tiles_map;
 	public MapLoader ml;
+	
+	public bool GenerateOnStartUp=true;
 	// Use this for initialization
-	void Start () 
-	{		
-		GenerateGrid();
+	void Start ()
+	{
+		if (GenerateOnStartUp){
+			//ml=GameObject.FindGameObjectWithTag("Databases").GetComponent<MapLoader>();
+			GenerateGrid();
+		}
 	}
 	
 	// Update is called once per frame
@@ -24,7 +29,7 @@ public class MapManager : MonoBehaviour
 		//GridSelection();
 	}
 	
-	void GenerateGrid()
+	public void GenerateGrid()
 	{
 	MapData md = ml.Maps[0];
 		
@@ -53,7 +58,7 @@ public class MapManager : MonoBehaviour
 				switch (md.map_data[i,e])
 				{
 					case "p":
-						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, Quaternion.AngleAxis(90, Vector3.left));	
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, Quaternion.identity);	
 					break;
 					case "a":
 					break;

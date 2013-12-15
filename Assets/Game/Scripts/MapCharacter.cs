@@ -6,6 +6,9 @@ public class MapCharacter : CharacterMain {
 	
 	public MapManager mapman;
 	bool moving=false;
+	
+	public bool Moving{get{return moving;}}
+	
 	List<Vector2> CurrentPath;
 	
 	Tile target;
@@ -17,7 +20,7 @@ public class MapCharacter : CharacterMain {
 	// Use this for initialization
 	void Start () 
 	{
-	
+		
 	}
 	
 	// Update is called once per frame

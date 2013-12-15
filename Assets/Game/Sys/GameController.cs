@@ -30,13 +30,16 @@ public class GameController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start (){
+		HudMain hud=GameObject.FindGameObjectWithTag("HudSystem").GetComponent<HudMain>();
+		back_to_menu=hud.back_to_menu;
 		back_to_menu.OnToggle+=OnToggle;
 
-		SceneMan.LoadScene();
+		//SceneMan.LoadScene();
 	}
 	
 	void OnToggle(bool on){
-		Main_camera.LOCK_INPUT=on;
+		if (Main_camera!=null)
+			Main_camera.LOCK_INPUT=on;
 	}
 	
 	// Update is called once per frame

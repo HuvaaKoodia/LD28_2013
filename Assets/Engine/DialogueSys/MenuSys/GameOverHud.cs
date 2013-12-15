@@ -10,11 +10,29 @@ public class GameOverHud : MonoBehaviour {
 	// Use this for initialization
 	void Start (){
 		This.alpha=0;
-		sprite.transform.localScale=new Vector3(Screen.width*2+64,Screen.height*2+64,0);
+		sprite.width=Screen.width*2+64;
+		sprite.height=Screen.height*2+64;
 	}
 	
 	// Update is called once per frame
 	void Update () {}
+	
+	public void SetText(string text,bool movement_phase){
+		This.alpha=1;
+		desc_label.text=text;
+		
+		if (movement_phase){
+			gameover_label.text="Movement phase";
+		}
+		else
+		{
+			gameover_label.text="Action phase";
+		}
+	}
+	
+	public void RemoveText(){
+		This.alpha=0;
+	}
 	
 	public void GAMEOVER(string description){
 		StartCoroutine(FadeAlpha());

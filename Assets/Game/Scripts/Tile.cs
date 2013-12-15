@@ -8,9 +8,13 @@ public class Tile : MonoBehaviour
 	public Rect size;
 	public Vector3 position;
 	public GameObject tileObject;
-	public List<CharacterMain> characters;
 	
 	public Vector2 TilePosition;
+		
+	public TileData Data{get;private set;}
+	public void SetData(TileData data){
+		Data=data;
+	}
 	
 	// Use this for initialization
 	void Start () 
@@ -36,4 +40,6 @@ public class Tile : MonoBehaviour
 	{
 		return tileObject!=null;
 	}
+
+	
 }

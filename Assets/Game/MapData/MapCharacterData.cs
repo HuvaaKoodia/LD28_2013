@@ -5,17 +5,80 @@ using System.Collections.Generic;
 public class MapCharacterData{
 	
 	public MapManager mapman;	
-	
+
 	public CharacterData Data;
-	public MapCharacter Main;
+	public MapCharacter Main{get;private set;}
 	
-	public Vector2 CurPos,MovePos;
+	public Vector2 CurPos,MovePos,TempPos;
+
+	public string Name{get;private set;}
+	
+	int temp_index;
+	bool temp_movement;
 	
 	public List<Vector2> Path_positions=new List<Vector2>();
+	public bool OnTheMove=false;
+
+	public MapCharacterData(string name){
+		Name=name;
+	}
 	
+	public Tile CurrentTile ()
+	{
+		return mapman.tiles_map[(int)CurPos.x,(int)CurPos.y];
+	}
+	public Tile CurrentTempTile ()
+	{
+		return mapman.tiles_map[(int)TempPos.x,(int)TempPos.y];
+	}
+
+	public void EndPathToTempPos ()
+	{
+		while (!TempPosIsLastPathPos()){
+			Path_positions.RemoveAt(Path_positions.Count-1);
+		}
+	}
+	
+	public void SetMain(MapCharacter main){
+		Main=main;
+		Main.on_path_end_Event+=OnEnd;
+		Main.mapman=mapman;
+		Main.SetCharacterData(Data);
+	}
+	
+	void OnEnd(){
+		OnTheMove=false;
+	}
+	
+	public bool TempMovement{get{return temp_movement;}}
+	
+	public void StarTempMovement(){
+		temp_index=0;
+		temp_movement=true;
+		TempPos=CurPos;
+	}
+	public void EndTempMovement(){
+		temp_movement=false;
+	}
+	
+	public void MoveToNextTempPos(){
+		TempPos=Path_positions[++temp_index];
+	}
+	
+	public Vector2 CurrentTempPos(){
+		return TempPos;
+	}
+
+	public bool TempPosIsLastPathPos ()
+	{
+		return TempPos==Path_positions[Path_positions.Count-1];
+	}
+	
+	//path 
 	public void SetMovePos(Vector2 endPos)
 	{
 		MovePos=endPos;
+		OnTheMove=true;
 		
 		Path_positions.Clear();
 		//find path
