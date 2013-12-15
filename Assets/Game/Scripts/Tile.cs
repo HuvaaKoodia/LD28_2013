@@ -8,6 +8,7 @@ public class Tile : MonoBehaviour
 	public Rect size;
 	public Vector3 position;
 	public GameObject tileObject;
+	public GameObject tileGround;
 	
 	public Vector2 TilePosition;
 		
@@ -32,7 +33,8 @@ public class Tile : MonoBehaviour
 		
 	}
 	
-	void AddCharacter(){
+	void AddCharacter()
+	{
 		
 	}
 

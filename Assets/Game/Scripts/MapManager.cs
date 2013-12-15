@@ -7,7 +7,20 @@ public class MapManager : MonoBehaviour
 	public Tile tilePrefab;
 	public int gridX = 3;
 	public int gridY = 3;
+	
 	public GameObject policeStationPrefab;
+	public GameObject cityHallPrefab;
+	public GameObject alleyPrefab;
+	public GameObject foxxyPrefab;
+	public GameObject urbanDrugstashPrefab;
+	public GameObject newsStationPrefab;
+	
+	public GameObject tilePolice;
+	public GameObject tileAlley;
+	public GameObject tileStraight;
+	public GameObject tileCrossroad;
+	public GameObject tileDeadend;
+	
 	private List<Tile> tiles = new List<Tile>();
 	
 	public Tile[,] tiles_map;
@@ -58,21 +71,37 @@ public class MapManager : MonoBehaviour
 				switch (md.map_data[i,e])
 				{
 					case "p":
-						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, Quaternion.identity);	
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, policeStationPrefab.transform.rotation);
+						//tiles_map[i,e].tileGround = (GameObject)Instantiate(tilePolice, tiles_map[i,e].transform.position, tilePolice.transform.rotation);
 					break;
 					case "a":
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(alleyPrefab, tiles_map[i,e].transform.position, alleyPrefab.transform.rotation);
 					break;
-					case "s":
+					case "n":
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(newsStationPrefab, tiles_map[i,e].transform.position, newsStationPrefab.transform.rotation);
 					break;
-					case "k":
+					case "u":
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(urbanDrugstashPrefab, tiles_map[i,e].transform.position, urbanDrugstashPrefab.transform.rotation);
 					break;
-					case "e":
+					case "c":
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(cityHallPrefab, tiles_map[i,e].transform.position, cityHallPrefab.transform.rotation);
+					break;
+					case "|":
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileStraight, tiles_map[i,e].transform.position, tileStraight.transform.rotation);
 					break;
 					case "x":
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileCrossroad, tiles_map[i,e].transform.position, tileCrossroad.transform.rotation);
+					break;
+					case "-":
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileStraight, tiles_map[i,e].transform.position, Quaternion.Euler(new Vector3(-90,0,0)));
 					break;
 					case ".":
-						tiles[i].tileObject = null;
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileCrossroad, tiles_map[i,e].transform.position, tileCrossroad.transform.rotation);
 					break;
+					case "t":
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileDeadend, tiles_map[i,e].transform.position, tileDeadend.transform.rotation);
+					break;
+					
 				}
 				int ii=0;
 			}
