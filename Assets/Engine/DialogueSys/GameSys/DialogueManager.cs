@@ -219,7 +219,7 @@ public class DialogueManager : MonoBehaviour {
 			return;
 		}
 		
-		SelectLink(ans.Data);
+		//SelectLink(ans.Data);
 	}
 	
 	void OnAnswerButtonClick(GameObject gameobject){

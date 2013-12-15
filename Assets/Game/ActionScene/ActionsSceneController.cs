@@ -27,7 +27,6 @@ public class ActionsSceneController : MonoBehaviour {
 		
 		controller.dial_man.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
 		
-		
 		DEBUG_print_character_facts();
 	}
 	
