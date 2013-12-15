@@ -17,6 +17,8 @@ public class GameMapController : MonoBehaviour {
 	bool create_path_mode,move_characters_phase=false,wait_for_moving_to_end=false,must_interact=false;
 	int player_text=0;
 	
+	List<string> temp_names=new List<string>();
+	
 	// Use this for initialization
 	void Start (){
 		hudman=GameObject.FindGameObjectWithTag("HudSystem").GetComponent<HudMain>();
@@ -31,6 +33,8 @@ public class GameMapController : MonoBehaviour {
 				MapMan.tiles_map[i,j].SetData(GDB.tiledata_map[i,j]);
 			}
 		}
+		
+		
 		
 		
 		foreach(var data in GDB.Characters){
@@ -58,12 +62,16 @@ public class GameMapController : MonoBehaviour {
 				hudman.go_hud.SetText(GDB.CurrentCharacter.Name,GDB.map_turn);	
 			}
 		}
+		foreach (var s in GDB.CharacterGraphics.Keys){
+			temp_names.Add(s);
+		}
+		
+		
 	}
 	
 	//temp list
 	int temp_i=0;
-	string[] temp_chars=new string[]{"Policeman","Junkie"};
-	string[] temp_names=new string[]{"Player 1","Player 2"};
+	//string[] temp_chars=new string[]{"Policeman","Junkie"};
 	
 	// Update is called once per frame
 	void Update(){
@@ -73,16 +81,19 @@ public class GameMapController : MonoBehaviour {
 			Component comp;
 			if(Subs.GetObjectMousePos(out comp,100,"Tile"))
 		   	{			
-				Tile t = comp.transform.parent.GetComponent<Tile>();
-				var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
-				MapCharacterData data=new MapCharacterData(temp_names[temp_i]);
+				if (temp_names.Count>GDB.Characters.Count){
+					Tile t = comp.transform.parent.GetComponent<Tile>();
+					var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
+					MapCharacterData data=new MapCharacterData("Player "+(temp_i+1));
+						
+					data.mapman=MapMan;
 					
-				data.mapman=MapMan;
-				data.Data=GDB.Core.character_database.GetCharacterLazy(temp_chars[temp_i++]);
-				data.SetMain(c);
-  			
-				data.CurPos=t.TilePosition;
-				GDB.Characters.Add(data);
+					data.Data=GDB.Core.character_database.GetCharacterLazy(temp_names[temp_i++]);
+					data.SetMain(c);
+	  			
+					data.CurPos=t.TilePosition;
+					GDB.Characters.Add(data);
+				}
 			}
 		}
 		

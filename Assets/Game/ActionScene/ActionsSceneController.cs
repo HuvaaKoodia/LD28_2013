@@ -33,6 +33,7 @@ public class ActionsSceneController : MonoBehaviour {
 	
 	void OnExit()
 	{
+		controller.dial_man.StopDialogue();
 		GDB.NextPlayersTurn();
 		hud.OnBackToMapPressedEvent-=OnExit;
 	}

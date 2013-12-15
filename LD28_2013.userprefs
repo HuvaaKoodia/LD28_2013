@@ -1,14 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\MapData\GameMapController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Engine\DialogueSys\Database\DialogueDatabase.cs">
     <Files>
-      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="142" Column="1" />
-      <File FileName="Assets\Game\MapData\GameMapController.cs" Line="20" Column="30" />
-      <File FileName="Assets\Engine\DialogueSys\GameSys\SceneManager.cs" Line="41" Column="4" />
-      <File FileName="Assets\Engine\DialogueSys\Database\CoreDatabase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="10" Column="14" />
-      <File FileName="Assets\Game\Sys\GameController.cs" Line="45" Column="36" />
-      <File FileName="Assets\Engine\DialogueSys\MenuSys\HudMain.cs" Line="33" Column="41" />
+      <File FileName="Assets\Game\Sys\GameController.cs" Line="60" Column="9" />
+      <File FileName="Assets\Game\MapData\GameMapController.cs" Line="81" Column="19" />
+      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="21" Column="28" />
+      <File FileName="Assets\Engine\DialogueSys\Database\CriterionDatabase.cs" Line="17" Column="29" />
+      <File FileName="Assets\Engine\DialogueSys\FileLoader\XML_DialogueSystemLoader.cs" Line="137" Column="18" />
+      <File FileName="Assets\Engine\DialogueSys\Database\RuleDatabase.cs" Line="263" Column="48" />
+      <File FileName="Assets\Engine\DialogueSys\Data\AssignData.cs" Line="42" Column="14" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\DialogueManager.cs" Line="162" Column="10" />
+      <File FileName="Assets\Game\MapData\MapCharacterData.cs" Line="9" Column="17" />
+      <File FileName="Assets\Game\MapData\MapCharacter.cs" Line="5" Column="37" />
+      <File FileName="Assets\Engine\DialogueSys\GameScripts\CharacterMain.cs" Line="46" Column="47" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="22" Column="2" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\SceneManager.cs" Line="32" Column="3" />
+      <File FileName="Assets\Engine\DialogueSys\Database\DialogueDatabase.cs" Line="54" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

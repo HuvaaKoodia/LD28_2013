@@ -65,7 +65,7 @@ public class GameController : MonoBehaviour {
 
 				CharacterMain target=com.GetComponent<CharacterMain>();
 
-				dial_man.CheckQuery(new QueryData(SceneMan.Location_Data,SceneMan.CurrentPlayer.Entity,target.Entity,"OnInteract"));
+				dial_man.CheckQuery(new                                     QueryData(SceneMan.Location_Data,SceneMan.CurrentPlayer.Entity,target.Entity,"OnInteract"));
 			}
 		}
 	}

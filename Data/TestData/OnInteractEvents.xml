@@ -1,14 +1,8 @@
 <Root>
-	<!-- Base rules -->
-	<Rule Name="PlayerToPlayerOnStreet">
-		<Location>Street</Location>
-		<Actor>PLAYER</Actor>
-		<Target>PLAYER</Target>
-	</Rule>
 
-	<!-- Rules -->
+	<!-- OnInteraction -->
 	
-	<Rule Name="OnClickPlayer" Base="PlayerToPlayerOnStreet">
+	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
 		<Event>OnInteract</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Criterion>Target.Name E Junkie</Criterion>
@@ -18,7 +12,16 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnSearchPlayer1" Base="PlayerToPlayerOnStreet">
+	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
+		<Event>OnInteract</Event>
+		<Criterion>Actor.Name E Junkie</Criterion>
+		
+		<Result>
+			<Link>OnInteract_JunkieToAny</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnSearchPlayer1" Base="PlayerToPlayer">
 		<Event>OnSearch</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Criterion>Target.Drugs G 0</Criterion>
@@ -28,7 +31,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnSearchPlayer2" Base="PlayerToPlayerOnStreet">
+	<Rule Name="OnSearchPlayer2" Base="PlayerToPlayer">
 		<Event>OnSearch</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Criterion>Target.Drugs E 0</Criterion>

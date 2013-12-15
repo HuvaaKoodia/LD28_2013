@@ -62,6 +62,7 @@ public class MapCharacterData{
 	}
 	
 	public void MoveToNextTempPos(){
+		if (Path_positions.Count>1)
 		TempPos=Path_positions[++temp_index];
 	}
 	
@@ -109,9 +110,7 @@ public class MapCharacterData{
 				else{
 					y_abs=0; 
 				}
-				
 			}
-			
 			
 			var NEXT_POS=mapman.tiles_map[tx+x_abs,ty+y_abs];
 			
@@ -124,8 +123,6 @@ public class MapCharacterData{
 			 * */
 			
 			if (NEXT_POS.Blocked()){
-				
-				
 				//move to other direction
 				
  				if (x_abs==0)

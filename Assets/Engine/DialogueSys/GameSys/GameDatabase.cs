@@ -24,7 +24,8 @@ public class GameDatabase : MonoBehaviour {
 		CharacterGraphics.Add("Policeman",Resources.Load("PoliceGraphics") as GameObject);
 		CharacterGraphics.Add("Junkie",Resources.Load("BumGraphics")as GameObject);
 		CharacterGraphics.Add("CallGirl",Resources.Load("CallGirlGraphics")as GameObject);
-
+		CharacterGraphics.Add("Politician",Resources.Load("PoliticianGraphics")as GameObject);
+		
 		tiledata_map=new TileData[mapload.Maps[0].map_data.GetLength(0),mapload.Maps[0].map_data.GetLength(1)];
 		
 		for (int i=0;i<tiledata_map.GetLength(0);i++){

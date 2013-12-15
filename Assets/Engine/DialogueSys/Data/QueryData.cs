@@ -37,7 +37,8 @@ namespace DialogueSystem{
 
             AddContainer(actor.Facts);
 			AddContainer(location.Facts);
-			AddContainer(target.Facts);
+			if (target!=null)
+				AddContainer(target.Facts);
         }
 
         public void AddFact(string Key, FactData data)

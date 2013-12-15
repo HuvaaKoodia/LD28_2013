@@ -45,6 +45,7 @@ public class CharacterMain : EntityMain {
 			graphics_offset=Instantiate(go,transform.position,Quaternion.identity) as GameObject;
 			graphics_offset.transform.parent=transform;
 			graphics_offset.transform.localPosition=Vector3.zero;
+			graphics_offset.transform.localRotation=transform.rotation;
 		}
 		
 		

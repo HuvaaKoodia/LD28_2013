@@ -14,7 +14,6 @@ public class DialogueManager : MonoBehaviour {
 	//graphics
 	public SpeechBubbleMain speech_bubble;
 	public GameObject answer_button_prefab,answer_buttons_parent;
-	public Vector3 answer_text_offset;
 
 	List<AnswerButtonMain> answer_buttons=new List<AnswerButtonMain>();
 
@@ -56,7 +55,7 @@ public class DialogueManager : MonoBehaviour {
 		ChangeDialogue(data,query);
 	}
 
-    void StopDialogue()
+    public  void StopDialogue()
     {
         DIALOGUE_ON = false;
         CurrentDialogue = null;
@@ -119,11 +118,24 @@ public class DialogueManager : MonoBehaviour {
 	int y_off=0;
 
 	void AddAnswer(DialogueData data){
+		
+		if (data.LinksToQuery){
+			var query=new QueryData(CurrentQuery.Location,CurrentQuery.Actor,CurrentQuery.Target,data.ToEvent);
+			var rule=core_database.rule_database.CheckQuery(query);
+			if (rule==null)
+				return;
+			data=rule.Data;
+		}
+		
+		if (data.Type=="SKIP"){
+			return;
+		}
+		
 		var go=Instantiate(answer_button_prefab,Vector3.zero,Quaternion.identity) as GameObject;
 		var ab=go.GetComponent<AnswerButtonMain>();
 		
 		go.transform.parent=answer_buttons_parent.transform;
-		go.transform.localPosition=speech_bubble.transform.localPosition+answer_text_offset+Vector3.down*y_off;
+		go.transform.localPosition=speech_bubble.transform.localPosition+Vector3.down*y_off;
 		
 		if (data.Type=="RANDOM"){
 			ab.SetData(data.ParseText(CurrentQuery),data.GetRandom());
@@ -131,6 +143,7 @@ public class DialogueManager : MonoBehaviour {
 		else{
 			ab.SetData(data.ParseText(CurrentQuery),data);
 		}
+		
 		ab.Base.appear();
 		ab.ButtonMessage.target=gameObject;
 		
@@ -155,16 +168,17 @@ public class DialogueManager : MonoBehaviour {
     {
         if (link.LinksToRule)
         {
+			//Dev. broken target finder should check every target in area
             EntityData target=null;
 			foreach (var c in CurrentQuery.Location.Characters){
-                if (c.Facts.Facts["Type"].Value==link.ToEntity){
+                if (c.Type==link.ToEntity){
                     target=c;
                     break;
                 }
             }
 			if (target==null){
 				foreach (var c in CurrentQuery.Location.Objects){
-					if (c.Facts.Facts["Type"].Value==link.ToEntity){
+					if (c.Type==link.ToEntity){
 						target=c;
 						break;
 					}

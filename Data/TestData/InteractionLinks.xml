@@ -1,0 +1,23 @@
+<Root>
+
+<!-- Shared interaction links -->
+	<Rule Name="Attack_weapon">
+		<Actor>PLAYER</Actor>
+		<Target>PLAYER</Target>
+		<Event>SelectAttackLink</Event>
+		<Criterion>Actor.HasGun E true</Criterion>
+		<Result>
+			<Link>"-Attack with your pistol." to PLAYER OnAttack</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="Attack_fists">
+		<Actor>PLAYER</Actor>
+		<Target>PLAYER</Target>
+		<Event>SelectAttackLink</Event>
+		<Criterion>Actor.HasGun = true</Criterion>
+		<Result>
+			<Link>"-Attack with bare hands" to PLAYER OnAttack</Link>
+		</Result>
+	</Rule>
+</Root>

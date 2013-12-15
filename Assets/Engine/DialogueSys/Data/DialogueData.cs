@@ -12,7 +12,7 @@ namespace DialogueSystem
         public string _text, Type = "";
 
 		public float RandomChance { get; private set; }
-		public bool LinksToRule;
+		public bool LinksToRule,LinksToQuery;
 		public string ToEntity;
 		public string ToEvent;
 
@@ -30,12 +30,19 @@ namespace DialogueSystem
         {
             Type = type;
         }
-
-		public DialogueData(string text,string toEntity,string toEvent):this(text)
+		/// <summary>
+		/// Links to rule. i.e. uses a query to get a link for this data.
+		/// else
+		/// Links to query. i.e .uses a query to get this data is linked.
+		/// </param>
+		public DialogueData(string text,string toEntity,string toEvent,bool links_to_rule):this(text)
 		{
 			ToEntity=toEntity;
 			ToEvent=toEvent;
-			LinksToRule=true;
+			if (links_to_rule)
+				LinksToRule=true;
+			else
+				LinksToQuery=true;
 		}
 	
         public bool HasLinks()

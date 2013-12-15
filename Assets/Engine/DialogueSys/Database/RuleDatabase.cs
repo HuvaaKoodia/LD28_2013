@@ -262,7 +262,7 @@ namespace DialogueSystem{
 				if (r.Link!=""){
 					var Data=core.dialogue_database.ParseDialogueData(r.Link);
 					if (Data==null)
-						Debug.LogError("Dialogue: "+r.Link+" not found when parsing a rule called "+r.Name);
+						Debug.LogError("Link: "+r.Link+" is faulty in rule called "+r.Name);
 					rule.Data=Data;
 				}
 				//to correct scope
@@ -282,8 +282,7 @@ namespace DialogueSystem{
 			*/
             temp_rules = null;
 		}
-
-
+		
 		public void addTempRule(TempRuleData r)
 		{
 			temp_rules.Add(r);

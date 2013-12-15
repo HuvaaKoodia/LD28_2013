@@ -70,7 +70,7 @@ namespace DialogueSystem{
 							return d;
 						}
 						else{
-							return new DialogueData(text,spl2[1],spl2[2]);
+							return new DialogueData(text,spl2[1],spl2[2],true);
 						}
 					}
 					
@@ -82,8 +82,21 @@ namespace DialogueSystem{
 					Debug.LogError("Dialogue command \""+spl2[0]+"\" is faulty.\n(possible commands: \"to\", \"type\")");
 				}
 			}
-
+			else{
+				var spl =Subs.Split(spr," ");
+				
+				if (spl.Length>1){
+					if (spl[0] == "select")
+					{
+						if (spl.Length==3)
+						{
+							return new DialogueData("",spl[1],spl[2],false);
+						}
+					}
+				}
+			}
 			return GetDialogueData(spr);
+			
 
 		}
 		

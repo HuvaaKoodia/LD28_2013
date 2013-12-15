@@ -23,10 +23,9 @@ public class SceneManager : MonoBehaviour {
 	}
 	
 	public void LoadScene(TileData data,MapCharacterData currentCharacter){
-		
 		Location.SetLocation(Core.location_database.GetLocation(data.LocationName));
 		
-		var go=Instantiate(CharacterPrefab,CurrentCharacterPos.position,Quaternion.identity) as GameObject;
+		var go=Instantiate(CharacterPrefab,CurrentCharacterPos.position,Quaternion.AngleAxis(90,Vector3.up)) as GameObject;
 		CurrentPlayer=go.GetComponent<CharacterMain>();
 		
 		CurrentPlayer.SetCharacterData(currentCharacter.Data);
@@ -36,7 +35,7 @@ public class SceneManager : MonoBehaviour {
 		foreach (var c in data.characters){
 			if (c==currentCharacter) continue;
 			
-			go=Instantiate(CharacterPrefab,CurrentCharacterPos.position+add_to_pos,Quaternion.identity) as GameObject;
+			go=Instantiate(CharacterPrefab,CurrentCharacterPos.position+add_to_pos,Quaternion.AngleAxis(270,Vector3.up)) as GameObject;
 			var cm=go.GetComponent<CharacterMain>();
 			
 			cm.SetCharacterData(c.Data);
