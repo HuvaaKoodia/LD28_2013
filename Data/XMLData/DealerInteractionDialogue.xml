@@ -1,0 +1,23 @@
+<Root>
+
+	<Dialogue Name="OnInteract_DealerToAny">
+	<Link>select PLAYER SelectSellLink</Link>
+	<Link>select PLAYER SelectBuyLink</Link>
+	<Link>select PLAYER SelectLeaveLink</Link>
+	</Dialogue>
+	
+	<Rule Name="OnSell" Base="PlayerToPlayer">
+		<Event>OnSell</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Result>
+			<Link>OnSell_DealerToAny</Link>
+			<Assign>Target.Drugs + 1</Assign>
+			<Assign>Actor.VP + 1</Assign>
+		</Result>
+	</Rule>
+	
+	<Dialogue Name="OnSell_DealerToAny">
+	<Link>"You sold some drugs" type ENDL</Link>
+	</Dialogue>
+	
+</Root>

@@ -1,0 +1,39 @@
+<Root>
+
+	<Dialogue Name="OnInteract_PoliceToAny">
+	<Link>select PLAYER SelectSearchLink</Link>
+	<Link>select PLAYER SelectInterrogateLink</Link>
+	<Link>select PLAYER SelectAttackLink</Link>
+	<Link>"Leave him be." type ENDL</Link>
+	</Dialogue>
+	
+	<Dialogue Name="OnSearch_PoliceToAny_HasDrugs">
+	<Link>"Ur busted Punk!" type ENDL</Link>
+	<Link>"I'll let you go for some greens." type ENDL</Link>
+	</Dialogue>
+	
+	<Dialogue Name="OnSearch_PoliceToAny_NoDrugs">
+	<Link>"Too bad. You're free to go." type ENDL</Link>
+	</Dialogue>
+	
+	<Rule Name="OnSearchPlayer1" Base="PlayerToPlayer">
+		<Event>OnSearch</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Criterion>Target.Drugs G 0</Criterion>
+		<Result>
+			<Link>OnSearch_PoliceToAny_HasDrugs</Link>
+			<Assign>Target.Drugs = 0</Assign>
+			<Assign>Actor.VP + 1</Assign>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnSearchPlayer2" Base="PlayerToPlayer">
+		<Event>OnSearch</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Criterion>Target.Drugs E 0</Criterion>
+		<Result>
+			<Link>OnSearch_PoliceToAny_NoDrugs</Link>
+		</Result>
+	</Rule>
+	
+</Root>
