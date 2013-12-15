@@ -14,6 +14,12 @@ public class MapManager : MonoBehaviour
 	public GameObject foxxyPrefab;
 	public GameObject urbanDrugstashPrefab;
 	
+	public GameObject tilePolice;
+	public GameObject tileAlley;
+	public GameObject tileStraight;
+	public GameObject tileCrossroad;
+	public GameObject tileNothing;
+	
 	private List<Tile> tiles = new List<Tile>();
 	
 	public Tile[,] tiles_map;
@@ -64,14 +70,17 @@ public class MapManager : MonoBehaviour
 				switch (md.map_data[i,e])
 				{
 					case "p":
-						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, Quaternion.identity);	
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, policeStationPrefab.transform.rotation);
+						//tiles_map[i,e].tileObject = (GameObject)Instantiate(tilePolice, tiles_map[i,e].transform.position, tilePolice.transform.rotation);
 					break;
 					case "a":
-						tiles_map[i,e].tileObject = (GameObject)Instantiate(alleyPrefab, tiles_map[i,e].transform.position, Quaternion.identity);
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(alleyPrefab, tiles_map[i,e].transform.position, alleyPrefab.transform.rotation);
 					break;
-					case "s":
+					case "u":
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(urbanDrugstashPrefab, tiles_map[i,e].transform.position, urbanDrugstashPrefab.transform.rotation);
 					break;
-					case "k":
+					case "c":
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(cityHallPrefab, tiles_map[i,e].transform.position, cityHallPrefab.transform.rotation);
 					break;
 					case "e":
 					break;
