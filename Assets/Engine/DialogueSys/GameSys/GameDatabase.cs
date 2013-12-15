@@ -50,7 +50,7 @@ public class GameDatabase : MonoBehaviour {
 	public void CalculateMovementsAll(){
 		foreach(var c in Characters)
 		{
-			c.StarTempMovement();
+			c.StarTempMovement();	
 		}
 		while(true){
 			bool chars_still_moving=false;
@@ -84,10 +84,13 @@ public class GameDatabase : MonoBehaviour {
 				if (c.TempMovement){
 					
 					var t=c.CurrentTempTile();
-
+					
+					if (c.TempPos==c.CurPos){
+						c.EndTempMovement();
+					}
 					
 					//whole path traversed
-					if (c.TempPosIsLastPathPos()){
+					if (c.OnTheMove&&c.TempPosIsLastPathPos()){
 						c.EndTempMovement();
 					}
 				}

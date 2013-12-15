@@ -96,22 +96,13 @@ namespace DialogueSystem{
                 //assignments
                 foreach (var a in best_match.Assignments)
                 {
-                    foreach (var c in query.containers)
-                    {
-                        bool done = false;
-                        foreach (var f in c.Facts)
-                        {
-                            if (f.Key == a.Variable)
-                            {
-                                a.Assign(f.Value);
-                                done = true;
-                                break;
-                            }
-                        }
-
-                        if (done) break;
-                        Debug.LogError("Variable [" + a.Variable + "] in rule: [" + best_match.Name + "] not found in the character or the world.");
-                    }
+					var fact=query.FindFact(a.Target,a.Variable);
+					if (fact!=null){
+						a.Assign(fact);
+					}
+					else{
+						Debug.LogError("Variable [" + a.Variable + "] in rule: [" + best_match.Name + "] not found in ["+a.Target+"] or the location.");
+					}
                 }
 
 				//functions

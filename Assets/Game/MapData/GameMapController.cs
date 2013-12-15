@@ -85,7 +85,9 @@ public class GameMapController : MonoBehaviour {
 					Tile t = comp.transform.parent.GetComponent<Tile>();
 					var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
 					MapCharacterData data=new MapCharacterData("Player "+(temp_i+1));
-						
+					
+					t.Data.characters.Add(data);
+					
 					data.mapman=MapMan;
 					
 					data.Data=GDB.Core.character_database.GetCharacterLazy(temp_names[temp_i++]);
@@ -151,31 +153,34 @@ public class GameMapController : MonoBehaviour {
 				else
 					create_path_mode=true;
 			}	
+			else{
 			
-			if (!create_path_mode&&!move_characters_phase){
-				
-				if (must_interact){
-					
-					Application.LoadLevel("ActionGameScene");
-					
-				}
-				else{
-
 			
-					while(PathLines.Count>0){
-						var p=PathLines[0];
-						Destroy(p);
-						PathLines.RemoveAt(0);
-					}
+				if (!move_characters_phase){
 					
-					if (GDB.NextPlayersTurn()){
-						Application.LoadLevel(Application.loadedLevel);
-					}else{
-						//move turn
-						Debug.Log("Move turn over");
-
+					if (must_interact){
 						
-						Application.LoadLevel(Application.loadedLevel);
+						Application.LoadLevel("ActionGameScene");
+						
+					}
+					else{
+	
+				
+						while(PathLines.Count>0){
+							var p=PathLines[0];
+							Destroy(p);
+							PathLines.RemoveAt(0);
+						}
+						
+						if (GDB.NextPlayersTurn()){
+							Application.LoadLevel(Application.loadedLevel);
+						}else{
+							//move turn
+							Debug.Log("Move turn over");
+	
+							
+							Application.LoadLevel(Application.loadedLevel);
+						}
 					}
 				}
 			}

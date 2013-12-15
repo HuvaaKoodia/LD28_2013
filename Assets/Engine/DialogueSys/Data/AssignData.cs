@@ -10,8 +10,18 @@ namespace DialogueSystem{
     public class AssignData{
 		string _operator;
 		public string Variable {get;private set;}
+		public string Target{get;private set;}
 		public float Value{get;private set;}
+		
 		public AssignData(string Data){
+			
+			var tspl=Data.Split('.');
+			Target="";
+			if (tspl.Length!=1){
+				Target=tspl[0];
+				Data=tspl[1];
+			}
+			
 			var spl=Data.Split(' ');
 			
 			if (spl.Length!=3){

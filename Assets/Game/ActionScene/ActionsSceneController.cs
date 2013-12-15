@@ -26,6 +26,9 @@ public class ActionsSceneController : MonoBehaviour {
 		hud.OnBackToMapPressedEvent+=OnExit;
 		
 		controller.dial_man.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
+		
+		
+		DEBUG_print_character_facts();
 	}
 	
 	void OnAnswerButtonClick(AnswerButtonMain button){
@@ -39,8 +42,17 @@ public class ActionsSceneController : MonoBehaviour {
 	
 	}
 	
+	void DEBUG_print_character_facts(){
+		Debug.LogError(""+GDB.CurrentCharacter.Data.Name+" facts");
+		foreach(var f in GDB.CurrentCharacter.Data.Facts.Facts){
+			Debug.LogError(""+f.Key+": "+f.Value);
+		}
+	}
+	
 	void OnExit()
 	{
+		DEBUG_print_character_facts();
+		
 		controller.dial_man.StopDialogue();
 		GDB.NextPlayersTurn();
 		hud.OnBackToMapPressedEvent-=OnExit;
