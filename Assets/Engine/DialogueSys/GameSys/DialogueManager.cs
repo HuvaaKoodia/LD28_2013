@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using DialogueSystem;
 
+public delegate void OnAnswerButtonPressed(AnswerButtonMain button);
+
 public class DialogueManager : MonoBehaviour {
 	
 	public CoreDatabase core_database;
@@ -16,6 +18,8 @@ public class DialogueManager : MonoBehaviour {
 	public GameObject answer_button_prefab,answer_buttons_parent;
 
 	List<AnswerButtonMain> answer_buttons=new List<AnswerButtonMain>();
+	
+	public OnAnswerButtonPressed OnAnswerButtonPressedEvent;
 
 	void Start () {}
 
@@ -206,6 +210,9 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	void AnswerButtonPressed(AnswerButtonMain ans){
+		if (OnAnswerButtonPressedEvent!=null)
+			OnAnswerButtonPressedEvent(ans);
+		
 		if (ans.Data.Type=="ENDL"){
 			StopDialogue();
 			ClearAnswers();

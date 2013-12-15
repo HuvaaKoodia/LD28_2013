@@ -1,9 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\Scripts\MapManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\MapData\GameMapController.cs">
     <Files>
-      <File FileName="Assets\Game\Scripts\MapManager.cs" Line="92" Column="140" />
-      <File FileName="Assets\Game\Scripts\Tile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\DialogueManager.cs" Line="225" Column="2" />
+      <File FileName="Assets\Engine\DialogueSys\FileLoader\XML_WorldDataLoader.cs" Line="77" Column="7" />
+      <File FileName="Assets\Game\Sys\GameController.cs" Line="60" Column="9" />
+      <File FileName="Assets\Game\MapData\GameMapController.cs" Line="23" Column="16" />
+      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="34" Column="41" />
+      <File FileName="Assets\Game\MapData\MapCharacterData.cs" Line="27" Column="13" />
+      <File FileName="Assets\Game\MapData\MapCharacter.cs" Line="5" Column="37" />
+      <File FileName="Assets\Engine\DialogueSys\GameScripts\CharacterMain.cs" Line="46" Column="47" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="11" Column="19" />
+      <File FileName="Assets\Engine\DialogueSys\Database\DialogueDatabase.cs" Line="103" Column="23" />
+      <File FileName="Assets\Engine\DialogueSys\FileLoader\XML_GameDataLoader.cs" Line="45" Column="21" />
+      <File FileName="Assets\Engine\DialogueSys\Database\CharacterDatabase.cs" Line="51" Column="33" />
+      <File FileName="Assets\Engine\DialogueSys\Data\FactData.cs" Line="69" Column="32" />
+      <File FileName="Assets\Engine\DialogueSys\Data\AssignData.cs" Line="57" Column="41" />
+      <File FileName="Assets\Engine\DialogueSys\Data\FactContainer.cs" Line="22" Column="14" />
+      <File FileName="Assets\Engine\DialogueSys\Database\CriterionDatabase.cs" Line="71" Column="30" />
+      <File FileName="Assets\Engine\Sys\Fileloading\XML_Loader.cs" Line="10" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -1,0 +1,30 @@
+<Root>
+
+	<Rule Name="OnSellSexCallGirlToPolitician" Base="PlayerToPlayer">
+		<Event>SelectSellSexLink</Event>
+		<Criterion>Actor.Name E CallGirl</Criterion>
+		<Criterion>Target.Name E Politician</Criterion>
+		<Result>
+			<Link>"Sell your stunning body to the Politician" to PLAYER OnSell</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnBuyDrugsCallGirl" Base="PlayerToPlayer">
+		<Event>SelectBuyLink</Event>
+		<Criterion>Actor.Name E CallGirl</Criterion>
+		<Criterion>Target.Name E Dealer</Criterion>
+		<Result>
+			<Link>"Buy drugs from the Dealer" to PLAYER OnBuyDrugs</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnSellInfoCallGirlFreelancer" Base="PlayerToPlayer">
+		<Event>SelectSellLink</Event>
+		<Criterion>Actor.Name E CallGirl</Criterion>
+		<Criterion>Target.Name E Freelancer</Criterion>
+		<Result>
+			<Link>"Sell info on the Politician to the Freelancer" to PLAYER OnSellInfo</Link>
+		</Result>
+	</Rule>
+	
+</Root>

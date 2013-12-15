@@ -16,14 +16,34 @@ namespace DialogueSystem{
 			set { this.Facts[name] = value; }
 		}
 
-        public void AddFact(string Key, FactData Value)
+        public FactData AddFact(string Key, FactData Value,bool copy_instance)
         {
             if (Facts.ContainsKey(Key))
             {
-                Debug.Log("Adding. Fact already exists! " + Key);
-                return;
+                Debug.Log("Adding Fact. Fact already exists! " + Key);
+                return null;
             }
-            Facts.Add(Key, Value);
+			
+			if (copy_instance){
+				System.Type type=Value.ValueObject.GetType();
+				//Dev.lazy
+				FactData f=null;
+				if (type==typeof(float)){
+					f=new FactData((float)Value.ValueObject);
+				}
+				else if (type==typeof(string)){
+					f=new FactData((string)Value.ValueObject);
+				}
+				else if (type==typeof(bool)){
+					f=new FactData((bool)Value.ValueObject);
+				}
+			
+				Facts.Add(Key, f);
+				return f;
+			}
+			
+       	 	Facts.Add(Key, Value);
+			return Value;
         }
 
 		public void AddFact(string Key,string Value){
