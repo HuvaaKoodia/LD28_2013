@@ -18,7 +18,7 @@ public class MapManager : MonoBehaviour
 	public GameObject tileAlley;
 	public GameObject tileStraight;
 	public GameObject tileCrossroad;
-	public GameObject tileNothing;
+	public GameObject tileDeadend;
 	
 	private List<Tile> tiles = new List<Tile>();
 	
@@ -71,7 +71,7 @@ public class MapManager : MonoBehaviour
 				{
 					case "p":
 						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, policeStationPrefab.transform.rotation);
-						//tiles_map[i,e].tileObject = (GameObject)Instantiate(tilePolice, tiles_map[i,e].transform.position, tilePolice.transform.rotation);
+						//tiles_map[i,e].tileGround = (GameObject)Instantiate(tilePolice, tiles_map[i,e].transform.position, tilePolice.transform.rotation);
 					break;
 					case "a":
 						tiles_map[i,e].tileObject = (GameObject)Instantiate(alleyPrefab, tiles_map[i,e].transform.position, alleyPrefab.transform.rotation);
@@ -82,13 +82,22 @@ public class MapManager : MonoBehaviour
 					case "c":
 						tiles_map[i,e].tileObject = (GameObject)Instantiate(cityHallPrefab, tiles_map[i,e].transform.position, cityHallPrefab.transform.rotation);
 					break;
-					case "e":
+					case "|":
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileStraight, tiles_map[i,e].transform.position, tileStraight.transform.rotation);
 					break;
 					case "x":
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileCrossroad, tiles_map[i,e].transform.position, tileCrossroad.transform.rotation);
+					break;
+					case "-":
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileStraight, tiles_map[i,e].transform.position, Quaternion.Euler(new Vector3(-90,0,0)));
 					break;
 					case ".":
 						tiles[i].tileObject = null;
 					break;
+					case "t":
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileDeadend, tiles_map[i,e].transform.position, tileDeadend.transform.rotation);
+					break;
+					
 				}
 				int ii=0;
 			}
