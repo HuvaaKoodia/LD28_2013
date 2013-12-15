@@ -7,7 +7,13 @@ public class MapManager : MonoBehaviour
 	public Tile tilePrefab;
 	public int gridX = 3;
 	public int gridY = 3;
+	
 	public GameObject policeStationPrefab;
+	public GameObject cityHallPrefab;
+	public GameObject alleyPrefab;
+	public GameObject foxxyPrefab;
+	public GameObject urbanDrugstashPrefab;
+	
 	private List<Tile> tiles = new List<Tile>();
 	
 	public Tile[,] tiles_map;
@@ -61,6 +67,7 @@ public class MapManager : MonoBehaviour
 						tiles_map[i,e].tileObject = (GameObject)Instantiate(policeStationPrefab, tiles_map[i,e].transform.position, Quaternion.identity);	
 					break;
 					case "a":
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(alleyPrefab, tiles_map[i,e].transform.position, Quaternion.identity);
 					break;
 					case "s":
 					break;
