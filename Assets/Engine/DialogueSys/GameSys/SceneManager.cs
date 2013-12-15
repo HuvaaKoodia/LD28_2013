@@ -22,7 +22,8 @@ public class SceneManager : MonoBehaviour {
 		
 	}
 	
-	public void LoadScene(TileData data,MapCharacterData currentCharacter){
+	public void LoadScene(TileData data,GameCharacterData currentCharacter){
+		//dev.TODO have a real location for each tiledata.
 		Location.SetLocation(Core.location_database.GetLocation(data.LocationName));
 		
 		var go=Instantiate(CharacterPrefab,CurrentCharacterPos.position,Quaternion.AngleAxis(90,Vector3.up)) as GameObject;

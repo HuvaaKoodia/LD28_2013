@@ -1,9 +1,17 @@
 <Root>
+<!-- 
+p = Police station
+a = Alley
+u = UrbanDrugstash
+c = Cityhall
+f = FoXXXy
+
+-->
 <Map>
 ......a
-.c|....
-..x-...
-p.|.u..
-..t....
+.c.....
+....f..
+p......
+.....u.
 </Map>
 </Root>

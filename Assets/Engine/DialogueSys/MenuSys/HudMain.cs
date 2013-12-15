@@ -32,4 +32,32 @@ public class HudMain : MonoBehaviour {
 		
 		Application.LoadLevel("MapGameScene");
 	}
+	
+	//addition text panels
+	int x_off=10;
+	
+	public Transform TextPanelParent;
+	public GameObject TextPanelPrefab;
+	
+	public void AddActionDataTextPanel(CharacterActionData data){
+		var go=Instantiate(TextPanelPrefab,Vector3.zero,Quaternion.identity) as GameObject;
+		var ab=go.GetComponent<AnswerButtonMain>();
+		
+		go.transform.parent=TextPanelParent;
+		go.transform.localPosition=Vector3.right*x_off;
+		
+		ab.SetData(data.Dialogue.ParseText(data.Query),data.Dialogue);
+		
+		ab.Base.appear();
+		
+		x_off+=(int)ab.x_size+16;
+	}
+	
+	public void ClearActionDataPanels(){
+		x_off=0;
+		int c=TextPanelParent.transform.childCount;
+		for (int i=0;i<c;i++){
+			NGUITools.Destroy(TextPanelParent.transform.GetChild(0).gameObject);
+		}
+	}
 }

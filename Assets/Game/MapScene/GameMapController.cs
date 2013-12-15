@@ -14,8 +14,9 @@ public class GameMapController : MonoBehaviour {
 	List<GameObject> PathLines=new List<GameObject>();
 	public GameObject PathObjPrefab;
 	
-	bool create_path_mode,move_characters_phase=false,wait_for_moving_to_end=false,must_interact=false;
+	bool create_path_mode,move_characters_phase=false,wait_for_moving_to_end=false,goto_action_scene=false;
 	int player_text=0;
+	
 	
 	List<string> temp_names=new List<string>();
 	
@@ -27,51 +28,59 @@ public class GameMapController : MonoBehaviour {
 		MapMan.ml=GameObject.FindGameObjectWithTag("Databases").GetComponent<MapLoader>();
 		MapMan.GenerateGrid();
 		
-		for (int i=0;i<MapMan.gridX;i++){
-				
-			for (int j=0;j<MapMan.gridY;j++){
-				MapMan.tiles_map[i,j].SetData(GDB.tiledata_map[i,j]);
-			}
-		}
-		
-		
-		
-		
-		foreach(var data in GDB.Characters){
-			data.mapman=MapMan;
-			
-			var t=data.CurrentTile();
-			
-			var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
-			data.SetMain(c);
-			//c.transform.position=t.TilePosition;
-		}
-		
+		//game state
 		
 		if (GDB.CurrentCharacter!=null){
 			
-
-			if (GDB.action_turn){
-				//if (GDB.CurrentCharacter.OnTheMove){
-				move_characters_phase=true;
-			
+			if (GDB.CurrentCharacter.CurrentTile().Data.HasOtherCharactersNotMoving(GDB.CurrentCharacter)){
+				goto_action_scene=true;
+			}
+			else{
+				if (GDB.action_turn){
+					//if (GDB.CurrentCharacter.OnTheMove){
+					move_characters_phase=true;
+				
+				}
 			}
 			
 			if (player_text==0){
 				player_text=1;
-				hudman.go_hud.SetText(GDB.CurrentCharacter.Name,GDB.map_turn);	
+				hudman.go_hud.SetText(GDB.CurrentCharacter.Name,GDB.planning_turn);	
 			}
 		}
-		foreach (var s in GDB.CharacterGraphics.Keys){
-			temp_names.Add(s);
+		
+		if (!goto_action_scene){
+			//create objects
+			
+			for (int i=0;i<MapMan.gridX;i++){
+					
+				for (int j=0;j<MapMan.gridY;j++){
+					MapMan.tiles_map[i,j].SetData(GDB.tiledata_map[i,j]);
+				}
+			}
+			
+			foreach(var data in GDB.Characters){
+				data.mapman=MapMan;
+				
+				var t=data.CurrentTile();
+				
+				var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
+				data.SetMain(c);
+				//c.transform.position=t.TilePosition;
+			}
+			
+			//temp
+			foreach (var s in GDB.CharacterGraphics.Keys){
+				temp_names.Add(s);
+			}
 		}
-		
-		
 	}
 	
 	//temp list
 	int temp_i=0;
 	//string[] temp_chars=new string[]{"Policeman","Junkie"};
+	
+	
 	
 	// Update is called once per frame
 	void Update(){
@@ -84,7 +93,7 @@ public class GameMapController : MonoBehaviour {
 				if (temp_names.Count>GDB.Characters.Count){
 					Tile t = comp.transform.parent.GetComponent<Tile>();
 					var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
-					MapCharacterData data=new MapCharacterData("Player "+(temp_i+1));
+					GameCharacterData data=new GameCharacterData("Player "+(temp_i+1));
 					
 					t.Data.characters.Add(data);
 					
@@ -93,22 +102,19 @@ public class GameMapController : MonoBehaviour {
 					data.Data=GDB.Core.character_database.GetCharacterLazy(temp_names[temp_i++]);
 					data.SetMain(c);
 	  			
-					data.CurPos=t.TilePosition;
+					data.CurPos=data.TempPos=t.TilePosition;
 					GDB.Characters.Add(data);
 				}
 			}
 		}
-		
 		//gameplay input
 		
 		if (Input.GetMouseButtonDown(0))
 		{
-
 			if (create_path_mode){
 				Component comp;
 				if(Subs.GetObjectMousePos(out comp,100,"Tile"))
 			   	{
-					Debug.Log("Set Move pos");
 					Tile t = comp.transform.parent.GetComponent<Tile>();
 					
 					//select move pos for map character
@@ -132,10 +138,10 @@ public class GameMapController : MonoBehaviour {
 				wait_for_moving_to_end=false;
 				
 				//check for interactions
-				if (GDB.CurrentCharacter.CurrentTempTile().Data.HasMultipleCharacters(GDB.CurrentCharacter)){
-					GDB.CurrentTileData=GDB.CurrentCharacter.CurrentTempTile().Data;
-					must_interact=true;
-				}
+//				if (GDB.CurrentCharacter.CurrentTempTile().Data.HasOtherCharacters(GDB.CurrentCharacter)){
+//					GDB.CurrentTileData=GDB.CurrentCharacter.CurrentTempTile().Data;
+//					must_interact=true;
+//				}
 			}
 		}
 		
@@ -146,44 +152,35 @@ public class GameMapController : MonoBehaviour {
 				hudman.go_hud.RemoveText();
 				player_text=2;
 				
-				if (move_characters_phase){
-					GDB.MoveAll();
-					wait_for_moving_to_end=true;
+				if (goto_action_scene){
+					Application.LoadLevel("ActionGameScene");	
 				}
-				else
-					create_path_mode=true;
-			}	
-			else{
-			
-			
-				if (!move_characters_phase){
-					
-					if (must_interact){
-						
-						Application.LoadLevel("ActionGameScene");
-						
-					}
-					else{
-	
+				else{
 				
-						while(PathLines.Count>0){
-							var p=PathLines[0];
-							Destroy(p);
-							PathLines.RemoveAt(0);
-						}
-						
-						if (GDB.NextPlayersTurn()){
-							Application.LoadLevel(Application.loadedLevel);
-						}else{
-							//move turn
-							Debug.Log("Move turn over");
-	
-							
-							Application.LoadLevel(Application.loadedLevel);
-						}
+					if (move_characters_phase){
+						GDB.MoveAll();
+						wait_for_moving_to_end=true;
 					}
+					else
+						create_path_mode=true;
 				}
+			}	
+			else
+			if (!move_characters_phase){
+				//next character
+				GDB.NextPlayersTurn();
+				Application.LoadLevel(Application.loadedLevel);
 			}
+			
 		}
 	}
+	void ClearPathDots()
+	{
+		while(PathLines.Count>0){
+			var p=PathLines[0];
+			Destroy(p);
+			PathLines.RemoveAt(0);
+		}
+	}
+	
 }

@@ -38,7 +38,8 @@ public class MapLoader : MonoBehaviour{
 
 			foreach (XmlNode node in root){
 				if (node.Name=="Map"){
-					var map=new MapData(7,5);
+					int height=5;
+					var map=new MapData(7,height);
 
 					var spl=node.InnerText.Replace(" ","").Replace("\r","").Split('\n');
 					int y=0,x=0;
@@ -46,7 +47,7 @@ public class MapLoader : MonoBehaviour{
 						if (line=="") continue;
 						while (x<map.map_data.GetLength(0)){
 							var ss=line.Substring(x,1).ToLower();
-							map.map_data[x,y]=ss;
+							map.map_data[x,height-1-y]=ss;
 							x++;
 						}
 						y++;

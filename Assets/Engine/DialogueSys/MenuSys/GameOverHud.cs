@@ -10,8 +10,8 @@ public class GameOverHud : MonoBehaviour {
 	// Use this for initialization
 	void Start (){
 		This.alpha=0;
-		sprite.width=Screen.width*2+64;
-		sprite.height=Screen.height*2+64;
+		sprite.width=Screen.width*4+64;
+		sprite.height=Screen.height*4+64;
 	}
 	
 	// Update is called once per frame
@@ -22,7 +22,7 @@ public class GameOverHud : MonoBehaviour {
 		desc_label.text=text;
 		
 		if (movement_phase){
-			gameover_label.text="Movement phase";
+			gameover_label.text="Planning phase";
 		}
 		else
 		{
@@ -50,7 +50,6 @@ public class GameOverHud : MonoBehaviour {
 			yield return new WaitForSeconds(Time.deltaTime);
 		
 			This.alpha+=0.01f;
-			
 		}
 	}
 }

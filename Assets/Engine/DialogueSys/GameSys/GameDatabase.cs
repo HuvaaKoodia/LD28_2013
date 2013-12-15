@@ -8,14 +8,14 @@ public class GameDatabase : MonoBehaviour {
 	public CoreDatabase Core;
 	public MapLoader mapload;
 	
-	public MapCharacterData CurrentCharacter;
-	public List<MapCharacterData> Characters=new List<MapCharacterData>();
+	public GameCharacterData CurrentCharacter;
+	public List<GameCharacterData> Characters=new List<GameCharacterData>();
 	
 	public int current_player_index=0;
 	
 	public Dictionary<string,GameObject> CharacterGraphics=new Dictionary<string, GameObject>();
 	
-	public bool map_turn=true,action_turn;
+	public bool planning_turn=true,action_turn;
 	
 	public TileData[,] tiledata_map;
 	public TileData CurrentTileData;
@@ -32,19 +32,57 @@ public class GameDatabase : MonoBehaviour {
 				
 			for (int j=0;j<tiledata_map.GetLength(1);j++){
 				tiledata_map[i,j]=new TileData();
+				tiledata_map[i,j].TilePosition=new Vector2(i,j);
 			}
 		}
 	}
 	
 	// Use this for initialization
 	void Start () {
-		map_turn=true;
+		planning_turn=true;
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+	
+	public string[] EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnInterrogate","OnLeave","OnSell","OnBuy"};
+	
+	private int SortActions(CharacterActionData a,CharacterActionData b){
+		int ai=-1,bi=-1;
+		for (int i=0;i<EventOrder.Length;i++){
+			var e = EventOrder[i];
+			if (a._Event==e){
+				ai=i;
+			}
+			if (b._Event==e){
+				bi=i;
+			}
+			if (ai>0&&bi>0) break;//both have value
+		}
+		//is other
+		if (ai<0) ai=100;
+		if (bi<0) bi=100;
+		
+		return ai-bi;
+	}
+	
+	public void CalculateActionsAll(){
+		foreach (var t in tiledata_map){
+			t.ActionsThisTurn.Clear();
+			if (t.characters.Count>0){
+				foreach (var c in t.characters){
+					if (c.CurrentAction!=null){
+						t.ActionsThisTurn.Add(c.CurrentAction);
+					}
+				}
+				//
+				t.ActionsThisTurn.Sort(SortActions);
+				int i=0;
+			}
+		}
 	}
 	
 	public void CalculateMovementsAll(){
@@ -59,7 +97,7 @@ public class GameDatabase : MonoBehaviour {
 				if (c.TempMovement){
 					var t=c.CurrentTempTile().Data;
 					
-					if (c.TempPos!=c.CurPos&&t.HasMultipleCharacters(c)){
+					if (c.TempPos!=c.CurPos&&t.HasOtherCharacters(c)){
 						//stop_here
 						c.EndPathToTempPos();
 						c.EndTempMovement();
@@ -98,17 +136,19 @@ public class GameDatabase : MonoBehaviour {
 		}
 	}
 	
-	public void SetToPathEndAll(){
+	public void ResetDataAll(){
 		foreach(var c in Characters)
 		{
 			c.SetToPathEnd();
+			c.Path_positions.Clear();
+			c.EndMoving();
 		}
 	}
 	
 	public void MoveAll(){
 		foreach(var c in Characters)
 		{
-			c.Move();
+			c.StartMoving();
 		}
 	}
 	
@@ -121,29 +161,27 @@ public class GameDatabase : MonoBehaviour {
 		return true;
 	}
 
-	public bool NextPlayersTurn ()
+	public void NextPlayersTurn ()
 	{				
 		if (current_player_index+1>Characters.Count){
 			
-			if (map_turn){
+			planning_turn=!planning_turn;
+			action_turn=!action_turn;
+			
+			if (action_turn){
+				//calculate temporary effects for action playback
 				CalculateMovementsAll();
-				map_turn=false;
-				action_turn=true;
+				CalculateActionsAll();
 			}
 			else {
-				SetToPathEndAll();
-				
-				map_turn=true;
-				action_turn=false;
+				//reset data for the next planning turn
+				ResetDataAll();
 			}
 			
 			current_player_index=0;
-			CurrentCharacter=Characters[current_player_index++];
-			
-			return false;
 		}
 		
 		CurrentCharacter=Characters[current_player_index++];
-		return true;
+		CurrentTileData=CurrentCharacter.CurrentTempTile().Data;
 	}
 }

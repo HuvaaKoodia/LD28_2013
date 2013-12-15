@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DialogueSystem;
 
-public class MapCharacterData{
+public class GameCharacterData{
 	
 	public MapManager mapman;	
 
@@ -16,14 +16,17 @@ public class MapCharacterData{
 	
 	public DialogueData SelectedDialogueData;
 	public QueryData SelectedQueryData;
-	
+
+	public CharacterActionData CurrentAction;
+	 
 	int temp_index;
 	bool temp_movement;
 	
 	public List<Vector2> Path_positions=new List<Vector2>();
-	public bool OnTheMove=false;
+	
+	public bool OnTheMove{get;private set;}
 
-	public MapCharacterData(string name){
+	public GameCharacterData(string name){
 		Name=name;
 	}
 	
@@ -47,12 +50,12 @@ public class MapCharacterData{
 	
 	public void SetMain(MapCharacter main){
 		Main=main;
-		Main.on_path_end_Event+=OnEnd;
+		//Main.on_path_end_Event+=EndMoving;
 		Main.mapman=mapman;
 		Main.SetCharacterData(Data);
 	}
 	
-	void OnEnd(){
+	public void EndMoving(){
 		OnTheMove=false;
 	}
 	
@@ -166,25 +169,13 @@ public class MapCharacterData{
 //				}
 			}
 			
-			
-			
 			tx+=x_abs;
 			ty+=y_abs;
 			
 		}
 	}
-	
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-	public void Move ()
+	public void StartMoving()
 	{
 		Main.Move(Path_positions);
 	}

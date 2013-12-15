@@ -57,30 +57,5 @@ public class GameController : MonoBehaviour {
 		}
 		if (back_to_menu.IsOn()) return;
 
-		//game
-
-		if (Input.GetMouseButtonDown(0)){
-			Component com;
-			if (Subs.GetObjectMousePos(out com,100,"Character")){
-
-				CharacterMain target=com.GetComponent<CharacterMain>();
-
-				dial_man.CheckQuery(new                                     QueryData(SceneMan.Location_Data,SceneMan.CurrentPlayer.Entity,target.Entity,"OnInteract"));
-			}
-		}
 	}
-	
-	/*
-	private bool GetMouseSoldier(out SoldierMain soldier){
-		var ray=Camera.main.ScreenPointToRay(Input.mousePosition);
-		int mask=1<<LayerMask.NameToLayer("Soldier");
-		RaycastHit info;
-		if (Physics.Raycast(ray,out info,500,mask)){
-			soldier=info.collider.gameObject.GetComponent<SoldierMain>();
-			return true;
-		}
-		soldier=null;
-		return false;
-	}*/
-	
 }
