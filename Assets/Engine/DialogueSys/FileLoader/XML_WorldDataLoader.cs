@@ -20,7 +20,7 @@ namespace DialogueSystem.FileIO
             foreach (XmlNode n in node) {
                 if (n.Name != "Var") continue;
                 var spl = n.InnerText.Split(' ');
-                data.Facts.AddFact(spl[0], FactData.ParseStringToData(spl[1]));
+                data.Facts.AddFact(spl[0], FactData.ParseStringToData(spl[1]),false);
             }
 
             return data;
@@ -39,7 +39,7 @@ namespace DialogueSystem.FileIO
             {
                 if (n.Name != "Var") continue;
                 var spl = n.InnerText.Split(' ');
-                data.Facts.AddFact(spl[0], FactData.ParseStringToData(spl[1]));
+                data.Facts.AddFact(spl[0], FactData.ParseStringToData(spl[1]),false);
             }
             return data;
         }
@@ -70,8 +70,11 @@ namespace DialogueSystem.FileIO
 
                 foreach (XmlNode n in node) {
                     if (n.Name == "Var"){
-                        obj.Facts.Add(n.InnerText);
-                    }
+						var spl = n.InnerText.Split(' ');
+                		var f=obj.Facts.AddFact(spl[0], FactData.ParseStringToData(n.InnerText.Substring(spl[0].Length+1)),false);
+                    	//if (n.Attributes["Min"]!=null)
+							//f.MinValue=n.Attributes["Min"].
+					}
                     else if (n.Name == "Object") {
                         obj.Objects.Add(n.InnerText);
                     }

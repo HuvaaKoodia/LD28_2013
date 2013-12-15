@@ -7,7 +7,19 @@ namespace DialogueSystem{
 		public object ValueObject{get;private set;}
 		public string Value{get;private set;}
 		public float Symbol{get;private set;}
-
+		
+		public float MinValue{
+			get{return min;}
+			set{min=value;has_min_value=true;}
+		}
+		public float MaxValue{
+			get{return max;}
+			set{max=value;has_max_value=true;}
+		}
+		
+		private float min,max;
+		private bool has_min_value,has_max_value;
+		
         //public string Key{get;private set;}
 		public bool IsString{get {return ValueObject.GetType()==typeof(string);}}
 		
@@ -30,9 +42,7 @@ namespace DialogueSystem{
 		}
 		
 		public void SetValue(float v){
-			Value=v.ToString();
-			Symbol=v;
-			ValueObject = v;
+			SetSymbol(v);
 		}
 		
 		public void SetValue(bool v){
@@ -44,8 +54,13 @@ namespace DialogueSystem{
 			ValueObject = v;
 		}
 
-        public void setSymbol(float s)
+        public void SetSymbol(float s)
         {
+			if (has_min_value&&s<min)
+				s=min;
+			if (has_max_value&&s>max)
+				s=max;
+			
             Symbol = s;
             Value = s.ToString();
 			ValueObject = s;

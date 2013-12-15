@@ -24,6 +24,14 @@ public class ActionsSceneController : MonoBehaviour {
 		hud.ShowBackToMapButton(true);
 		
 		hud.OnBackToMapPressedEvent+=OnExit;
+		
+		controller.dial_man.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
+	}
+	
+	void OnAnswerButtonClick(AnswerButtonMain button){
+		
+		GDB.CurrentCharacter.SelectedDialogueData=button.Data;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+		GDB.CurrentCharacter.SelectedQueryData=controller.dial_man.CurrentQuery;   
 	}
 	
 	// Update is called once per frame

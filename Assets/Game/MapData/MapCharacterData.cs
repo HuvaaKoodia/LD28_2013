@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DialogueSystem;
 
 public class MapCharacterData{
 	
@@ -12,6 +13,9 @@ public class MapCharacterData{
 	public Vector2 CurPos,MovePos,TempPos;
 
 	public string Name{get;private set;}
+	
+	public DialogueData SelectedDialogueData;
+	public QueryData SelectedQueryData;
 	
 	int temp_index;
 	bool temp_movement;

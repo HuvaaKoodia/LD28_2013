@@ -46,9 +46,9 @@ namespace DialogueSystem{
 
 			var data = new CharacterData(obj.Type,obj.Name);
 
-            foreach (var f in obj.Facts){
-                var spl = f.Split(' ');
-                data.Facts.AddFact(spl[0], FactData.ParseStringToData(f.Substring(spl[0].Length+1)));
+            foreach (var f in obj.Facts.Facts){
+                
+                data.Facts.AddFact(f.Key,f.Value,true);
             }
 
             foreach (var o in obj.Objects)
@@ -93,7 +93,7 @@ namespace DialogueSystem{
     public class CharacterDataLoadObj{
 		public string Type,Name;
 
-        public List<string> Facts= new List<string>();
+        public FactContainer Facts;
         public List<string> Objects=new List<string>();
     }
 }

@@ -50,11 +50,11 @@ namespace DialogueSystem{
             {
 				case "e":
 				case "E":
-                case "=": fact.setSymbol(Value); break;
-                case "+": fact.setSymbol(fact.Symbol + Value); break;
-                case "-": fact.setSymbol(fact.Symbol - Value); break;
-                case "*": fact.setSymbol(fact.Symbol * Value); break;
-                case "/": fact.setSymbol(fact.Symbol / Value); break;
+                case "=": fact.SetSymbol(Value); break;
+                case "+": fact.SetSymbol(fact.Symbol + Value); break;
+                case "-": fact.SetSymbol(fact.Symbol - Value); break;
+                case "*": fact.SetSymbol(fact.Symbol * Value); break;
+                case "/": fact.SetSymbol(fact.Symbol / Value); break;
             }
         }
 	}
