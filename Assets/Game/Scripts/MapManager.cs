@@ -13,6 +13,7 @@ public class MapManager : MonoBehaviour
 	public GameObject alleyPrefab;
 	public GameObject foxxyPrefab;
 	public GameObject urbanDrugstashPrefab;
+	public GameObject newsStationPrefab;
 	
 	public GameObject tilePolice;
 	public GameObject tileAlley;
@@ -76,6 +77,9 @@ public class MapManager : MonoBehaviour
 					case "a":
 						tiles_map[i,e].tileObject = (GameObject)Instantiate(alleyPrefab, tiles_map[i,e].transform.position, alleyPrefab.transform.rotation);
 					break;
+					case "n":
+						tiles_map[i,e].tileObject = (GameObject)Instantiate(newsStationPrefab, tiles_map[i,e].transform.position, newsStationPrefab.transform.rotation);
+					break;
 					case "u":
 						tiles_map[i,e].tileObject = (GameObject)Instantiate(urbanDrugstashPrefab, tiles_map[i,e].transform.position, urbanDrugstashPrefab.transform.rotation);
 					break;
@@ -92,7 +96,7 @@ public class MapManager : MonoBehaviour
 						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileStraight, tiles_map[i,e].transform.position, Quaternion.Euler(new Vector3(-90,0,0)));
 					break;
 					case ".":
-						tiles[i].tileObject = null;
+						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileCrossroad, tiles_map[i,e].transform.position, tileCrossroad.transform.rotation);
 					break;
 					case "t":
 						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileDeadend, tiles_map[i,e].transform.position, tileDeadend.transform.rotation);
