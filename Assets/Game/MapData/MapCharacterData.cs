@@ -38,8 +38,10 @@ public class MapCharacterData{
 
 	public void EndPathToTempPos ()
 	{
-		while (!TempPosIsLastPathPos()){
-			Path_positions.RemoveAt(Path_positions.Count-1);
+		if (Path_positions.Count>0){
+			while (!TempPosIsLastPathPos()){
+				Path_positions.RemoveAt(Path_positions.Count-1);
+			}
 		}
 	}
 	
@@ -118,13 +120,13 @@ public class MapCharacterData{
 			
 			var NEXT_POS=mapman.tiles_map[tx+x_abs,ty+y_abs];
 			
-			/*
-			 * if (NEXT_POS.TilePosition==endPos){
-					tx+=x_abs;
-					ty+=y_abs;
-					continue;
-				}
-			 * */
+			
+			if (NEXT_POS.TilePosition==endPos){
+				tx+=x_abs;
+				ty+=y_abs;
+				continue;
+			}
+			 
 			
 			if (NEXT_POS.Blocked()){
 				//move to other direction
@@ -140,7 +142,6 @@ public class MapCharacterData{
 					if (tx+x_abs>mapman.gridX-1||tx+x_abs<0){
 						x_abs*=-1;
 					}
-					
 				}
 				else if (y_abs==0)
 				{

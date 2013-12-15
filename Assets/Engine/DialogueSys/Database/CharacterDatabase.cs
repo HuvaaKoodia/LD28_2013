@@ -19,6 +19,9 @@ namespace DialogueSystem{
 
         public void AddLoadObj(string name, CharacterDataLoadObj load_obj)
         {
+			if (LoadObjects.ContainsKey(name)){
+				Debug.LogError("Character "+name+" already added once!");
+			}
             LoadObjects.Add(name,load_obj);
         }
 
@@ -93,7 +96,7 @@ namespace DialogueSystem{
     public class CharacterDataLoadObj{
 		public string Type,Name;
 
-        public FactContainer Facts;
+        public FactContainer Facts=new FactContainer();
         public List<string> Objects=new List<string>();
     }
 }

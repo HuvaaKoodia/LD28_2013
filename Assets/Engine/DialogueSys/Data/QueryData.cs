@@ -55,14 +55,26 @@ namespace DialogueSystem{
         }
 
         FactData _temp;
-
+		
+		/// <summary>
+		/// Finds a fact in a certain container. If not found in said container location is checked next before returning null;
+		/// </param>
 		public FactData FindFact(string container,string fact){
-			FactContainer c=GetEntityData(container).Facts;
+			var e=GetEntityData(container);
 
-			if (c!=null&&c.Facts.TryGetValue(fact, out _temp))
+			if (e!=null&&e.Facts.Facts.TryGetValue(fact, out _temp))
 			{
 				return _temp;
 			}
+				
+			
+			e=GetEntityData("Location");
+			
+			if (e.Facts.Facts.TryGetValue(fact, out _temp))
+			{
+				return _temp;
+			}
+			
 			return null;
 		}
 
