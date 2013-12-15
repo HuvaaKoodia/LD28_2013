@@ -1,0 +1,6 @@
+<Root>
+  <Location Name="Street">
+	<Var>CurrentPlayer Policeman</Var>
+    <Var>Crowded false</Var>
+  </Location>
+</Root>

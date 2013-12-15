@@ -1,0 +1,25 @@
+<Root>
+
+	<Dialogue Name="OnInteract_CallGirlToAny">
+	<Link>select PLAYER SelectSellSexLink</Link>
+	<Link>select PLAYER SelectLeaveLink</Link>
+	<Link>select PLAYER SelectAttackLink</Link>
+	<Link>"Leave him be." type ENDL</Link>
+	</Dialogue>
+	
+	<Rule Name="OnSellSex" Base="PlayerToPlayer">
+		<Event>OnSell</Event>
+		<Criterion>Actor.Name E CallGirl</Criterion>
+		<Result>
+			<Link>OnSell_DealerToAny</Link>
+			<Assign>Target.Money - 1</Assign>
+			<Assign>Actor.VP + 1</Assign>
+			<Assign>Actor.Money + 1</Assign>
+		</Result>
+	</Rule>
+	
+	<Dialogue Name="OnSell_CallGirlToAny">
+	<Link>"You sold yourself" type ENDL</Link>
+	</Dialogue>
+	
+</Root>

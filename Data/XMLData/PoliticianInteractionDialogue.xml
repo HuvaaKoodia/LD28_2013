@@ -1,0 +1,11 @@
+<Root>
+
+	<Dialogue Name="OnInteract_PoliticianToAny">
+	<Link>select PLAYER SelectSearchLink</Link>
+	<Link>select PLAYER SelectInterrogateLink</Link>
+	<Link>select PLAYER SelectAttackLink</Link>
+	<Link>"Leave him be." type ENDL</Link>
+	</Dialogue>
+
+	
+</Root>

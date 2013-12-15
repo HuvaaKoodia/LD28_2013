@@ -1,0 +1,59 @@
+<Root>
+	<Link>select PLAYER SelectBuyLink</Link>
+	<Link>select PLAYER SelectAttackLink</Link>
+	<Link>select PLAYER SelectLeaveLink</Link>
+	
+	<Rule Name="OnSellDrugsDealerToJunkie" Base="PlayerToPlayer">
+		<Event>SelectBuyLink</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Criterion>Actor.Name E Junkie</Criterion>
+		<Result>
+			<Link>"Sell some drugs to the Junkie" to PLAYER OnSellDrugs</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnSellDrugsDealerToCallGirl" Base="PlayerToPlayer">
+		<Event>SelectBuyLink</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Criterion>Actor.Name E Call Girl</Criterion>
+		<Result>
+			<Link>"Sell some drugs to the Call Girl" to PLAYER OnSellDrugs</Link>
+		</Result>
+	</Rule>
+
+	<Rule Name="OnSellDrugsDealerToFreelancer" Base="PlayerToPlayer">
+		<Event>SelectBuyLink</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Criterion>Actor.Name E Call Girl</Criterion>
+		<Result>
+			<Link>"Sell some drugs to the Freelancer" to PLAYER OnSellDrugs</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnSellDrugsDealerToPolitician" Base="PlayerToPlayer">
+		<Event>SelectBuyLink</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Criterion>Actor.Name E Politician</Criterion>
+		<Result>
+			<Link>"Sell some drugs to the Politician" to PLAYER OnSellDrugs</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnBuyPropertyDealer" Base="PlayerToPlayer">
+		<Event>SelectBuyLink</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Criterion>Actor.Name E Politician</Criterion>
+		<Result>
+			<Link>"Buy real estate from the Politician" to PLAYER OnBuyProperty</Link>
+		</Result>
+	</Rule>
+	
+	
+	<Rule Name="OnLeaveDealer" Base="PlayerToPlayer">
+		<Event>SelectLeaveLink</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Result>
+			<Link>"-Leave." type ENDL</Link>
+		</Result>
+	</Rule>
+</Root>
