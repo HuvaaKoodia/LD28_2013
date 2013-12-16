@@ -14,8 +14,6 @@ namespace DialogueSystem.FileIO
         //individual objects
         public LocationData LoadLocationData(XmlNode node){
             var data = new LocationData(node.Attributes["Name"].Value);
-			
-
 
             foreach (XmlNode n in node) {
                 if (n.Name != "Var") continue;
@@ -65,6 +63,8 @@ namespace DialogueSystem.FileIO
 
 				obj.Type =node.Attributes["Type"].Value;
 				obj.Name =node.Attributes["Name"].Value;
+				if (node.Attributes["Base"]!=null)
+					obj.Base =node.Attributes["Base"].Value;
                 //obj.Facts.Add("Character "+node.Attributes["Type"].Value);
                 //obj.Facts.Add("Name " + );
 

@@ -35,11 +35,11 @@ public class GameDatabase : MonoBehaviour {
 			}
 		}
 	}
-	
+	public string[] EventOrder;
 	// Use this for initialization
 	void Start () {
 		planning_turn=true;
-		
+		EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy"};
 	}
 	
 	// Update is called once per frame
@@ -47,8 +47,7 @@ public class GameDatabase : MonoBehaviour {
 		
 	}
 	
-	public string[] EventOrder=
-		new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy"};
+	
 	
 	private int SortActions(CharacterActionData a,CharacterActionData b){
 		int ai=-1,bi=-1;
@@ -58,9 +57,9 @@ public class GameDatabase : MonoBehaviour {
 				ai=i;
 			}
 			if (b._Event==e){
-				bi=i;
+				bi=i; 
 			}
-			if (ai>0&&bi>0) break;//both have value
+			if (ai>=0&&bi>=0) break;//both have value
 		}
 		//is other
 		if (ai<0) ai=100;
@@ -125,11 +124,10 @@ public class GameDatabase : MonoBehaviour {
 							defeat.Character=target;
 							defeat._Event="OnDefeat";
 							defeat.Query=new QueryData(new LocationData("TEMP"),a.Query.Actor,a.Query.Target,"OnDefeat");
-							
 						}
 						
 						t.ActionsThisTurn.Insert(at,victory);
-						t.ActionsThisTurn.Add(defeat);
+ 						t.ActionsThisTurn.Insert(at,defeat);
 					}
 				}		
 			}	

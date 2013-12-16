@@ -37,9 +37,6 @@ public class CharacterMain : EntityMain {
 			graphics.renderer.material.color=c;
 		}
 		else{
-			
-		
-		
 	 		graphics_offset.SetActive(false);
 			
 			graphics_offset=Instantiate(go,transform.position,Quaternion.identity) as GameObject;

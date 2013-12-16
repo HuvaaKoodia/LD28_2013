@@ -1,22 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\ActionScene\ActionsSceneController.cs">
     <Files>
-      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="133" Column="7" />
-      <File FileName="Assets\Engine\DialogueSys\MenuSys\HudMain.cs" Line="10" Column="2" />
+      <File FileName="Assets\Game\MapScene\GameMapController.cs" Line="43" Column="4" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="130" Column="44" />
+      <File FileName="Assets\Engine\DialogueSys\MenuSys\HudMain.cs" Line="19" Column="18" />
       <File FileName="Assets\Game\GameData\GameCharacterData.cs" Line="20" Column="18" />
       <File FileName="Assets\Game\GameData\CharacterActionData.cs" Line="9" Column="25" />
-      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="100" Column="40" />
-      <File FileName="Assets\Engine\DialogueSys\FileLoader\XML_WorldDataLoader.cs" Line="18" Column="1" />
-      <File FileName="Assets\Game\GameData\TileData.cs" Line="12" Column="2" />
-      <File FileName="Assets\Game\MapScene\GameMapController.cs" Line="40" Column="33" />
-      <File FileName="Assets\Engine\DialogueSys\GameSys\SceneManager.cs" Line="58" Column="52" />
-      <File FileName="Assets\Engine\DialogueSys\MenuSys\GameOverHud.cs" Line="15" Column="3" />
-      <File FileName="Assets\Engine\Sys\MapLoader.cs" Line="1" Column="1" />
-      <File FileName="Assets\Engine\DialogueSys\DataObjects\LocationData.cs" Line="13" Column="6" />
-      <File FileName="Assets\Engine\DialogueSys\Database\LocationDatabase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Engine\DialogueSys\FileLoader\XML_GameDataLoader.cs" Line="54" Column="24" />
-      <File FileName="Assets\Engine\DialogueSys\Database\RuleDatabase.cs" Line="78" Column="9" />
+      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="102" Column="7" />
+      <File FileName="Assets\Game\GameData\TileData.cs" Line="20" Column="23" />
+      <File FileName="Assets\Game\MapScene\MapCharacter.cs" Line="5" Column="35" />
+      <File FileName="Assets\Engine\DialogueSys\GameScripts\CharacterMain.cs" Line="43" Column="47" />
+      <File FileName="Assets\Engine\DialogueSys\GameScripts\EntityMain.cs" Line="5" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -24,5 +19,6 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets\Engine\Sys\MapLoader.cs" line="57" offsetX="486" offsetY="660" expression="map" liveUpdate="False" />
+    <Watch file="Assets\Engine\DialogueSys\Database\RuleDatabase.cs" line="262" offsetX="348" offsetY="4112" expression="r" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

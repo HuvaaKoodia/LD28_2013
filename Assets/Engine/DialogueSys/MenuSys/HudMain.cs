@@ -16,9 +16,7 @@ public class HudMain : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update () {}
 	
 	public void ShowBackToMapButton(bool show)
 	{

@@ -21,7 +21,7 @@
 	<Rule Name="OnSellInfo" Base="PlayerToPlayer">
 		<Event>OnSellInfo</Event>
 		<Criterion>Actor.Name E CallGirl</Criterion>
-		<Criterion>Target.Name E Freelancer
+		<Criterion>Target.Name E Freelancer</Criterion>
 		<Result>
 			<Link>OnSell_CallGirlToFreelancer</Link>
 			<Assign>Target.Money - 1</Assign>

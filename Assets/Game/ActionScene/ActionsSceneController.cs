@@ -116,11 +116,9 @@ public class ActionsSceneController : MonoBehaviour {
 	int current_action=0;
 	CharacterActionData CurrentAction=null;
 	
+	//DEV.TEMP
 	void DEBUG_print_character_facts(){
-		Debug.LogError(""+GDB.CurrentCharacter.Data.Name+" facts");
-		foreach(var f in GDB.CurrentCharacter.Data.Facts.Facts){
-			Debug.LogError(""+f.Key+": "+f.Value.Symbol);
-		}
+		GDB.CurrentCharacter.Data.Print_character_facts();
 	}
 	
 	void OnExit()

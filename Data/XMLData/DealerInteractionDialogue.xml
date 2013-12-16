@@ -3,7 +3,7 @@
 	<Dialogue Name="OnInteract_DealerToAny">
 	<Link>select PLAYER SelectSellLink</Link>
 	<Link>select PLAYER SelectBuyLink</Link>
-	<Link>select PLAYER SelectWalkLink</Link>
+	<Link>select PLAYER SelectWalkLink</Link> 
 	<Link>select PLAYER SelectRunLink</Link>
 	</Dialogue>
 	
@@ -36,7 +36,7 @@
 	<Link>"You sold some drugs" type ENDL</Link>
 	</Dialogue>
 	
-	<Dialogue Name="OnSell_DealerToPolitician">
+	<Dialogue Name="OnBuy_DealerToPolitician">
 	<Link>"You laundered money and bought property from the Politician" type ENDL</Link>
 	</Dialogue>
 	

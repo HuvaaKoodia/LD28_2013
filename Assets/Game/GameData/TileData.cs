@@ -17,7 +17,7 @@ public class TileData
 		int amount=0;
 		foreach (var c in characters){
 			if (c==character) continue;
-			//Dev.stealth check 
+			//Dev.stealth check
 			amount++;
 		}
 		return amount>0;

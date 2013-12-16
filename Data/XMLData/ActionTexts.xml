@@ -34,6 +34,22 @@
 		</Result>
 	</Rule>
 	
+	<Rule Name="OnDefendText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnVictory</Event>
+		<Result>
+			<Link>"#Actor.Name# defeats #Target.Name#.</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnDefendText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnDefeat</Event>
+		<Result>
+			<Link>"#Actor.Name# is stunned.</Link>
+		</Result>
+	</Rule>
+	
 	<!--Police events-->
 	
 	<Rule Name="OnArrestText" Base="PlayerToPlayer">

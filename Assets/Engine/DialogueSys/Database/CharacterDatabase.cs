@@ -46,19 +46,39 @@ namespace DialogueSystem{
 				return null;
 			}
             var obj = LoadObjects[name];
-
 			var data = new CharacterData(obj.Type,obj.Name);
+			
+			//incorporate base
+			if (obj.Base!="")
+			{
+				if (!LoadObjects.ContainsKey(obj.Base))
+				{
+					Debug.LogError("Base object: "+obj.Base+" not found when loading object: "+obj.Name);
+				}
+				else{
+					var bas=LoadObjects[obj.Base];
+
+					foreach(var f in bas.Facts.Facts){
+						data.Facts.AddFact(f.Key,f.Value,true);
+					}
+
+					foreach (var o in bas.Objects)
+		            {
+		                ObjectDatabase.ParseObjectCommand(o, data.Inventory, _core);
+		            }
+				}
+			}
 
             foreach (var f in obj.Facts.Facts){
                 
-                data.Facts.AddFact(f.Key,f.Value,true);
+                data.Facts.AddOrSetFact(f.Key,f.Value,true);
             }
 
             foreach (var o in obj.Objects)
             {
                 ObjectDatabase.ParseObjectCommand(o, data.Inventory, _core);
             }
-
+			
             return data;
         }
 
@@ -94,7 +114,7 @@ namespace DialogueSystem{
 	}
 
     public class CharacterDataLoadObj{
-		public string Type,Name;
+		public string Type,Name,Base="";
 
         public FactContainer Facts=new FactContainer();
         public List<string> Objects=new List<string>();

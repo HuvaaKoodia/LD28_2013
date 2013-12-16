@@ -1,78 +1,64 @@
 <Root>
-  <Character Type="PLAYER" Name="Policeman">
-  <Var>Gender Male</Var>
+
+<Character Type="BASETYPE" Name="PLAYER_BASE">
+	<Var>Gender Male</Var>
+	<Var>HasGun false</Var>
+    <Var>HasVehicle false</Var>
+    <Var>Money 0</Var>
+    <Var>Drugs 0</Var>
+	<Var>Addiction 0</Var>
+	<Var>VP 0</Var>
+	  
+	<Var>MovementSpeed 2</Var>
+	<Var>VehicleSpeed 4</Var>
+	
+	<Var>DealerMadeDealPolitician false</Var>
+	<Var>CallGirlSexPolitician false</Var>
+	<Var>PolicePoliticianBlackmail false</Var>
+	<Var>DealerMadeDrugDealJunkie false</Var>
+	<Var>FreelancerPolitcianBlackmail false</Var>
+</Character>
+
+  <Character Type="PLAYER" Name="Policeman" Base="PLAYER_BASE">
   <Var>HasGun true</Var>
   <Var>HasVehicle true</Var>
   <Var>Money 100</Var>
-  <Var>Drugs 0</Var>
-  <Var>Addiction 0</Var>
-  <Var>VP 0</Var>
   
   <Var>MovementSpeed 2</Var>
   <Var>VehicleSpeed 4</Var>
   </Character>
   
-  <Character Type="PLAYER" Name="Junkie">
-  <Var>Gender Male</Var>
-  <Var>HasGun false</Var>
-  <Var>HasVehicle false</Var>
+  <Character Type="PLAYER" Name="Junkie" Base="PLAYER_BASE">
   <Var>Money 0</Var>
-  <Var>Drugs 0</Var>
-  <Var>Addiction 0</Var>
-  <Var>VP 0</Var>
-  
+
   <Var>MovementSpeed 2</Var>
   </Character>
   
-  <Character Type="PLAYER" Name="CallGirl">
+  <Character Type="PLAYER" Name="CallGirl" Base="PLAYER_BASE">
   <Var>Gender Female</Var>
-  <Var>HasGun false</Var>
-  <Var>HasVehicle false</Var>
-  <Var>Money 0</Var>
-  <Var>Drugs 0</Var>
-  <Var>Addiction 0</Var>
-  <Var>VP 0</Var>
- 
-  <Var>MovementSpeed 2</Var>
-  </Character>
-  
-  <Character Type="PLAYER" Name="Freelancer">
-  <Var>Gender Male</Var>
-  <Var>HasGun false</Var>
-  <Var>HasVehicle false</Var>
-  <Var>Money 0</Var>
-  <Var>Drugs 0</Var>
-  <Var>Addiction 0</Var>
-  <Var>VP 0</Var>
-  <Var>DealerMadeDealPolitician false</Var>
-  <Var>CallGirlSexPolitician false</Var>
-  <Var>PolicePoliticianBlackmail false</Var>
-  <Var>DealerMadeDrugDealJunkie false</Var>
-  <Var>FreelancerPolitcianBlackmail false</Var>
-  
-  <Var>MovementSpeed 2</Var>
-  </Character>
-  
-  <Character Type="PLAYER" Name="Politician">
-  <Var>Gender Male</Var>
-  <Var>HasGun false</Var>
-  <Var>HasVehicle false</Var>
-  <Var>Money 0</Var>
-  <Var>Drugs 0</Var>
-  <Var>Addiction 0</Var>
-  <Var>VP 0</Var>
-  
-  <Var>MovementSpeed 2</Var>
-  </Character>
-  
-  <Character Type="PLAYER" Name="Dealer">
-  <Var>Gender Male</Var>
-  <Var>HasGun true</Var>
-  <Var>HasVehicle false</Var>
   <Var>Money 100</Var>
-  <Var>Drugs 10</Var>
-  <Var>Addiction 0</Var>
-  <Var>VP 0</Var>
+  
+  <Var>MovementSpeed 2</Var>
+  </Character>
+  
+  <Character Type="PLAYER" Name="Freelancer" Base="PLAYER_BASE">
+  <Var>Gender Female</Var>
+  <Var>Money 100</Var>
+  
+  <Var>MovementSpeed 2</Var>
+  </Character>
+  
+  <Character Type="PLAYER" Name="Politician" Base="PLAYER_BASE">
+  
+  <Var>Money 100</Var>
+  
+  <Var>MovementSpeed 2</Var>
+  </Character>
+  
+  <Character Type="PLAYER" Name="Dealer" Base="PLAYER_BASE">
+  <Var>HasGun true</Var>
+  
+  <Var>Money 100</Var>
   
   <Var>MovementSpeed 2</Var>
   </Character>

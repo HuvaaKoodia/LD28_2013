@@ -45,6 +45,29 @@ namespace DialogueSystem{
        	 	Facts.Add(Key, Value);
 			return Value;
         }
+		
+		public FactData AddOrSetFact(string Key, FactData Value,bool copy_instance)
+        {
+            if (Facts.ContainsKey(Key))
+            {
+                var f=Facts[Key];
+				
+				System.Type type=Value.ValueObject.GetType();
+				if (type==typeof(float)){
+					f.SetValue((float)Value.ValueObject);
+				}
+				else if (type==typeof(string)){
+					f.SetValue((string)Value.ValueObject);
+				}
+				else if (type==typeof(bool)){
+					f.SetValue((bool)Value.ValueObject);
+				}
+				
+                return f;
+            }
+			
+			return AddFact(Key,Value,copy_instance);
+        }
 
 		public void AddFact(string Key,string Value){
 			if (Facts.ContainsKey(Key)){
