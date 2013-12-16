@@ -62,7 +62,7 @@ public class GameMapController : MonoBehaviour {
 				
 				var t=data.CurrentTile();
 				
-				var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
+				var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.AngleAxis(90,Vector3.up)) as MapCharacter;
 				data.SetMain(c);
 				//c.transform.position=t.TilePosition;
 			}
@@ -78,19 +78,19 @@ public class GameMapController : MonoBehaviour {
 	int temp_i=0;
 	//string[] temp_chars=new string[]{"Policeman","Junkie"};
 	
-	
+	bool start_input=true;
 	
 	// Update is called once per frame
 	void Update(){
 		//DEB.TEMP creating characters by hand
-		if (Input.GetMouseButtonDown(2)){
+		if (start_input&&Input.GetMouseButtonDown(2)){
 
 			Component comp;
 			if(Subs.GetObjectMousePos(out comp,100,"Tile"))
 		   	{			
 				if (temp_names.Count>GDB.Characters.Count){
 					Tile t = comp.transform.parent.GetComponent<Tile>();
-					var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.identity) as MapCharacter;
+					var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.AngleAxis(90,Vector3.up)) as MapCharacter;
 					GameCharacterData data=new GameCharacterData("Player "+(temp_i+1));
 					
 					t.Data.characters.Add(data);
@@ -146,6 +146,7 @@ public class GameMapController : MonoBehaviour {
 		//dev temp
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
+			start_input=false;
 			if (player_text==1){
 				hudman.go_hud.RemoveText();
 				player_text=2;

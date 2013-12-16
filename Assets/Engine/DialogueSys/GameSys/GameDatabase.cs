@@ -25,6 +25,8 @@ public class GameDatabase : MonoBehaviour {
 		CharacterGraphics.Add("Junkie",Resources.Load("BumGraphics")as GameObject);
 		CharacterGraphics.Add("CallGirl",Resources.Load("CallGirlGraphics")as GameObject);
 		CharacterGraphics.Add("Politician",Resources.Load("PoliticianGraphics")as GameObject);
+		CharacterGraphics.Add("Freelancer",Resources.Load("FreelancerGraphics")as GameObject);
+		CharacterGraphics.Add("Dealer",Resources.Load("DealerGraphics")as GameObject);
 		
 		tiledata_map=new TileData[mapload.Maps[0].map_data.GetLength(0),mapload.Maps[0].map_data.GetLength(1)];
 		
@@ -84,7 +86,8 @@ public class GameDatabase : MonoBehaviour {
 				//third pass -> interrup actions
 				
 				int at=0;
-				foreach (var a in t.ActionsThisTurn){
+				for (int i=0;i<t.ActionsThisTurn.Count;i++){
+					var a=t.ActionsThisTurn[i];
 					at++;
 					//find target DEV. put into action data
 					GameCharacterData target=null;

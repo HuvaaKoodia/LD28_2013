@@ -31,7 +31,7 @@ public class SceneManager : MonoBehaviour {
 		
 		CurrentPlayer.SetCharacterData(currentCharacter.Data);
 		
-		var add_to_pos=Vector3.right*3;
+		var add_to_pos=Vector3.right*1;
 		
 		foreach (var c in data.characters){
 			if (c==currentCharacter||c.OnTheMove) continue;
@@ -42,7 +42,7 @@ public class SceneManager : MonoBehaviour {
 			cm.SetCharacterData(c.Data);
 			Location.AddCharacter(cm);
 			
-			add_to_pos+=Vector3.right*2;
+			add_to_pos+=Vector3.right*1;
 		}
 //	
 //		foreach(var f in Object1.Character.Facts.Facts){
@@ -65,7 +65,7 @@ public class SceneManager : MonoBehaviour {
 		CurrentPlayer.SetCharacterData(Core.character_database.GetCharacterLazy(current_player));
 		
 		
-		var add_to_pos=Vector3.right*3;
+		var add_to_pos=Vector3.right*0.1f;
 		
 		foreach (var c in Core.character_database.LoadObjects){
 			if (c.Key==current_player) continue;
@@ -76,7 +76,7 @@ public class SceneManager : MonoBehaviour {
 			cm.SetCharacterData(Core.character_database.GetCharacterLazy(c.Key));
 			Location.AddCharacter(cm);
 			
-			add_to_pos+=Vector3.right*2;
+			add_to_pos+=Vector3.right*0.8f;
 		}
 //	
 //		foreach(var f in Object1.Character.Facts.Facts){
