@@ -1,0 +1,32 @@
+<Root>
+
+	<Rule Name="OnSellInfoFreelancerToPolitician" Base="PlayerToPlayer">
+		<Event>SelectSellInfoLink</Event>
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Criterion>Target.Name E Politician</Criterion>
+		<Criterion>Actor.CallGirlSexPolitician E true</Criterion>
+		<Result>
+			<Link>"Blackmail the Politician with info on his sexcapades" to PLAYER OnSell</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnSellInfoFreelancerToPoliceman" Base="PlayerToPlayer">
+		<Event>SelectSellLink</Event>
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Criterion>Target.Name E Policeman</Criterion>
+		<Criterion>Actor.CallGirlSexPolitician E true</Criterion>
+		<Result>
+			<Link>"Sell info on the Politician's sexual adventures to the Police" to PLAYER OnSellInfo</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnBuyInfoFreelancerCallGirl" Base="PlayerToPlayer">
+		<Event>SelectSellLink</Event>
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Criterion>Target.Name E CallGirl</Criterion>
+		<Result>
+			<Link>"Ask for info from the Call Girl" to PLAYER OnSellInfo</Link>
+		</Result>
+	</Rule>
+	
+</Root>

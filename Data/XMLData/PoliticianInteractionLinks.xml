@@ -4,6 +4,7 @@
 		<Event>SelectBuySexLink</Event>
 		<Criterion>Actor.Name E Politician</Criterion>
 		<Criterion>Actor.Name E CallGirl</Criterion>
+		<Criterion>Actor.Money E 5</Criterion>
 		<Result>
 			<Link>"Buy sex from the local Call Girl" to PLAYER OnSellSex</Link>
 		</Result>
@@ -14,7 +15,7 @@
 		<Criterion>Actor.Name E Politician</Criterion>
 		<Criterion>Actor.Name E Dealer</Criterion>
 		<Result>
-			<Link>"Sell your real estate for the Dealer" to PLAYER OnSellProperty</Link>
+			<Link>"Suggest a deal with the Dealer" to PLAYER OnSellProperty</Link>
 		</Result>
 	</Rule>
 	

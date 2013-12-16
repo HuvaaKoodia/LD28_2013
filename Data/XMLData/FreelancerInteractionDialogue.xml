@@ -1,0 +1,37 @@
+<Root>
+
+	<Dialogue Name="OnInteract_FreelancerToAny">
+	<Link>select PLAYER SelectSellInfoLink</Link>
+	<Link>select PLAYER SelectBuyInfoLink</Link>
+	<Link>select PLAYER SelectHideLink
+	<Link>select PLAYER SelectWalkLink</Link>
+	<Link>select PLAYER SelectRunLink</Link>
+	</Dialogue>
+	
+	<Rule Name="OnSellInfo" Base="PlayerToPlayer">
+		<Event>OnSell</Event>
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Result>
+			<Link>OnSell_FreelancerToAny</Link>
+			<Assign>Target.Money - 5</Assign>
+			<Assign>Actor.VP + 10</Assign>
+			<Assign>Actor.Money + 5</Assign>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnBuyInfo" Base="PlayerToPlayer">
+		<Event>OnBuy</Event>
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Result>
+			<Link>OnBuy_FreelancerToAny</Link>
+			<Assign>Target.Money - 5</Assign>
+			<Assign>Actor.CallGirlSexPolitician E 1</Assign>
+			<Assign>Actor.Money - 5</Assign>
+		</Result>
+	</Rule>
+	
+	<Dialogue Name="OnSell_FreelancerToAny">
+	<Link>"You sold sensitive information." type ENDL</Link>
+	</Dialogue>
+	
+</Root>

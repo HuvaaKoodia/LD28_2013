@@ -8,12 +8,12 @@
 	</Dialogue>
 	
 	<Dialogue Name="OnSearch_PoliceToAny_HasDrugs">
-	<Link>"Ur busted Punk!" type ENDL</Link>
+	<Link>"Arrest him (5VP)" type ENDL</Link>
 	<Link>"I'll let you go for some greens." type ENDL</Link>
 	</Dialogue>
 	
 	<Dialogue Name="OnSearch_PoliceToAny_NoDrugs">
-	<Link>"Too bad. You're free to go." type ENDL</Link>
+	<Link>"You found no drugs on the person." type ENDL</Link>
 	</Dialogue>
 	
 	<Rule Name="OnSearchPlayer1" Base="PlayerToPlayer">

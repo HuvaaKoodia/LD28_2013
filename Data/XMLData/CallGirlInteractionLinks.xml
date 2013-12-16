@@ -5,7 +5,7 @@
 		<Criterion>Actor.Name E CallGirl</Criterion>
 		<Criterion>Target.Name E Politician</Criterion>
 		<Result>
-			<Link>"Sell your stunning body to the Politician" to PLAYER OnSell</Link>
+			<Link>"Sell your stunning body to the Politician" to PLAYER OnSellSex</Link>
 		</Result>
 	</Rule>
 	

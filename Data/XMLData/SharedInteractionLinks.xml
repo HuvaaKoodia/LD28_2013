@@ -6,7 +6,7 @@
 		<Event>SelectAttackLink</Event>
 		<Criterion>Actor.HasGun E true</Criterion>
 		<Result>
-			<Link>"-Attack with your pistol." to PLAYER OnAttack</Link>
+			<Link>"Attack with your pistol." to PLAYER OnAttack</Link>
 		</Result>
 	</Rule>
 	
@@ -16,7 +16,7 @@
 		<Event>SelectAttackLink</Event>
 		<Criterion>Actor.HasGun E false</Criterion>
 		<Result>
-			<Link>"-Attack with bare hands" to PLAYER OnAttack</Link>
+			<Link>"Attack with bare hands" to PLAYER OnAttack</Link>
 		</Result>
 	</Rule>
 	
@@ -25,7 +25,7 @@
 		<Target>PLAYER</Target>
 		<Event>SelectWalkLink</Event>
 		<Result>
-			<Link>"-Walk away." to PLAYER OnWalk</Link>
+			<Link>"Walk away." to PLAYER OnWalk</Link>
 		</Result>
 	</Rule>
 	
@@ -34,7 +34,7 @@
 		<Target>PLAYER</Target>
 		<Event>SelectRunLink</Event>
 		<Result>
-			<Link>"-Run away." to PLAYER OnRun</Link>
+			<Link>"Run away." to PLAYER OnRun</Link>
 		</Result>
 	</Rule>
 </Root>

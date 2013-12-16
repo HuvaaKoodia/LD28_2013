@@ -32,6 +32,22 @@
 		</Result>
 	</Rule>
 	
+	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
+		<Event>OnClick</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Result>
+			<Link>OnInteract_DealerToAny</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
+		<Event>OnClick</Event>
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Result>
+			<Link>OnInteract_FreelancerToAny</Link>
+		</Result>
+	</Rule>
+	
 
 	
 </Root>

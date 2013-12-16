@@ -36,7 +36,7 @@
   <Var>MovementSpeed 2</Var>
   </Character>
   
-  <Character Type="PLAYER" Name="Reporter">
+  <Character Type="PLAYER" Name="Freelancer">
   <Var>Gender Male</Var>
   <Var>HasGun false</Var>
   <Var>HasVehicle false</Var>
@@ -44,6 +44,11 @@
   <Var>Drugs 0</Var>
   <Var>Addiction 0</Var>
   <Var>VP 0</Var>
+  <Var>DealerMadeDealPolitician false</Var>
+  <Var>CallGirlSexPolitician false</Var>
+  <Var>PolicePoliticianBlackmail false</Var>
+  <Var>DealerMadeDrugDealJunkie false</Var>
+  <Var>FreelancerPolitcianBlackmail false</Var>
   
   <Var>MovementSpeed 2</Var>
   </Character>

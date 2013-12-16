@@ -8,7 +8,7 @@
 	</Dialogue>
 	
 	<Rule Name="OnSellSex" Base="PlayerToPlayer">
-		<Event>OnSell</Event>
+		<Event>OnSellSex</Event>
 		<Criterion>Actor.Name E CallGirl</Criterion>
 		<Result>
 			<Link>OnSell_CallGirlToAny</Link>
@@ -18,8 +18,24 @@
 		</Result>
 	</Rule>
 	
+	<Rule Name="OnSellInfo" Base="PlayerToPlayer">
+		<Event>OnSellInfo</Event>
+		<Criterion>Actor.Name E CallGirl</Criterion>
+		<Criterion>Target.Name E Freelancer
+		<Result>
+			<Link>OnSell_CallGirlToFreelancer</Link>
+			<Assign>Target.Money - 1</Assign>
+			<Assign>Actor.VP + 1</Assign>
+			<Assign>Actor.Money + 1</Assign>
+		</Result>
+	</Rule>
+	
 	<Dialogue Name="OnSell_CallGirlToAny">
 	<Link>"You sold yourself" type ENDL</Link>
+	</Dialogue>
+	
+	<Dialogue Name="OnSell_CallGirlToFreelancer">
+	<Link>"You sold info to the Freelancer" type ENDL</Link>
 	</Dialogue>
 	
 </Root>

@@ -14,11 +14,30 @@
 			<Link>OnSell_DealerToAny</Link>
 			<Assign>Target.Drugs + 1</Assign>
 			<Assign>Actor.VP + 1</Assign>
+			<Assign>Actor.Money + 3</Assign>
 		</Result>
 	</Rule>
 	
+	<Rule Name="OnBuyPropertyDealerPolitician" Base="PlayerToPlayer">
+		<Event>OnBuy</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Criterion>Target.Name E Politician</Criterion>
+		<Result>
+			<Link>OnBuy_DealerToPolitician</Link>
+			<Assign>Target.Money + 10</Assign>
+			<Assign>Actor.VP + 8</Assign>
+			<Assign>Actor.Money - 10</Assign>
+		</Result>
+	</Rule>
+	
+
+	
 	<Dialogue Name="OnSell_DealerToAny">
 	<Link>"You sold some drugs" type ENDL</Link>
+	</Dialogue>
+	
+	<Dialogue Name="OnSell_DealerToPolitician">
+	<Link>"You laundered money and bought property from the Politician" type ENDL</Link>
 	</Dialogue>
 	
 </Root>

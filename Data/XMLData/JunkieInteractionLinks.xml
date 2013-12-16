@@ -8,25 +8,17 @@
 		<Criterion>Actor.Name E Junkie</Criterion>
 		<Criterion>Actor.Name E Dealer</Criterion>
 		<Result>
-			<Link>"Got any crack?" to PLAYER OnBuyDrugs</Link>
+			<Link>"Ask to buy Drugs from the Dealer" to PLAYER OnBuyDrugs</Link>
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnBuyDrugsJunkie" Base="PlayerToPlayer">
-		<Event>SelectBuyLink</Event>
-		<Criterion>Actor.Name E Junkie</Criterion>
-		<Criterion>Target.Name E Policeman</Criterion>
-		<Result>
-			<Link>" " type SKIP</Link>
-		</Result>
-	</Rule>
 	
 	<Rule Name="OnLeaveJunkie" Base="PlayerToPlayer">
 		<Event>SelectLeaveLink</Event>
 		<Criterion>Actor.Name E Junkie</Criterion>
 		<Criterion>Actor.Addiction LE 5</Criterion>
 		<Result>
-			<Link>"-Leave." type ENDL</Link>
+			<Link>"Leave." type ENDL</Link>
 		</Result>
 	</Rule>
 </Root>
