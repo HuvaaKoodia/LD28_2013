@@ -10,7 +10,7 @@ public class TileData
 	
 	public List<CharacterActionData> ActionsThisTurn=new List<CharacterActionData>();
 
-	public string LocationName="Street";
+	public string LocationName="Street";//DEV.todo Imp. LocationData in tileData
 
 	public bool HasOtherCharacters (GameCharacterData character)
 	{

@@ -1,6 +1,5 @@
 <Root>
 
-<!-- Shared interaction links -->
 	<Rule Name="Attack_weapon">
 		<Actor>PLAYER</Actor>
 		<Target>PLAYER</Target>
@@ -18,6 +17,24 @@
 		<Criterion>Actor.HasGun E false</Criterion>
 		<Result>
 			<Link>"-Attack with bare hands" to PLAYER OnAttack</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="WalkAway">
+		<Actor>PLAYER</Actor>
+		<Target>PLAYER</Target>
+		<Event>SelectWalkLink</Event>
+		<Result>
+			<Link>"-Walk away." to PLAYER OnWalk</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="RunAway">
+		<Actor>PLAYER</Actor>
+		<Target>PLAYER</Target>
+		<Event>SelectRunLink</Event>
+		<Result>
+			<Link>"-Run away." to PLAYER OnRun</Link>
 		</Result>
 	</Rule>
 </Root>

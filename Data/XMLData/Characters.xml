@@ -1,5 +1,6 @@
 <Root>
   <Character Type="PLAYER" Name="Policeman">
+  <Var>Gender Male</Var>
   <Var>HasGun true</Var>
   <Var>HasVehicle true</Var>
   <Var>Money 100</Var>
@@ -12,6 +13,7 @@
   </Character>
   
   <Character Type="PLAYER" Name="Junkie">
+  <Var>Gender Male</Var>
   <Var>HasGun false</Var>
   <Var>HasVehicle false</Var>
   <Var>Money 0</Var>
@@ -23,6 +25,7 @@
   </Character>
   
   <Character Type="PLAYER" Name="CallGirl">
+  <Var>Gender Female</Var>
   <Var>HasGun false</Var>
   <Var>HasVehicle false</Var>
   <Var>Money 0</Var>
@@ -34,6 +37,7 @@
   </Character>
   
   <Character Type="PLAYER" Name="Reporter">
+  <Var>Gender Male</Var>
   <Var>HasGun false</Var>
   <Var>HasVehicle false</Var>
   <Var>Money 0</Var>
@@ -45,6 +49,7 @@
   </Character>
   
   <Character Type="PLAYER" Name="Politician">
+  <Var>Gender Male</Var>
   <Var>HasGun false</Var>
   <Var>HasVehicle false</Var>
   <Var>Money 0</Var>
@@ -56,6 +61,7 @@
   </Character>
   
   <Character Type="PLAYER" Name="Dealer">
+  <Var>Gender Male</Var>
   <Var>HasGun true</Var>
   <Var>HasVehicle false</Var>
   <Var>Money 100</Var>

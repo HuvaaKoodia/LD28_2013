@@ -22,8 +22,8 @@ namespace DialogueSystem.FileIO
                 return null;
             }
 
-            var loc = new LocationData();
-            loc.Facts.AddFact("Location", scene.Location);
+            var loc = new LocationData(scene.Location);
+
             foreach(var c in scene.Characters)
                 loc.Characters.Add(core.character_database.GetCharacterLazy(c));
             foreach(var o in scene.Objects)

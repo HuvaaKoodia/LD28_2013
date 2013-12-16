@@ -2,9 +2,9 @@
 
 	<Dialogue Name="OnInteract_CallGirlToAny">
 	<Link>select PLAYER SelectSellSexLink</Link>
-	<Link>select PLAYER SelectLeaveLink</Link>
 	<Link>select PLAYER SelectAttackLink</Link>
-	<Link>"Leave him be." type ENDL</Link>
+	<Link>select PLAYER SelectWalkLink</Link>
+	<Link>select PLAYER SelectRunLink</Link>
 	</Dialogue>
 	
 	<Rule Name="OnSellSex" Base="PlayerToPlayer">

@@ -2,9 +2,9 @@
 
 	<Dialogue Name="OnInteract_PoliceToAny">
 	<Link>select PLAYER SelectSearchLink</Link>
-	<Link>select PLAYER SelectInterrogateLink</Link>
 	<Link>select PLAYER SelectAttackLink</Link>
-	<Link>"Leave him be." type ENDL</Link>
+	<Link>select PLAYER SelectWalkLink</Link>
+	<Link>select PLAYER SelectRunLink</Link>
 	</Dialogue>
 	
 	<Dialogue Name="OnSearch_PoliceToAny_HasDrugs">
@@ -35,5 +35,26 @@
 			<Link>OnSearch_PoliceToAny_NoDrugs</Link>
 		</Result>
 	</Rule>
+	
+	<Rule Name="SegwayAway">
+		<Actor>PLAYER</Actor>
+		<Target>PLAYER</Target>
+		<Event>SelectWalkLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Result>
+			<Link>"-Segway away." to PLAYER OnWalk</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="SegwayAwayFast">
+		<Actor>PLAYER</Actor>
+		<Target>PLAYER</Target>
+		<Event>SelectRunLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Result>
+			<Link>"-Segway away. FAST!" to PLAYER OnRun</Link>
+		</Result>
+	</Rule>
+
 	
 </Root>

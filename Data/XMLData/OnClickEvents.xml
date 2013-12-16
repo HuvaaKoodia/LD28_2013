@@ -1,39 +1,32 @@
 <Root>
 
-	<!-- OnInteraction -->
-	
 	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
-		<Event>OnInteract</Event>
+		<Event>OnClick</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
-		<!-- <Criterion>Target.Name E Junkie</Criterion> -->
-		
 		<Result>
 			<Link>OnInteract_PoliceToAny</Link>
 		</Result>
 	</Rule>
 	
 	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
-		<Event>OnInteract</Event>
+		<Event>OnClick</Event>
 		<Criterion>Actor.Name E CallGirl</Criterion>
-		
 		<Result>
 			<Link>OnInteract_CallGirlToAny</Link>
 		</Result>
 	</Rule>
 	
 	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
-		<Event>OnInteract</Event>
+		<Event>OnClick</Event>
 		<Criterion>Actor.Name E Politician</Criterion>
-		
 		<Result>
 			<Link>OnInteract_PoliticianToAny</Link>
 		</Result>
 	</Rule>
 	
 	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
-		<Event>OnInteract</Event>
+		<Event>OnClick</Event>
 		<Criterion>Actor.Name E Junkie</Criterion>
-		
 		<Result>
 			<Link>OnInteract_JunkieToAny</Link>
 		</Result>

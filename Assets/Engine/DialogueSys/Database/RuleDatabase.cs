@@ -26,7 +26,7 @@ namespace DialogueSystem{
         /// Deals with assignments as well
 		/// </summary>
 		public RuleData CheckQuery(QueryData query){
-			var location=query.Location.Facts.Facts["Location"].Value;
+			var location=query.Location.Name;
             string _event = RuleScope.NoEvent,_actor=RuleScope.NoActor,_target=RuleScope.NoTarget;
             //FactData fact;
 
@@ -62,8 +62,10 @@ namespace DialogueSystem{
 #if DEBUG
             Debug.Log("\nChecking for rules in possible scopes:");
 #endif
+			
             foreach (var s in scopes)
             {
+				bool break_scopes_check=false;
                 if (!Scopes.ContainsKey(s))
                 {
 //#if DEBUG
@@ -84,8 +86,11 @@ namespace DialogueSystem{
                     if (CheckRule(r,query))
                     {
                         best_match = r;
+						break_scopes_check=true;//take bestmatch from the most specific scope only. 
                     }
                 }
+				
+				if (break_scopes_check) break;//DEV. TEMP rewiring the system.
             }
 //#if DEBUG
             Debug.Log("Rule check count total:"+count_of_checks+"\n");

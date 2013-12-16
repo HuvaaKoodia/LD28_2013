@@ -1,7 +1,7 @@
 <Root>
 
 	<Rule Name="OnBuySexPoliticianToCallGirl" Base="PlayerToPlayer">
-		<Event>SelectBuyLink</Event>
+		<Event>SelectBuySexLink</Event>
 		<Criterion>Actor.Name E Politician</Criterion>
 		<Criterion>Actor.Name E CallGirl</Criterion>
 		<Result>
@@ -10,7 +10,7 @@
 	</Rule>
 	
 	<Rule Name="OnSellPropertyPoliticianToDealer" Base="PlayerToPlayer">
-		<Event>SelectSellLink</Event>
+		<Event>SelectSellPropertyLink</Event>
 		<Criterion>Actor.Name E Politician</Criterion>
 		<Criterion>Actor.Name E Dealer</Criterion>
 		<Result>

@@ -1,0 +1,91 @@
+<Root>
+	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnInterrupt</Event>
+		<Result>
+			<Link>"You were interrupted by #Target.Name#.</Link>
+		</Result>
+	</Rule>
+
+	
+	<Rule Name="OnAttackText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnAttack</Event>
+		<Result>
+			<Link>"#Actor.Name# attacks #Target.Name#."</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnDefendText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnDefend</Event>
+		<Criterion>Actor.Gender E Male</Criterion>
+		<Result>
+			<Link>"#Actor.Name# defends himself.</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnDefendText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnDefend</Event>
+		<Criterion>Actor.Gender E Female</Criterion>
+		<Result>
+			<Link>"#Actor.Name# defends herself.</Link>
+		</Result>
+	</Rule>
+	
+	<!--Police events-->
+	
+	<Rule Name="OnArrestText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnArrest</Event>
+		<Result>
+			<Link>"#Actor.Name# arrests #Target.Name#."</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnSearchText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnSearch</Event>
+		<Result>
+			<Link>"#Actor.Name# searches #Target.Name#."</Link>
+		</Result>
+	</Rule>
+	
+	<!--Transaction events-->
+	
+	<Rule Name="OnBuyText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnBuy</Event>
+		<Result>
+			<Link>"#Actor.Name# buys from #Target.Name#."</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnSellText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnSell</Event>
+		<Result>
+			<Link>"#Actor.Name# sells to #Target.Name#."</Link>
+		</Result>
+	</Rule>
+	
+	<!--Move events-->
+	
+	<Rule Name="OnWalkText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnWalk</Event>
+		<Result>
+			<Link>"#Actor.Name# walks away."</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnRunText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnRun</Event>
+		<Result>
+			<Link>"#Actor.Name# runs away."</Link>
+		</Result>
+	</Rule>
+	
+</Root>

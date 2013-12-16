@@ -29,7 +29,6 @@ public class GameMapController : MonoBehaviour {
 		MapMan.GenerateGrid();
 		
 		//game state
-		
 		if (GDB.CurrentCharacter!=null){
 			
 			if (GDB.CurrentCharacter.CurrentTile().Data.HasOtherCharactersNotMoving(GDB.CurrentCharacter)){
@@ -39,7 +38,6 @@ public class GameMapController : MonoBehaviour {
 				if (GDB.action_turn){
 					//if (GDB.CurrentCharacter.OnTheMove){
 					move_characters_phase=true;
-				
 				}
 			}
 			

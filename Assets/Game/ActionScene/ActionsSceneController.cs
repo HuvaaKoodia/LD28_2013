@@ -26,7 +26,7 @@ public class ActionsSceneController : MonoBehaviour {
 		
 		hud.OnBackToMapPressedEvent+=OnExit;
 		
-		
+		hud.ShowBackToMapButton(false);
 		
 		controller.dial_man.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
 		
@@ -41,11 +41,12 @@ public class ActionsSceneController : MonoBehaviour {
 	void OnAnswerButtonClick(AnswerButtonMain button){
 		var action=new CharacterActionData();
 		action.Character=GDB.CurrentCharacter;
-		action.Dialogue=button.Data;
 		action._Event=button.Data.ToEvent;
 		action.Query=controller.dial_man.CurrentQuery;
 		
 		GDB.CurrentCharacter.CurrentAction=action;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+		
+		hud.ShowBackToMapButton(true);
 	}
 	
 	// Update is called once per frame
@@ -59,7 +60,9 @@ public class ActionsSceneController : MonoBehaviour {
 				if (Subs.GetObjectMousePos(out com,100,"Character"))
 				{
 					CharacterMain target=com.GetComponent<CharacterMain>();
-					controller.dial_man.CheckQuery(new QueryData(controller.SceneMan.Location_Data,controller.SceneMan.CurrentPlayer.Entity,target.Entity,"OnInteract"));
+					controller.dial_man.CheckQuery(
+						new QueryData(controller.SceneMan.Location_Data,controller.SceneMan.CurrentPlayer.Entity,
+						target.Entity,"OnClick"));
 				}
 			}
 		}
@@ -69,12 +72,42 @@ public class ActionsSceneController : MonoBehaviour {
 				if (current_action>GDB.CurrentTileData.ActionsThisTurn.Count-1)
 				{
 					//all actions done.
+					hud.ShowBackToMapButton(true);
 					
 				}
 				else{
-					//forward actions
-					CurrentAction=GDB.CurrentTileData.ActionsThisTurn[current_action++];
-					hud.AddActionDataTextPanel(CurrentAction);
+					//next action
+					
+					bool create_panel=true;
+					
+					var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
+					CurrentAction=action;
+					
+					if (action.Interrupted){
+						if (action.Character==GDB.CurrentCharacter){
+							CurrentAction=new CharacterActionData();
+							CurrentAction.Character=action.Character;
+							CurrentAction.Query=action.Query;
+							CurrentAction._Event="OnInterrupt";
+						}
+						else{
+							//hide interrups for other people. Current player doesn't know what they tried to do.
+							create_panel=false;	
+						}
+					}
+					if (create_panel){
+						var loc=new LocationData("ActionTexts");
+						var q=new QueryData(loc,CurrentAction.Character.Data,CurrentAction.Query.Target,CurrentAction._Event);
+						var r=controller.dial_man.core_database.rule_database.CheckQuery(q);
+						
+						var ActionTextData=new DialogueData("ERROR!!!1!");
+						var ActionTextQuery=CurrentAction.Query;
+						if (r!=null){
+							ActionTextData=r.Data;
+						}
+						
+						hud.AddActionDataTextPanel(ActionTextData,ActionTextQuery);
+					}
 				}
 			}
 		}

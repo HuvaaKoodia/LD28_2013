@@ -11,11 +11,10 @@ public class MapCharacter : CharacterMain {
 	
 	List<Vector2> CurrentPath;
 	
-	Tile target;
-	
 	public float speed=0.1f;
-	
 	public System.Action on_path_end_Event;
+	
+	private Tile target;
 	
 	// Use this for initialization
 	void Start () 

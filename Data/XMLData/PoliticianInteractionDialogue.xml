@@ -1,11 +1,8 @@
 <Root>
-
 	<Dialogue Name="OnInteract_PoliticianToAny">
-	<Link>select PLAYER SelectSearchLink</Link>
-	<Link>select PLAYER SelectInterrogateLink</Link>
-	<Link>select PLAYER SelectAttackLink</Link>
-	<Link>"Leave him be." type ENDL</Link>
+	<Link>select PLAYER SelectBuySexLink</Link>
+	<Link>select PLAYER SelectSellPropertyLink</Link>
+	<Link>select PLAYER SelectWalkLink</Link>
+	<Link>select PLAYER SelectRunLink</Link>
 	</Dialogue>
-
-	
 </Root>

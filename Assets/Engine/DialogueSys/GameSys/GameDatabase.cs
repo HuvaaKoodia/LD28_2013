@@ -29,7 +29,6 @@ public class GameDatabase : MonoBehaviour {
 		tiledata_map=new TileData[mapload.Maps[0].map_data.GetLength(0),mapload.Maps[0].map_data.GetLength(1)];
 		
 		for (int i=0;i<tiledata_map.GetLength(0);i++){
-				
 			for (int j=0;j<tiledata_map.GetLength(1);j++){
 				tiledata_map[i,j]=new TileData();
 				tiledata_map[i,j].TilePosition=new Vector2(i,j);
@@ -48,7 +47,8 @@ public class GameDatabase : MonoBehaviour {
 		
 	}
 	
-	public string[] EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnInterrogate","OnLeave","OnSell","OnBuy"};
+	public string[] EventOrder=
+		new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy"};
 	
 	private int SortActions(CharacterActionData a,CharacterActionData b){
 		int ai=-1,bi=-1;
@@ -73,22 +73,73 @@ public class GameDatabase : MonoBehaviour {
 		foreach (var t in tiledata_map){
 			t.ActionsThisTurn.Clear();
 			if (t.characters.Count>0){
+				//first pass -> gather actions
 				foreach (var c in t.characters){
 					if (c.CurrentAction!=null){
 						t.ActionsThisTurn.Add(c.CurrentAction);
 					}
 				}
-				//
+				//second pass -> sort according to event order
 				t.ActionsThisTurn.Sort(SortActions);
-				int i=0;
-			}
+			
+				//third pass -> interrup actions
+				
+				int at=0;
+				foreach (var a in t.ActionsThisTurn){
+					at++;
+					//find target DEV. put into action data
+					GameCharacterData target=null;
+					foreach (var c in t.characters){
+						if (c.Data==a.Query.Target){
+							target=c;
+							break;
+						}
+					}
+					//actions are sorted so if targets event isn't a's event it must be of lower order
+					//if (a._Event!=target.CurrentAction._Event){
+						
+					//}
+					
+					if (a._Event=="OnAttack"){
+						target.CurrentAction.Interrupted=true;
+						
+						CharacterActionData victory=new CharacterActionData();
+						CharacterActionData defeat=new CharacterActionData();
+						//calculate winner
+						if (Subs.RandomPercent()<50){
+							//attacker is victorious
+							victory.Character=a.Character;
+							victory._Event="OnVictory";//DEV.TODO get locationdata from current tile
+							victory.Query=new QueryData(new LocationData("TEMP"),a.Query.Actor,a.Query.Target,"OnVictory");
+							
+							defeat.Character=target;
+							defeat._Event="OnDefeat";
+							defeat.Query=new QueryData(new LocationData("TEMP"),a.Query.Target,a.Query.Actor,"OnDefeat");
+						}
+						else{
+							//defender is victorious
+							victory.Character=target;
+							victory._Event="OnVictory";
+							victory.Query=new QueryData(new LocationData("TEMP"),a.Query.Target,a.Query.Actor,"OnVictory");
+							
+							defeat.Character=target;
+							defeat._Event="OnDefeat";
+							defeat.Query=new QueryData(new LocationData("TEMP"),a.Query.Actor,a.Query.Target,"OnDefeat");
+							
+						}
+						
+						t.ActionsThisTurn.Insert(at,victory);
+						t.ActionsThisTurn.Add(defeat);
+					}
+				}		
+			}	
 		}
 	}
 	
 	public void CalculateMovementsAll(){
 		foreach(var c in Characters)
 		{
-			c.StarTempMovement();	
+			c.StarTempMovement();
 		}
 		while(true){
 			bool chars_still_moving=false;

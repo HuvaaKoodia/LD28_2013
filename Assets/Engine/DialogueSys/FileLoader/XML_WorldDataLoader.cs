@@ -13,9 +13,9 @@ namespace DialogueSystem.FileIO
     {
         //individual objects
         public LocationData LoadLocationData(XmlNode node){
-            var data = new LocationData();
+            var data = new LocationData(node.Attributes["Name"].Value);
+			
 
-            data.Facts.AddFact("Location", node.Attributes["Name"].Value);
 
             foreach (XmlNode n in node) {
                 if (n.Name != "Var") continue;

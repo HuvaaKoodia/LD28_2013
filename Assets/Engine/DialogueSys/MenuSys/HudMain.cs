@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DialogueSystem;
 
 public class HudMain : MonoBehaviour {
-	
+
 	public GameOverHud go_hud;
 	public BackToMenuMain back_to_menu;
 	public UIButton BackToMapButton;
@@ -39,14 +40,14 @@ public class HudMain : MonoBehaviour {
 	public Transform TextPanelParent;
 	public GameObject TextPanelPrefab;
 	
-	public void AddActionDataTextPanel(CharacterActionData data){
+	public void AddActionDataTextPanel(DialogueData data,QueryData query){
 		var go=Instantiate(TextPanelPrefab,Vector3.zero,Quaternion.identity) as GameObject;
 		var ab=go.GetComponent<AnswerButtonMain>();
 		
 		go.transform.parent=TextPanelParent;
 		go.transform.localPosition=Vector3.right*x_off;
 		
-		ab.SetData(data.Dialogue.ParseText(data.Query),data.Dialogue);
+		ab.SetData(data.ParseText(query),data);
 		
 		ab.Base.appear();
 		

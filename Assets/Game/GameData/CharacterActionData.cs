@@ -7,6 +7,7 @@ public class CharacterActionData{
 	public GameCharacterData Character;
 	public string _Event;
 	public QueryData Query;
-	public DialogueData Dialogue;
+	
+	public bool Interrupted=false;
 	
 }

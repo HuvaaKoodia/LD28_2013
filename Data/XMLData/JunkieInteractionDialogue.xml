@@ -3,7 +3,8 @@
 	<Dialogue Name="OnInteract_JunkieToAny">
 	<Link>select PLAYER SelectBuyLink</Link>
 	<Link>select PLAYER SelectAttackLink</Link>
-	<Link>select PLAYER SelectLeaveLink</Link>
+	<Link>select PLAYER SelectWalkLink</Link>
+	<Link>select PLAYER SelectRunLink</Link>
 	</Dialogue>
 	
 </Root>
