@@ -5,8 +5,9 @@ Properties {
 }
 SubShader {
 	
-	Tags {"Queue" = "Geometry" }
-	ZWrite Off
+	Tags {"Queue" = "Geometry"}
+	ZTest Always
+	ZWrite On
 
 CGPROGRAM
 #pragma surface surf Lambert

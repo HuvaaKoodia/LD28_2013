@@ -6,7 +6,6 @@
 			<Link>"You were interrupted by #Target.Name#.</Link>
 		</Result>
 	</Rule>
-
 	
 	<Rule Name="OnAttackText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
@@ -101,6 +100,24 @@
 		<Event>OnRun</Event>
 		<Result>
 			<Link>"#Actor.Name# runs away."</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnWalkText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnWalk</Event>
+		<Criterion>Target.Name E Policeman</Criterion>
+		<Result>
+			<Link>"Policeman segways away."</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnRunText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnRun</Event>
+		<Criterion>Target.Name E Policeman</Criterion>
+		<Result>
+			<Link>"Policeman segways away fast!."</Link>
 		</Result>
 	</Rule>
 	

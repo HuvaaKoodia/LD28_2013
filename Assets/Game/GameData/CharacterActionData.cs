@@ -4,10 +4,20 @@ using DialogueSystem;
 
 public class CharacterActionData{
 	
-	public GameCharacterData Character;
-	public string _Event;
-	public QueryData Query;
+	public GameCharacterData Character{get;private set;}
+	public GameCharacterData Target{get;private set;}
+	public string _Event {get;private set;}
+	public QueryData Query {get;private set;}
 	
-	public bool Interrupted=false;
+	public bool Interrupted{get;set;}
+	public bool IgnoreThis{get;set;}
+	
+	public CharacterActionData(GameCharacterData character,GameCharacterData target,string _event,QueryData query){
+		Character=character;
+		Target=target;
+		Query=query;
+		_Event=_event;
+		Interrupted=false;
+	}
 	
 }

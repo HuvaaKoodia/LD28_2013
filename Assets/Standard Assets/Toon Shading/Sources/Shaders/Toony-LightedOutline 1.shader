@@ -1,4 +1,4 @@
-Shader "Toon/Lighted Outline" {
+Shader "Toon/Lighted Outline OnTop" {
 	Properties {
 		_Color ("Main Color", Color) = (0.5,0.5,0.5,1)
 		_OutlineColor ("Outline Color", Color) = (0,0,0,1)
@@ -9,6 +9,8 @@ Shader "Toon/Lighted Outline" {
 
 	SubShader {
 		Tags { "RenderType"="Opaque" }
+		ZTest Always
+		
 		
 		UsePass "Toon/Lighted/FORWARD"
 		UsePass "Toon/Basic Outline/OUTLINE"

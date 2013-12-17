@@ -6,7 +6,9 @@ using DialogueSystem;
 public class GameCharacterData{
 	
 	public MapManager mapman;	
-
+	
+	public int stunned_for_turns;
+	
 	public CharacterData Data;
 	public MapCharacter Main{get;private set;}
 	
@@ -25,9 +27,25 @@ public class GameCharacterData{
 	public List<Vector2> Path_positions=new List<Vector2>();
 	
 	public bool OnTheMove{get;private set;}
+	public bool OnMovingAwayFromTile{get;set;}
 
 	public GameCharacterData(string name){
 		Name=name;
+		OnMovingAwayFromTile=false;
+	}
+	
+	public void Stun(int turns){
+		stunned_for_turns=turns;
+	}
+	
+	public bool IsStunned()
+	{
+		return stunned_for_turns>0;
+	}
+	
+	public void RecoverStun(int turns)
+	{
+		stunned_for_turns-=turns;
 	}
 	
 	public Tile CurrentTile ()

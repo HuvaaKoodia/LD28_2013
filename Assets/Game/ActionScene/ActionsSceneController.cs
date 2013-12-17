@@ -32,17 +32,20 @@ public class ActionsSceneController : MonoBehaviour {
 		
 		//DEBUG_print_character_facts();
 		
-		
 		if (GDB.CurrentCharacter.SelectedDialogueData!=null){
 			
 		}
 	}
 	
+	GameCharacterData SelectedData;
+	
 	void OnAnswerButtonClick(AnswerButtonMain button){
-		var action=new CharacterActionData();
-		action.Character=GDB.CurrentCharacter;
-		action._Event=button.Data.ToEvent;
-		action.Query=controller.dial_man.CurrentQuery;
+		var action=new CharacterActionData(
+		GDB.CurrentCharacter,
+		SelectedData,
+		button.Data.ToEvent,
+		controller.dial_man.CurrentQuery
+		);
 		
 		GDB.CurrentCharacter.CurrentAction=action;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 		
@@ -60,9 +63,14 @@ public class ActionsSceneController : MonoBehaviour {
 				if (Subs.GetObjectMousePos(out com,100,"Character"))
 				{
 					CharacterMain target=com.GetComponent<CharacterMain>();
-					controller.dial_man.CheckQuery(
+					
+					SelectedData=target.CharacterData;
+					
+					if (target.Entity!=GDB.CurrentCharacter.Data){
+						controller.dial_man.CheckQuery(
 						new QueryData(controller.SceneMan.Location_Data,controller.SceneMan.CurrentPlayer.Entity,
 						target.Entity,"OnClick"));
+					}
 				}
 			}
 		}
@@ -77,27 +85,34 @@ public class ActionsSceneController : MonoBehaviour {
 				}
 				else{
 					//next action
-					
 					bool create_panel=true;
 					
 					var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
 					CurrentAction=action;
 					
-					if (action.Interrupted){
-						if (action.Character==GDB.CurrentCharacter){
-							CurrentAction=new CharacterActionData();
-							CurrentAction.Character=action.Character;
-							CurrentAction.Query=action.Query;
-							CurrentAction._Event="OnInterrupt";
-						}
-						else{
-							//hide interrups for other people. Current player doesn't know what they tried to do.
-							create_panel=false;	
-						}
+					if (CurrentAction.Character.IsStunned()){
+						create_panel=false;
 					}
+					else{
+						if (action.Interrupted){
+							if (action.Character==GDB.CurrentCharacter){
+								CurrentAction=new CharacterActionData(
+									action.Character,
+									action.Target,
+									"OnInterrupt",
+									action.Query
+								);
+							}
+							else{
+								//hide other people's interruptions. Current player doesn't know what they tried to do.
+								create_panel=false;	
+							}
+					}
+					}
+					
 					if (create_panel){
 						var loc=new LocationData("ActionTexts");
-						var q=new QueryData(loc,CurrentAction.Character.Data,CurrentAction.Query.Target,CurrentAction._Event);
+						var q=new QueryData(loc,CurrentAction.Character.Data,CurrentAction.Target.Data,CurrentAction._Event);
 						var r=controller.dial_man.core_database.rule_database.CheckQuery(q);
 						
 						var ActionTextData=new DialogueData("ERROR!!!1!");

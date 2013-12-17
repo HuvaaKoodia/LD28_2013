@@ -29,7 +29,7 @@ public class TileData
 		foreach (var c in characters){
 			if (c==character) continue;
 			//Dev.stealth check 
-			if (!c.OnTheMove)
+			if (!c.OnTheMove&&!c.OnMovingAwayFromTile)
 				amount++;
 		}
 		return amount>0;

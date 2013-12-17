@@ -7,6 +7,8 @@ public class CharacterMain : EntityMain {
 	public GameObject graphics;
 	public GameObject graphics_offset;
 	
+	public GameCharacterData CharacterData{get;private set;}
+	
 	// Use this for initialization
 	void Start () {
 	   
@@ -14,6 +16,11 @@ public class CharacterMain : EntityMain {
 	
 	// Update is called once per frame
 	void Update (){}
+	
+	public void SetCharacterData(GameCharacterData Data){
+		CharacterData=Data;
+		SetCharacterData(Data.Data);
+	}
 	
 	public void SetCharacterData(CharacterData data){
 		//DEV.TEMP

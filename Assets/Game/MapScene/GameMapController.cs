@@ -17,7 +17,6 @@ public class GameMapController : MonoBehaviour {
 	bool create_path_mode,move_characters_phase=false,wait_for_moving_to_end=false,goto_action_scene=false;
 	int player_text=0;
 	
-	
 	List<string> temp_names=new List<string>();
 	
 	// Use this for initialization
@@ -31,11 +30,11 @@ public class GameMapController : MonoBehaviour {
 		//game state
 		if (GDB.CurrentCharacter!=null){
 			
-			if (GDB.CurrentCharacter.CurrentTile().Data.HasOtherCharactersNotMoving(GDB.CurrentCharacter)){
+			if (!GDB.CurrentCharacter.OnMovingAwayFromTile&&GDB.CurrentCharacter.CurrentTile().Data.HasOtherCharactersNotMoving(GDB.CurrentCharacter)){
 				goto_action_scene=true;
 			}
 			else{
-				if (GDB.action_turn){
+ 				if (GDB.action_turn){
 					//if (GDB.CurrentCharacter.OnTheMove){
 					move_characters_phase=true;
 				}
