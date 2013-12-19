@@ -55,7 +55,7 @@ public class HudMain : MonoBehaviour {
 		
 		x_off+=(int)ab.x_size+16;
 		
-		if (x_off>Screen.width)
+		if (x_off>Screen.width+50)
 		{
 			x_off=10;
 			y_off-=40;

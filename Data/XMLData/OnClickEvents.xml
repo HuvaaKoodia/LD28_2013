@@ -1,6 +1,13 @@
 <Root>
 
 	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
+		<Event>OnClickBasic</Event>
+		<Result>
+			<Link>OnInteract_Basic</Link>
+		</Result>
+	</Rule>
+
+	<Rule Name="OnClickPlayer" Base="PlayerToPlayer">
 		<Event>OnClick</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Result>

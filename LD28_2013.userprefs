@@ -1,14 +1,44 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\ActionScene\ActionsSceneController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Engine\DialogueSys\GameSys\DialogueManager.cs">
     <Files>
+      <File FileName="Assets\Engine\DialogueSys\GameSys\DialogueManager.cs" Line="204" Column="2" />
       <File FileName="Assets\Game\MapScene\GameMapController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="83" Column="48" />
-      <File FileName="Assets\Engine\DialogueSys\GameSys\DialogueManager.cs" Line="129" Column="1" />
+      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\GameData\GameCharacterData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\MenuSys\HudMain.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\GameData\TileData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\SceneManager.cs" Line="36" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="102" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="104" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="108" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="101" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="110" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="115" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="117" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="114" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="125" />
+      <Breakpoint file="C:\Users\kat12silkkah\Desktop\LD28_2013\Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" line="138" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets\Engine\Sys\MapLoader.cs" line="57" offsetX="486" offsetY="660" expression="map" liveUpdate="False" />

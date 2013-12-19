@@ -16,13 +16,10 @@ public class GameCharacterData{
 	public Vector2 CurrentPos {get;private set;}
 	public Vector2 OldPos {get;set;} 
 	
-	private Vector2 MoveToPos;
+	//private Vector2 MoveToPos;
 	
 	public string Name{get;private set;}
 	
-	public DialogueData SelectedDialogueData;
-	public QueryData SelectedQueryData;
-
 	public CharacterActionData CurrentAction;
 	 
 	int temp_index;
@@ -116,7 +113,7 @@ public class GameCharacterData{
 	//path 
 	public void CalculatePath(Vector2 endPos)
 	{
-		MoveToPos=endPos;
+		//MoveToPos=endPos;
 		OnTheMove=true;
 		
 		Path_positions.Clear();
@@ -200,7 +197,6 @@ public class GameCharacterData{
 			
 			tx+=x_abs;
 			ty+=y_abs;
-			
 		}
 	}
 

@@ -34,7 +34,4 @@ public class TileData
 		}
 		return amount>0;
 	}
-
-	
-	
 }

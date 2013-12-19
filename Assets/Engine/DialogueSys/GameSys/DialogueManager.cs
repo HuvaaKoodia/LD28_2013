@@ -52,7 +52,8 @@ public class DialogueManager : MonoBehaviour {
 
     public void OpenDialogue(DialogueData data, QueryData query)
     {
-		speech_bubble.appear();
+		if (speech_bubble!=null)
+			speech_bubble.appear();
 
 		DIALOGUE_ON=true;
         CurrentQuery = query;
@@ -65,8 +66,9 @@ public class DialogueManager : MonoBehaviour {
         CurrentDialogue = null;
         ClearAnswers();
         Debug.Log("Conversation ends.");
-
-		speech_bubble.disappear();
+		
+		if (speech_bubble!=null)
+			speech_bubble.disappear();
     }
 
     void ChangeDialogue(DialogueData data, QueryData query)
@@ -86,7 +88,8 @@ public class DialogueManager : MonoBehaviour {
 		}
 
         //Debug.Log("Text: " + data.ParseText(query) + "\n");
-		speech_bubble.setText(data.ParseText(query));
+		if (speech_bubble!=null)
+			speech_bubble.setText(data.ParseText(query));
 
         CurrentDialogue = data;
 
@@ -139,7 +142,7 @@ public class DialogueManager : MonoBehaviour {
 		var ab=go.GetComponent<AnswerButtonMain>();
 		
 		go.transform.parent=answer_buttons_parent.transform;
-		go.transform.localPosition=speech_bubble.transform.localPosition+Vector3.down*y_off;
+		go.transform.localPosition=Vector3.down*y_off;
 		
 		if (data.Type=="RANDOM"){
 			ab.SetData(data.ParseText(CurrentQuery),data.GetRandom());

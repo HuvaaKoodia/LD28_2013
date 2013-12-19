@@ -1,10 +1,10 @@
 <Root>
 
 	<Dialogue Name="OnInteract_PoliceToAny">
+	<Link>select PLAYER SelectArrestLink</Link>
 	<Link>select PLAYER SelectSearchLink</Link>
 	<Link>select PLAYER SelectAttackLink</Link>
-	<Link>select PLAYER SelectWalkLink</Link>
-	<Link>select PLAYER SelectRunLink</Link>
+
 	</Dialogue>
 	
 	<Dialogue Name="OnSearch_PoliceToAny_HasDrugs">

@@ -4,8 +4,7 @@
 	<Link>select PLAYER SelectSellInfoLink</Link>
 	<Link>select PLAYER SelectBuyInfoLink</Link>
 	<Link>select PLAYER SelectHideLink</Link>
-	<Link>select PLAYER SelectWalkLink</Link>
-	<Link>select PLAYER SelectRunLink</Link>
+
 	</Dialogue>
 	
 	<Rule Name="OnSellInfo" Base="PlayerToPlayer">

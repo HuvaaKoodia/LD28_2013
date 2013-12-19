@@ -1,12 +1,25 @@
 <Root>
 
+	<Dialogue Name="OnInteract_Basic">
+		<Link>select PLAYER SelectWaitLink</Link>
+		<Link>select PLAYER SelectWalkLink</Link>
+		<Link>select PLAYER SelectRunLink</Link>
+	</Dialogue>
+
+	<Rule Name="Wait" Base="PlayerToPlayer">
+		<Event>SelectWaitLink</Event>
+		<Result>
+			<Link>"Wait for a while." to PLAYER OnWait</Link>
+		</Result>
+	</Rule>
+
 	<Rule Name="Attack_weapon">
 		<Actor>PLAYER</Actor>
 		<Target>PLAYER</Target>
 		<Event>SelectAttackLink</Event>
 		<Criterion>Actor.HasGun E true</Criterion>
 		<Result>
-			<Link>"Attack with your pistol." to PLAYER OnAttack</Link>
+			<Link>"Attack #Target.Name# with your pistol." to PLAYER OnAttack</Link>
 		</Result>
 	</Rule>
 	
@@ -16,7 +29,7 @@
 		<Event>SelectAttackLink</Event>
 		<Criterion>Actor.HasGun E false</Criterion>
 		<Result>
-			<Link>"Attack with bare hands" to PLAYER OnAttack</Link>
+			<Link>"Attack #Target.Name# with bare hands" to PLAYER OnAttack</Link>
 		</Result>
 	</Rule>
 	

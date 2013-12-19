@@ -28,7 +28,7 @@ public class GameMapController : MonoBehaviour {
 		if (GDB.CurrentCharacter!=null){
 			
 			if (!GDB.CurrentCharacter.OnMovingAwayFromTile&&GDB.CurrentCharacter.TurnStartTile().Data.HasOtherCharactersNotMoving(GDB.CurrentCharacter)){
-				goto_action_scene=true;	
+				goto_action_scene=true;
 			}
 			else{
  				if (GDB.action_turn){

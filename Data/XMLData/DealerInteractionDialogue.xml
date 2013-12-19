@@ -3,8 +3,7 @@
 	<Dialogue Name="OnInteract_DealerToAny">
 	<Link>select PLAYER SelectSellLink</Link>
 	<Link>select PLAYER SelectBuyLink</Link>
-	<Link>select PLAYER SelectWalkLink</Link> 
-	<Link>select PLAYER SelectRunLink</Link>
+
 	</Dialogue>
 	
 	<Rule Name="OnSell" Base="PlayerToPlayer">

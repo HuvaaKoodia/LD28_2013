@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour {
 	
 	public CameraMain Main_camera;
 	
-	public DialogueManager dial_man;
+	public DialogueManager dial_man_1,dial_man_2;
 	public BackToMenuMain back_to_menu;
 
 	public SceneManager SceneMan;
@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour {
 			}
 			return;
 		}
-		if (dial_man.DIALOGUE_ON) return;
+		if (dial_man_1.DIALOGUE_ON) return;
 		if (Input.GetKeyDown(KeyCode.Escape)){
 			back_to_menu.ToggleMenu();
 		}

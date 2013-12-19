@@ -34,13 +34,12 @@ public class ActionsSceneController : MonoBehaviour {
 		
 		hud.ShowBackToMapButton(false);
 		
-		controller.dial_man.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
+		controller.dial_man_1.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
+		//controller.dial_man_2.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
 		
 		//DEBUG_print_character_facts();
 		
-		if (GDB.CurrentCharacter.SelectedDialogueData!=null){
-			
-		}
+
 		if (GDB.planning_turn){
 			if (GDB.CurrentCharacter.IsStunned()){
 				
@@ -52,14 +51,12 @@ public class ActionsSceneController : MonoBehaviour {
 		}
 	}
 	
-	
-	
 	void OnAnswerButtonClick(AnswerButtonMain button){
 		var action=new CharacterActionData(
 			GDB.CurrentCharacter,
 			InterractTargetData,
 			button.Data.ToEvent,
-			controller.dial_man.CurrentQuery
+			controller.dial_man_1.CurrentQuery
 		);
 		
 		GDB.CurrentCharacter.CurrentAction=action;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
@@ -81,14 +78,19 @@ public class ActionsSceneController : MonoBehaviour {
 					
 					if (target.Entity!=GDB.CurrentCharacter.Data){
 						InterractTargetData=target.CharacterData;
-						controller.dial_man.CheckQuery(
+						
+						controller.dial_man_1.CheckQuery(
 						new QueryData(controller.SceneMan.Location_Data,controller.SceneMan.CurrentPlayer.Entity,
 						target.Entity,"OnClick"));
+						
+						controller.dial_man_2.CheckQuery(
+						new QueryData(controller.SceneMan.Location_Data,controller.SceneMan.CurrentPlayer.Entity,
+						target.Entity,"OnClickBasic"));
 					}
 				}
 			}
 		}
-		else{
+		else if (GDB.action_turn){
 			if (Input.GetKeyDown(KeyCode.Space)){
 				
 				while (true){
@@ -97,13 +99,15 @@ public class ActionsSceneController : MonoBehaviour {
 						//all actions done.
 						hud.ShowBackToMapButton(true);
 						break;
-						
 					}
 					else{
 						//next action
 						var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
 						CurrentAction=action;
 					
+						if (action.IgnoreThis){
+							continue;
+						}else
 						if (action.Interrupted){
 							CurrentAction=new CharacterActionData(
 								action.Character,
@@ -113,8 +117,8 @@ public class ActionsSceneController : MonoBehaviour {
 							);
 						
 							if (action.Character!=GDB.CurrentCharacter) continue;
-						}
-						else if (action.Stunned){
+						}else
+						if (action.Stunned){
 							CurrentAction=new CharacterActionData(
 								action.Character,
 								action.Target,
@@ -127,7 +131,7 @@ public class ActionsSceneController : MonoBehaviour {
 						//add panel
 						var loc=new LocationData("ActionTexts");
 						var q=new QueryData(loc,CurrentAction.Character.Data,CurrentAction.Target.Data,CurrentAction._Event);
-						var r=controller.dial_man.core_database.rule_database.CheckQuery(q);
+						var r=controller.dial_man_1.core_database.rule_database.CheckQuery(q);
 						
 						var ActionTextData=new DialogueData("ERROR!!!1!");
 						var ActionTextQuery=CurrentAction.Query;
@@ -156,9 +160,11 @@ public class ActionsSceneController : MonoBehaviour {
 		hud.ClearActionDataPanels();
 		//DEBUG_print_character_facts();
 		
-		controller.dial_man.StopDialogue();
+		controller.dial_man_1.StopDialogue();
+		controller.dial_man_2.StopDialogue();
 		GDB. NextPlayersTurn();
 		hud.OnBackToMapPressedEvent-=OnExit;
-		controller.dial_man.OnAnswerButtonPressedEvent-=OnAnswerButtonClick;
+		controller.dial_man_1.OnAnswerButtonPressedEvent-=OnAnswerButtonClick;
+		controller.dial_man_2.OnAnswerButtonPressedEvent-=OnAnswerButtonClick;
 	}
 }

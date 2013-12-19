@@ -1,4 +1,6 @@
 <Root>
+
+
 	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnInterrupt</Event>
@@ -6,12 +8,20 @@
 			<Link>"You were interrupted by #Target.Name#.</Link>
 		</Result>
 	</Rule>
-	
+
 	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnStun</Event>
 		<Result>
 			<Link>"You are stunned and cannot act.</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnWait</Event>
+		<Result>
+			<Link>"#Actor.Name# waits around.</Link>
 		</Result>
 	</Rule>
 	

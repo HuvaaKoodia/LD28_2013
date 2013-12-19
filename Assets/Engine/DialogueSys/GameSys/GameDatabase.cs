@@ -41,7 +41,7 @@ public class GameDatabase : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		planning_turn=true;
-		EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy"};
+		EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy","OnWait"};
 	}
 	
 	// Update is called once per frame
@@ -62,22 +62,20 @@ public class GameDatabase : MonoBehaviour {
 			if (ai>=0&&bi>=0) break;//both have value
 		}
 		//is other
-		if (ai<0) ai=100;
-		if (bi<0) bi=100;
+		if (ai<0) ai=10000;
+		if (bi<0) bi=10000;
 		
 		return ai-bi;
 	}
 	
 	public void ActionTurnStart(){
-		//calculates movement paths
 		CalculateMovements();
 		
-		//reset movement out from tiles
+		//reset data & handle turn start variables
 		foreach(var c in Characters)
 		{
 			if (c.OnMovingAwayFromTile){
 				c.OnMovingAwayFromTile=false;
-				c.CurrentAction=null;
 			}
 						
 			c.RecoverStun(1);
@@ -103,24 +101,26 @@ public class GameDatabase : MonoBehaviour {
 					if (a.Character.IsStunned()){
 						a.Stunned=true;
 					}
-					if (a.Interrupted||a.Stunned) continue;
+					if (a.Interrupted||a.Stunned||a.IgnoreThis) continue;
 					
 					if (a._Event=="OnAttack"){
 						
 						if (a.Target.IsStunned()){
 							//already stunned don't attack
+							a.IgnoreThis=true;
+							continue;
 						}
 						else
 						if (a.Target.CurrentAction._Event=="OnAttack"){
 							if (a.Target.CurrentAction.Target==a.Character){
 								//both attack each other -> ignore other
-								a.IgnoreThis=true;
+								a.Target.CurrentAction.IgnoreThis=true;
 							}else{
 								//target attacks someone else ->don't interrupt
 							}
 						}
-						else
-							a.Target.CurrentAction.Interrupted=true;
+						//else
+						//	a.Target.CurrentAction.Interrupted=true;
 						
 						GameCharacterData victor,loser;
 						//calculate winner
@@ -137,7 +137,7 @@ public class GameDatabase : MonoBehaviour {
 						
 						loser.Stun(1);
 						
-						//victory
+						//victory event
 						tile.ActionsThisTurn.Add(
 							new CharacterActionData(
 								victor,
@@ -146,7 +146,7 @@ public class GameDatabase : MonoBehaviour {
 								new QueryData(new LocationData("TEMP"),victor.Data,loser.Data,"OnVictory")
 							)
 						);
-						//defeat
+						//defeat event
 						tile.ActionsThisTurn.Add(
 							new CharacterActionData(
 								loser,
@@ -176,10 +176,7 @@ public class GameDatabase : MonoBehaviour {
 					
 					if (a._Event=="OnRun"||a._Event=="OnWalk"){
 						
-						//
-						//	a.Target.CurrentAction.Interrupted=true;
-						
-						//it interrupts actions targeting the moving character
+						//interrupts lower order actions targeting the moving character
 						for (int j=i+1;j<raw_actions.Count;j++){
 							var a2 = raw_actions[j];
 							if (a2.Target==a.Character){
@@ -194,8 +191,10 @@ public class GameDatabase : MonoBehaviour {
 			}
 		}
 	}
-	//EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy"};
+
 	public void ActionTurnEnd(){
+		
+		//reset actions
 		foreach (var c in Characters){
 			if (c.CurrentAction!=null){
 				if (!c.CurrentAction.Interrupted){
@@ -203,6 +202,7 @@ public class GameDatabase : MonoBehaviour {
 						c.OnMovingAwayFromTile=true;
 					}
 				}
+				c.CurrentAction=null;
 			}
 		}
 	}
