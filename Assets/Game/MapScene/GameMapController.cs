@@ -24,14 +24,11 @@ public class GameMapController : MonoBehaviour {
 		hudman=GameObject.FindGameObjectWithTag("HudSystem").GetComponent<HudMain>();
 		GDB=GameObject.FindGameObjectWithTag("Databases").GetComponent<GameDatabase>();
 		
-		MapMan.ml=GameObject.FindGameObjectWithTag("Databases").GetComponent<MapLoader>();
-		MapMan.GenerateGrid();
-		
 		//game state
 		if (GDB.CurrentCharacter!=null){
 			
-			if (!GDB.CurrentCharacter.OnMovingAwayFromTile&&GDB.CurrentCharacter.CurrentTile().Data.HasOtherCharactersNotMoving(GDB.CurrentCharacter)){
-				goto_action_scene=true;
+			if (!GDB.CurrentCharacter.OnMovingAwayFromTile&&GDB.CurrentCharacter.TurnStartTile().Data.HasOtherCharactersNotMoving(GDB.CurrentCharacter)){
+				goto_action_scene=true;	
 			}
 			else{
  				if (GDB.action_turn){
@@ -48,6 +45,8 @@ public class GameMapController : MonoBehaviour {
 		
 		if (!goto_action_scene){
 			//create objects
+			MapMan.ml=GameObject.FindGameObjectWithTag("Databases").GetComponent<MapLoader>();
+			MapMan.GenerateGrid();
 			
 			for (int i=0;i<MapMan.gridX;i++){
 					
@@ -59,7 +58,7 @@ public class GameMapController : MonoBehaviour {
 			foreach(var data in GDB.Characters){
 				data.mapman=MapMan;
 				
-				var t=data.CurrentTile();
+				var t=data.TurnStartTile();
 				
 				var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.AngleAxis(90,Vector3.up)) as MapCharacter;
 				data.SetMain(c);
@@ -99,7 +98,7 @@ public class GameMapController : MonoBehaviour {
 					data.Data=GDB.Core.character_database.GetCharacterLazy(temp_names[temp_i++]);
 					data.SetMain(c);
 	  			
-					data.CurPos=data.TempPos=t.TilePosition;
+					data.SetStartPosition(t.TilePosition);
 					GDB.Characters.Add(data);
 				}
 			}
@@ -115,7 +114,7 @@ public class GameMapController : MonoBehaviour {
 					Tile t = comp.transform.parent.GetComponent<Tile>();
 					
 					//select move pos for map character
-					GDB.CurrentCharacter.SetMovePos(t.TilePosition);
+					GDB.CurrentCharacter.CalculatePath(t.TilePosition);
 					
 					foreach(var p in GDB.CurrentCharacter.Path_positions){
 						PathLines.Add(Instantiate(PathObjPrefab,MapMan.tiles_map[(int)p.x,(int)p.y].transform.position,Quaternion.identity) as GameObject);

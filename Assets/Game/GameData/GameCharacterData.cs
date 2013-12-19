@@ -12,8 +12,12 @@ public class GameCharacterData{
 	public CharacterData Data;
 	public MapCharacter Main{get;private set;}
 	
-	public Vector2 CurPos,MovePos,TempPos;
-
+	public Vector2 TurnStartPos {get;private set;}
+	public Vector2 CurrentPos {get;private set;}
+	public Vector2 OldPos {get;set;} 
+	
+	private Vector2 MoveToPos;
+	
 	public string Name{get;private set;}
 	
 	public DialogueData SelectedDialogueData;
@@ -48,19 +52,19 @@ public class GameCharacterData{
 		stunned_for_turns-=turns;
 	}
 	
-	public Tile CurrentTile ()
+	public Tile TurnStartTile ()
 	{
-		return mapman.tiles_map[(int)CurPos.x,(int)CurPos.y];
+		return mapman.tiles_map[(int)TurnStartPos.x,(int)TurnStartPos.y];
 	}
 	public Tile CurrentTempTile ()
 	{
-		return mapman.tiles_map[(int)TempPos.x,(int)TempPos.y];
+		return mapman.tiles_map[(int)CurrentPos.x,(int)CurrentPos.y];
 	}
 
-	public void EndPathToTempPos ()
+	public void EndPathToCurrentPos ()
 	{
 		if (Path_positions.Count>0){
-			while (!TempPosIsLastPathPos()){
+			while (!CurrentPosIsLastPathPos()){
 				Path_positions.RemoveAt(Path_positions.Count-1);
 			}
 		}
@@ -79,41 +83,48 @@ public class GameCharacterData{
 	
 	public bool TempMovement{get{return temp_movement;}}
 	
-	public void StarTempMovement(){
+	public void StarMovement(){
 		temp_index=0;
 		temp_movement=true;
-		TempPos=CurPos;
+		CurrentPos=TurnStartPos;
 	}
-	public void EndTempMovement(){
+	public void EndMovement(){
 		temp_movement=false;
 	}
 	
 	public void MoveToNextTempPos(){
 		if (Path_positions.Count>1)
-		TempPos=Path_positions[++temp_index];
+		CurrentPos=Path_positions[++temp_index];
+	}
+
+	public Vector2 NextPos ()
+	{
+		if (temp_index+1<=Path_positions.Count-1)
+			return Path_positions[temp_index+1];
+		return CurrentPos;
 	}
 	
 	public Vector2 CurrentTempPos(){
-		return TempPos;
+		return CurrentPos;
 	}
 
-	public bool TempPosIsLastPathPos ()
+	public bool CurrentPosIsLastPathPos ()
 	{
-		return TempPos==Path_positions[Path_positions.Count-1];
+		return CurrentPos==Path_positions[Path_positions.Count-1];
 	}
 	
 	//path 
-	public void SetMovePos(Vector2 endPos)
+	public void CalculatePath(Vector2 endPos)
 	{
-		MovePos=endPos;
+		MoveToPos=endPos;
 		OnTheMove=true;
 		
 		Path_positions.Clear();
 		//find path
 		
 		int ex=(int)endPos.x,ey=(int)endPos.y;
-		int tx=(int)CurPos.x;
-		int ty=(int)CurPos.y;
+		int tx=(int)TurnStartPos.x;
+		int ty=(int)TurnStartPos.y;
 	
 		
 		while (true)
@@ -198,9 +209,15 @@ public class GameCharacterData{
 		Main.Move(Path_positions);
 	}
 	
-	public void SetToPathEnd ()
+	public void SetTurnStartPosToPathEnd ()
 	{
 		if (Path_positions.Count>0)
-			CurPos=Path_positions[Path_positions.Count-1];
+			TurnStartPos=Path_positions[Path_positions.Count-1];
+
+	}
+
+	public void SetStartPosition (Vector2 tilePosition)
+	{
+		TurnStartPos=CurrentPos=tilePosition;
 	}
 }

@@ -23,6 +23,11 @@ public class AnswerButtonMain : MonoBehaviour {
 	public void SetData(string text,DialogueData data){
 		Data=data;
 		
+		SetText(text);
+	}
+	
+	public void SetText(string text){
+
 		Base.text_label.text=Subs.autofit_text(text,x_size,Base.text_label.bitmapFont);
 		var size=Base.text_label.bitmapFont.CalculatePrintedSize(Base.text_label.text);
 		

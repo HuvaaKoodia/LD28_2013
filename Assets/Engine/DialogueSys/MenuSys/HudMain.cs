@@ -39,13 +39,18 @@ public class HudMain : MonoBehaviour {
 	public GameObject TextPanelPrefab;
 	
 	public void AddActionDataTextPanel(DialogueData data,QueryData query){
+		
+		AddActionDataTextPanel(data.ParseText(query));
+	}
+	
+	public void AddActionDataTextPanel(string text){
 		var go=Instantiate(TextPanelPrefab,Vector3.zero,Quaternion.identity) as GameObject;
 		var ab=go.GetComponent<AnswerButtonMain>();
 		
 		go.transform.parent=TextPanelParent;
 		go.transform.localPosition=new Vector3(x_off,y_off,0);
 		
-		ab.SetData(data.ParseText(query),data);
+		ab.SetText(text);
 		ab.Base.appear();
 		
 		x_off+=(int)ab.x_size+16;

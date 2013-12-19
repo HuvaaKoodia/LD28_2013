@@ -10,6 +10,7 @@ public class CharacterActionData{
 	public QueryData Query {get;private set;}
 	
 	public bool Interrupted{get;set;}
+	public bool Stunned{get;set;}
 	public bool IgnoreThis{get;set;}
 	
 	public CharacterActionData(GameCharacterData character,GameCharacterData target,string _event,QueryData query){

@@ -79,6 +79,8 @@ public class GameDatabase : MonoBehaviour {
 				c.OnMovingAwayFromTile=false;
 				c.CurrentAction=null;
 			}
+						
+			c.RecoverStun(1);
 		}
 		
 		foreach (var tile in tiledata_map){
@@ -98,11 +100,17 @@ public class GameDatabase : MonoBehaviour {
 				for (int i=0;i<raw_actions.Count;i++){
 					var a = raw_actions[i];
 					tile.ActionsThisTurn.Add(a);
-					if (a.Interrupted) continue;
+					if (a.Character.IsStunned()){
+						a.Stunned=true;
+					}
+					if (a.Interrupted||a.Stunned) continue;
 					
 					if (a._Event=="OnAttack"){
 						
-						
+						if (a.Target.IsStunned()){
+							//already stunned don't attack
+						}
+						else
 						if (a.Target.CurrentAction._Event=="OnAttack"){
 							if (a.Target.CurrentAction.Target==a.Character){
 								//both attack each other -> ignore other
@@ -126,6 +134,9 @@ public class GameDatabase : MonoBehaviour {
 							victor=a.Target;
 							loser=a.Character;
 						}
+						
+						loser.Stun(1);
+						
 						//victory
 						tile.ActionsThisTurn.Add(
 							new CharacterActionData(
@@ -146,7 +157,6 @@ public class GameDatabase : MonoBehaviour {
 						);
 						
 						//DEV.TODO get locationdata from current tile
-						
 						continue;
 					}
 					
@@ -158,22 +168,24 @@ public class GameDatabase : MonoBehaviour {
 					
 					if (a._Event=="OnSearch"){							
 						//search interrupts any lower order actions the target might do.
-						if (SortActions(a.Character.CurrentAction,a.Target.CurrentAction)<-1){//DEV. check for 0 if two people can search
+						if (SortActions(a.Character.CurrentAction,a.Target.CurrentAction)<0){//DEV. check for 0 if two people can search
 							a.Target.CurrentAction.Interrupted=true;							
 						}
 						continue;
 					}
 					
-					if (a._Event=="OnRun"||a._Event=="OnWalk"||a._Event=="OnSearch"){
-						//movement action doesn't interrupt other movement actions
-						if (a.Target.CurrentAction._Event!=a._Event)
-						a.Target.CurrentAction.Interrupted=true;
+					if (a._Event=="OnRun"||a._Event=="OnWalk"){
+						
+						//
+						//	a.Target.CurrentAction.Interrupted=true;
 						
 						//it interrupts actions targeting the moving character
 						for (int j=i+1;j<raw_actions.Count;j++){
 							var a2 = raw_actions[j];
 							if (a2.Target==a.Character){
-								a2.Interrupted=true;
+								//movement action doesn't interrupt other movement actions
+								if (a2._Event!="OnRun"&&a2._Event!="OnWalk")
+									a2.Interrupted=true; 
 							}
 						}
 						continue;
@@ -198,7 +210,7 @@ public class GameDatabase : MonoBehaviour {
 	public void CalculateMovements(){
 		foreach(var c in Characters)
 		{
-			c.StarTempMovement();
+			c.StarMovement();
 		}
 		while(true){
 			bool chars_still_moving=false;
@@ -207,33 +219,59 @@ public class GameDatabase : MonoBehaviour {
 				if (c.TempMovement){
 					var t=c.CurrentTempTile().Data;
 					
+					
 					if (t.HasOtherCharacters(c)){
 						
-						if (c.CurPos!=c.TempPos){
-							//not in staring tile -> stay in this tile
-							c.EndPathToTempPos();
-							c.EndTempMovement();
+						//if (c.CurPos!=c.TempPos){
+						if (c.OnMovingAwayFromTile){
+							//can move away no matter what
 						}
-						//else can always move away from starting tile
+						else{
+							
+							if (c.CurrentPos==c.TurnStartPos){
+								
+							
+							bool stopped=false;
+							foreach(var c2 in t.characters)
+							{
+								if (c2.OldPos==c.NextPos()){
+									//other character comes from characters destination -> stay in this tile
+									c.EndPathToCurrentPos();
+									c.EndMovement();
+									stopped=true;
+								}
+							}
+							if (stopped)
+								continue;
+							}
+							else{
+								c.EndPathToCurrentPos();
+								c.EndMovement();
+								continue;
+							}
+						}					
 					}
-					else{
+					
+					{
 						//move to next tile
 						t.characters.Remove(c);
+						c.OldPos=t.TilePosition;
 						
 						c.MoveToNextTempPos();
 						
 						t=c.CurrentTempTile().Data;
 						t.characters.Add(c);
 						
-						if (t.HasOtherCharacters(c)){
-							//stop_here
-							c.EndPathToTempPos();
-							c.EndTempMovement();
-						}
-						else
-						if (c.TempPos==c.CurPos||c.TempPosIsLastPathPos()){
+//						if (first_move&&t.HasOtherCharacters(c)){
+//							//next_tile_has character
+//							
+//							c.EndPathToTempPos();
+//							c.EndTempMovement();
+//						}
+						
+						if (c.CurrentPos==c.TurnStartPos||c.CurrentPosIsLastPathPos()){
 							//still in startpos or in last pos -> moving done
-							c.EndTempMovement();
+							c.EndMovement();
 						}
 						else{
 							//still moving
@@ -252,7 +290,7 @@ public class GameDatabase : MonoBehaviour {
 		
 		foreach(var c in Characters)
 		{
-			c.SetToPathEnd();
+			c.SetTurnStartPosToPathEnd();
 			c.Path_positions.Clear();
 			c.EndMoving();
 		}

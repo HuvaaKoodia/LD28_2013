@@ -10,8 +10,14 @@ public class ActionsSceneController : MonoBehaviour {
 	GameDatabase GDB;
 	HudMain hud;
 	
+	GameCharacterData InterractTargetData;
+	
+	bool allow_input;
+	
 	// Use this for initialization
 	void Start (){
+		allow_input=true;
+		
 		controller=GameObject.FindGameObjectWithTag("GameControllers").GetComponent<GameController>();
 		
 		controller.SceneMan.CurrentCharacterPos=CurrentCharacterPos;
@@ -35,16 +41,25 @@ public class ActionsSceneController : MonoBehaviour {
 		if (GDB.CurrentCharacter.SelectedDialogueData!=null){
 			
 		}
+		if (GDB.planning_turn){
+			if (GDB.CurrentCharacter.IsStunned()){
+				
+				hud.AddActionDataTextPanel("You are stunned for this turn.");
+				allow_input=false;
+				
+				hud.ShowBackToMapButton(true);
+			}
+		}
 	}
 	
-	GameCharacterData SelectedData;
+	
 	
 	void OnAnswerButtonClick(AnswerButtonMain button){
 		var action=new CharacterActionData(
-		GDB.CurrentCharacter,
-		SelectedData,
-		button.Data.ToEvent,
-		controller.dial_man.CurrentQuery
+			GDB.CurrentCharacter,
+			InterractTargetData,
+			button.Data.ToEvent,
+			controller.dial_man.CurrentQuery
 		);
 		
 		GDB.CurrentCharacter.CurrentAction=action;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
@@ -56,7 +71,7 @@ public class ActionsSceneController : MonoBehaviour {
 	void Update () {
 		
 		//input
-		if (GDB.planning_turn){
+		if (GDB.planning_turn&&allow_input){
 			if (Input.GetMouseButtonDown(0)){
 				Component com;
 				
@@ -64,9 +79,8 @@ public class ActionsSceneController : MonoBehaviour {
 				{
 					CharacterMain target=com.GetComponent<CharacterMain>();
 					
-					SelectedData=target.CharacterData;
-					
 					if (target.Entity!=GDB.CurrentCharacter.Data){
+						InterractTargetData=target.CharacterData;
 						controller.dial_man.CheckQuery(
 						new QueryData(controller.SceneMan.Location_Data,controller.SceneMan.CurrentPlayer.Entity,
 						target.Entity,"OnClick"));
@@ -77,40 +91,40 @@ public class ActionsSceneController : MonoBehaviour {
 		else{
 			if (Input.GetKeyDown(KeyCode.Space)){
 				
-				if (current_action>GDB.CurrentTileData.ActionsThisTurn.Count-1)
-				{
-					//all actions done.
-					hud.ShowBackToMapButton(true);
-					
-				}
-				else{
-					//next action
-					bool create_panel=true;
-					
-					var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
-					CurrentAction=action;
-					
-					if (CurrentAction.Character.IsStunned()){
-						create_panel=false;
+				while (true){
+					if (current_action>GDB.CurrentTileData.ActionsThisTurn.Count-1)
+					{
+						//all actions done.
+						hud.ShowBackToMapButton(true);
+						break;
+						
 					}
 					else{
-						if (action.Interrupted){
-							if (action.Character==GDB.CurrentCharacter){
-								CurrentAction=new CharacterActionData(
-									action.Character,
-									action.Target,
-									"OnInterrupt",
-									action.Query
-								);
-							}
-							else{
-								//hide other people's interruptions. Current player doesn't know what they tried to do.
-								create_panel=false;	
-							}
-					}
-					}
+						//next action
+						var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
+						CurrentAction=action;
 					
-					if (create_panel){
+						if (action.Interrupted){
+							CurrentAction=new CharacterActionData(
+								action.Character,
+								action.Target,
+								"OnInterrupt",
+								action.Query
+							);
+						
+							if (action.Character!=GDB.CurrentCharacter) continue;
+						}
+						else if (action.Stunned){
+							CurrentAction=new CharacterActionData(
+								action.Character,
+								action.Target,
+								"OnStun",
+								action.Query
+							);
+							if (action.Character!=GDB.CurrentCharacter) continue;
+						}
+						
+						//add panel
 						var loc=new LocationData("ActionTexts");
 						var q=new QueryData(loc,CurrentAction.Character.Data,CurrentAction.Target.Data,CurrentAction._Event);
 						var r=controller.dial_man.core_database.rule_database.CheckQuery(q);
@@ -122,6 +136,7 @@ public class ActionsSceneController : MonoBehaviour {
 						}
 						
 						hud.AddActionDataTextPanel(ActionTextData,ActionTextQuery);
+						break;
 					}
 				}
 			}
@@ -144,5 +159,6 @@ public class ActionsSceneController : MonoBehaviour {
 		controller.dial_man.StopDialogue();
 		GDB. NextPlayersTurn();
 		hud.OnBackToMapPressedEvent-=OnExit;
+		controller.dial_man.OnAnswerButtonPressedEvent-=OnAnswerButtonClick;
 	}
 }
