@@ -209,6 +209,8 @@ public class GameCharacterData{
 	{
 		if (Path_positions.Count>0)
 			TurnStartPos=Path_positions[Path_positions.Count-1];
+		else
+			TurnStartPos=CurrentPos;
 
 	}
 

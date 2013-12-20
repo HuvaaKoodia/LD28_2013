@@ -98,7 +98,7 @@ public class GameDatabase : MonoBehaviour {
 				for (int i=0;i<raw_actions.Count;i++){
 					var a = raw_actions[i];
 					tile.ActionsThisTurn.Add(a);
-					if (a.Character.IsStunned()){
+   					if (a.Character.IsStunned()){
 						a.Stunned=true;
 					}
 					if (a.Interrupted||a.Stunned||a.IgnoreThis) continue;
@@ -181,7 +181,7 @@ public class GameDatabase : MonoBehaviour {
 							var a2 = raw_actions[j];
 							if (a2.Target==a.Character){
 								//movement action doesn't interrupt other movement actions
-								if (a2._Event!="OnRun"&&a2._Event!="OnWalk")
+								if (a2._Event!="OnRun"&&a2._Event!="OnWalk"&&a2._Event!="OnWait")
 									a2.Interrupted=true; 
 							}
 						}
@@ -271,6 +271,7 @@ public class GameDatabase : MonoBehaviour {
 						
 						if (c.CurrentPos==c.TurnStartPos||c.CurrentPosIsLastPathPos()){
 							//still in startpos or in last pos -> moving done
+							c.EndPathToCurrentPos();
 							c.EndMovement();
 						}
 						else{

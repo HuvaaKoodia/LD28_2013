@@ -53,11 +53,16 @@ public class HudMain : MonoBehaviour {
 		ab.SetText(text);
 		ab.Base.appear();
 		
+		var uir=GetComponent<UIRoot>();
+		var i =uir.GetPixelSizeAdjustment(Screen.height);
+		var width=Screen.width*i;
+		
+		
 		x_off+=(int)ab.x_size+16;
 		
-		if (x_off>Screen.width+50)
+		if (x_off+20>width)
 		{
-			x_off=10;
+ 			x_off=10 ;
 			y_off-=40;
 		}
 		
