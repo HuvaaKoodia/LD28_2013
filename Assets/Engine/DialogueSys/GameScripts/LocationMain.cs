@@ -18,19 +18,21 @@ public class LocationMain :MonoBehaviour{
 
 	public void SetLocation (LocationData locationData)
 	{
+		Characters.Clear();
+		Objects.Clear();
 		Location=locationData;
 	}
 
 	public void AddCharacter (CharacterMain c)
 	{
 		Characters.Add(c);
-		Location.Characters.Add((CharacterData)c.Entity);
+		//Location.Characters.Add((CharacterData)c.Entity);
 	}
 
 	public void AddObject (ObjectMain o)
 	{
 		Objects.Add(o);
-		Location.Objects.Add((ObjectData)o.Entity);
+		//Location.Objects.Add((ObjectData)o.Entity);
 	}
 
 	public void RemoveEntity (EntityData target)

@@ -27,7 +27,6 @@ public class GameCharacterData{
 	
 	public List<Vector2> Path_positions=new List<Vector2>();
 	
-	public bool OnTheMove{get;private set;}
 	public bool OnMovingAwayFromTile{get;set;}
 
 	public GameCharacterData(string name){
@@ -73,10 +72,7 @@ public class GameCharacterData{
 		Main.mapman=mapman;
 		Main.SetCharacterData(Data);
 	}
-	
-	public void EndMoving(){
-		OnTheMove=false;
-	}
+
 	
 	public bool TempMovement{get{return temp_movement;}}
 	
@@ -113,8 +109,8 @@ public class GameCharacterData{
 	//path 
 	public void CalculatePath(Vector2 endPos)
 	{
-		//MoveToPos=endPos;
-		OnTheMove=true;
+
+
 		
 		Path_positions.Clear();
 		//find path

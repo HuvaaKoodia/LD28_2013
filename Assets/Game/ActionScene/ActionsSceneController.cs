@@ -12,6 +12,8 @@ public class ActionsSceneController : MonoBehaviour {
 	
 	GameCharacterData InterractTargetData;
 	
+	public GameObject StunEffect;
+	
 	bool allow_input;
 	
 	// Use this for initialization
@@ -48,15 +50,31 @@ public class ActionsSceneController : MonoBehaviour {
 				
 				hud.ShowBackToMapButton(true);
 			}
+			foreach (var c in controller.SceneMan.Location.Characters){
+				if (c.CharacterData.IsStunned()){				
+					var go=Instantiate(StunEffect,c.transform.position+Vector3.up*0.8f,Quaternion.identity);
+				}
+			}
+			
+			controller.dial_man_2.CheckQuery(
+				new QueryData(controller.SceneMan.Location_Data,GDB.CurrentCharacter.Data,
+				GDB.CurrentCharacter.Data,"OnClickBasic")
+			);
 		}
+		
+								
+		
 	}
 	
 	void OnAnswerButtonClick(AnswerButtonMain button){
+		GameCharacterData target=InterractTargetData;
+		if (target==null)
+			target=GDB.CurrentCharacter;
 		var action=new CharacterActionData(
 			GDB.CurrentCharacter,
-			InterractTargetData,
+			target,
 			button.Data.ToEvent,
-			controller.dial_man_1.CurrentQuery
+			new QueryData(controller.SceneMan.Location_Data,GDB.CurrentCharacter.Data,target.Data,button.Data.ToEvent)
 		);
 		
 		GDB.CurrentCharacter.CurrentAction=action;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
@@ -80,12 +98,8 @@ public class ActionsSceneController : MonoBehaviour {
 						InterractTargetData=target.CharacterData;
 						
 						controller.dial_man_1.CheckQuery(
-						new QueryData(controller.SceneMan.Location_Data,controller.SceneMan.CurrentPlayer.Entity,
+						new QueryData(controller.SceneMan.Location_Data,GDB.CurrentCharacter.Data,
 						target.Entity,"OnClick"));
-						
-						controller.dial_man_2.CheckQuery(
-						new QueryData(controller.SceneMan.Location_Data,controller.SceneMan.CurrentPlayer.Entity,
-						target.Entity,"OnClickBasic"));
 					}
 				}
 			}

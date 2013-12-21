@@ -29,7 +29,7 @@ public class SceneManager : MonoBehaviour {
 		var go=Instantiate(CharacterPrefab,CurrentCharacterPos.position,Quaternion.AngleAxis(90,Vector3.up)) as GameObject;
 		CurrentPlayer=go.GetComponent<CharacterMain>();
 		
-		CurrentPlayer.SetCharacterData(currentCharacter.Data);
+		CurrentPlayer.SetCharacterData(currentCharacter);
 		
 		var add_to_pos=Vector3.right*1;
 		

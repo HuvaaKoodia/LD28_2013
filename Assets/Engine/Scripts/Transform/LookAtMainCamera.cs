@@ -12,13 +12,14 @@ public class LookAtMainCamera : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		add_rot=Quaternion.Euler(additional_rotation);
+		
 		start_pos=transform.localPosition;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+		add_rot=Quaternion.Euler(additional_rotation);
 		transform.LookAt(Camera.main.transform,Camera.main.transform.TransformDirection(Vector3.up));
 		transform.rotation*=add_rot;
 		if (rotation_speed!=Vector3.zero){

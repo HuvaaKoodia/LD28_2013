@@ -293,7 +293,7 @@ public class GameDatabase : MonoBehaviour {
 		{
 			c.SetTurnStartPosToPathEnd();
 			c.Path_positions.Clear();
-			c.EndMoving();
+
 		}
 	}
 	
