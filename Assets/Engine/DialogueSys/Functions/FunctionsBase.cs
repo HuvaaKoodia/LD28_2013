@@ -6,7 +6,7 @@ namespace DialogueSystem{
 
 	public class FunctionsBase {
 
-		QueryData current_query;
+		protected QueryData current_query;
 		MethodInfo[] methods;
 
 		public FunctionsBase(){

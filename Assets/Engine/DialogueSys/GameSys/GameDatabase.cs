@@ -41,7 +41,7 @@ public class GameDatabase : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		planning_turn=true;
-		EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy","OnWait"};
+		EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy","OnWait","OnStealActor"};
 	}
 	
 	// Update is called once per frame
@@ -187,6 +187,12 @@ public class GameDatabase : MonoBehaviour {
 						}
 						continue;
 					}
+					
+					if (a._Event=="OnStealActor"){
+						//just do it?
+						
+						continue;
+					}
 				}
 			}
 		}
@@ -194,13 +200,22 @@ public class GameDatabase : MonoBehaviour {
 
 	public void ActionTurnEnd(){
 		
-		//reset actions
+		//action effects
 		foreach (var c in Characters){
 			if (c.CurrentAction!=null){
 				if (!c.CurrentAction.Interrupted){
 					if (c.CurrentAction._Event=="OnWalk"||c.CurrentAction._Event=="OnRun"){
 						c.OnMovingAwayFromTile=true;
 					}
+					
+					//effect
+					var r=Core.rule_database.CheckQuery(new QueryData(
+						new LocationData("ActionEffects"),
+						c.Data,
+						c.CurrentAction.Target.Data,
+						c.CurrentAction._Event
+					));
+					int i=0;
 				}
 				c.CurrentAction=null;
 			}

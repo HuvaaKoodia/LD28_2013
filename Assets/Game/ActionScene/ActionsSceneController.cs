@@ -43,6 +43,14 @@ public class ActionsSceneController : MonoBehaviour {
 		
 
 		if (GDB.planning_turn){
+			//stun effects for all
+			
+			foreach (var c in controller.SceneMan.Location.Characters){
+				if (c.CharacterData.IsStunned()){				
+					var go=Instantiate(StunEffect,c.transform.position+Vector3.up*0.8f,Quaternion.identity);
+				}
+			}
+			
 			if (GDB.CurrentCharacter.IsStunned()){
 				
 				hud.AddActionDataTextPanel("You are stunned for this turn.");
@@ -50,16 +58,12 @@ public class ActionsSceneController : MonoBehaviour {
 				
 				hud.ShowBackToMapButton(true);
 			}
-			foreach (var c in controller.SceneMan.Location.Characters){
-				if (c.CharacterData.IsStunned()){				
-					var go=Instantiate(StunEffect,c.transform.position+Vector3.up*0.8f,Quaternion.identity);
-				}
+			else{
+				controller.dial_man_2.CheckQuery(
+					new QueryData(controller.SceneMan.Location_Data,GDB.CurrentCharacter.Data,
+					GDB.CurrentCharacter.Data,"OnClickBasic")
+				);
 			}
-			
-			controller.dial_man_2.CheckQuery(
-				new QueryData(controller.SceneMan.Location_Data,GDB.CurrentCharacter.Data,
-				GDB.CurrentCharacter.Data,"OnClickBasic")
-			);
 		}
 		
 								

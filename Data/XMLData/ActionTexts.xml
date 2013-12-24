@@ -1,5 +1,6 @@
 <Root>
 
+<!-- Current actor texts -->
 
 	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
@@ -17,6 +18,16 @@
 		</Result>
 	</Rule>
 	
+<!-- Any actor texts -->	
+
+	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
+		<Location>ActionTexts</Location>
+		<Event>OnStealActor</Event>
+		<Result>
+			<Link>"#Actor.Name# robs #Target.Name#.</Link>
+		</Result>
+	</Rule>
+
 	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnWait</Event>

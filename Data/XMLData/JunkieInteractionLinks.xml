@@ -1,17 +1,22 @@
 <Root>
-	<Link>select PLAYER SelectBuyLink</Link>
-	<Link>select PLAYER SelectAttackLink</Link>
-	<Link>select PLAYER SelectLeaveLink</Link>
 	
 	<Rule Name="OnBuyDrugsJunkie" Base="PlayerToPlayer">
 		<Event>SelectBuyLink</Event>
 		<Criterion>Actor.Name E Junkie</Criterion>
-		<Criterion>Actor.Name E Dealer</Criterion>
+		<Criterion>Target.Name E Dealer</Criterion>
 		<Result>
-			<Link>"Ask to buy Drugs from the Dealer" to PLAYER OnBuyDrugs</Link>
+			<Link>"Buy Drugs from the Dealer" to PLAYER OnBuyDrugs</Link>
 		</Result>
 	</Rule>
 	
+	<Rule Name="OnBuyDrugsJunkie" Base="PlayerToPlayer">
+		<Event>SelectStealLink</Event>
+		<Criterion>Actor.Name E Junkie</Criterion>
+		<Criterion>Target.Stun G 0</Criterion>
+		<Result>
+			<Link>"Rob the #Target.Name#" to PLAYER OnStealActor</Link>
+		</Result>
+	</Rule>
 	
 	<Rule Name="OnLeaveJunkie" Base="PlayerToPlayer">
 		<Event>SelectLeaveLink</Event>

@@ -4,10 +4,11 @@
 	<Var>Gender Male</Var>
 	<Var>HasGun false</Var>
     <Var>HasVehicle false</Var>
-    <Var>Money 0</Var>
-    <Var>Drugs 0</Var>
-	<Var>Addiction 0</Var>
-	<Var>VP 0</Var>
+    <Var min="0">Money 0</Var>
+    <Var min="0">Drugs 0</Var>
+	<Var min="0">Addiction 0</Var>
+	<Var min="0">Stun 0</Var>
+	<Var min="0">VP 0</Var>
 	  
 	<Var>MovementSpeed 2</Var>
 	<Var>VehicleSpeed 4</Var>
@@ -22,7 +23,7 @@
   <Character Type="PLAYER" Name="Policeman" Base="PLAYER_BASE">
   <Var>HasGun true</Var>
   <Var>HasVehicle true</Var>
-  <Var>Money 100</Var>
+  <Var>Money 50</Var>
   
   <Var>MovementSpeed 2</Var>
   <Var>VehicleSpeed 4</Var>
@@ -36,7 +37,7 @@
   
   <Character Type="PLAYER" Name="CallGirl" Base="PLAYER_BASE">
   <Var>Gender Female</Var>
-  <Var>Money 100</Var>
+  <Var>Money 25</Var>
   
   <Var>MovementSpeed 2</Var>
   </Character>
@@ -49,8 +50,7 @@
   </Character>
   
   <Character Type="PLAYER" Name="Politician" Base="PLAYER_BASE">
-  
-  <Var>Money 100</Var>
+  <Var>Money 1000</Var>
   
   <Var>MovementSpeed 2</Var>
   </Character>

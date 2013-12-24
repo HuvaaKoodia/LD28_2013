@@ -117,10 +117,14 @@ namespace DialogueSystem{
 			Facts[Key].SetValue(Value);
 		}
 		
-		public int GetInt(string name)
-		{
-			return (int)GetFloat (name);
+		public void AddFactValue(string Key,float Add){
+			if (!Facts.ContainsKey(Key)){
+				Debug.Log("Adding value. Fact doesn't exists! "+Key);
+				return;
+			}
+			Facts[Key].SetValue(Facts[Key].Symbol+Add);
 		}
+
 		public float GetFloat(string name)
 		{
 			if (!Facts.ContainsKey(name)) {Debug.LogError("Fact "+name+" doesn't exist in container.");return -1;}

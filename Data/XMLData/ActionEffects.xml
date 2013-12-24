@@ -1,0 +1,11 @@
+<Root>
+	
+	<Rule Name="OnStealActor" Base="PlayerToPlayer">
+		<Location>ActionEffects</Location>
+		<Event>OnStealActor</Event>
+		<Result>
+			<Function>Actor.StealFromTarget</Function>
+			<Assign>Actor.VP = 0</Assign>
+		</Result>
+	</Rule>
+</Root>

@@ -7,8 +7,6 @@ public class GameCharacterData{
 	
 	public MapManager mapman;	
 	
-	public int stunned_for_turns;
-	
 	public CharacterData Data;
 	public MapCharacter Main{get;private set;}
 	
@@ -35,17 +33,17 @@ public class GameCharacterData{
 	}
 	
 	public void Stun(int turns){
-		stunned_for_turns=turns;
+		Data.Facts.SetFact("Stun",turns);
 	}
 	
 	public bool IsStunned()
 	{
-		return stunned_for_turns>0;
+		return Data.Facts.GetFloat("Stun")>0;
 	}
 	
 	public void RecoverStun(int turns)
 	{
-		stunned_for_turns-=turns;
+		Data.Facts.AddFactValue("Stun",-turns);
 	}
 	
 	public Tile TurnStartTile ()
@@ -110,7 +108,7 @@ public class GameCharacterData{
 	public void CalculatePath(Vector2 endPos)
 	{
 
-
+		int max_movement=(int)Data.Facts.GetFloat("MovementSpeed");
 		
 		Path_positions.Clear();
 		//find path
@@ -122,7 +120,11 @@ public class GameCharacterData{
 		
 		while (true)
 		{
+			
+			
  			Path_positions.Add(new Vector2(tx,ty));
+			
+			if (max_movement==0) break;
 			
 			int x_dif=ex-tx;
 			int y_dif=ey-ty;
@@ -193,6 +195,7 @@ public class GameCharacterData{
 			
 			tx+=x_abs;
 			ty+=y_abs;
+			max_movement--;
 		}
 	}
 

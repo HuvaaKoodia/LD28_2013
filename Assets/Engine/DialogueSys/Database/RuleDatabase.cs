@@ -116,7 +116,10 @@ namespace DialogueSystem{
 				{
 					var spl=Subs.Split(f,".");
 					if (spl.Length>1){
-						if (query.GetEntityData(spl[0]).Entity.Functions.InvokeMethod(query,f)) break;
+						
+						var cont=query.GetEntityData(spl[0]);
+						
+						if (cont.Entity.Functions.InvokeMethod(query,spl[1])) break;
 					}
 					else{
 						if (Core.sys_functions.InvokeMethod(query,f)) break;

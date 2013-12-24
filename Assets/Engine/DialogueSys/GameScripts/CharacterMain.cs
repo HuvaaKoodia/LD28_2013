@@ -10,8 +10,8 @@ public class CharacterMain : EntityMain {
 	public GameCharacterData CharacterData{get;private set;}
 	
 	// Use this for initialization
-	void Start () {
-	   
+	void Start (){
+	   Functions=new CharacterFunctions();
 	}
 	
 	// Update is called once per frame
@@ -56,6 +56,7 @@ public class CharacterMain : EntityMain {
 		
 
 		Entity=data;
+		data.Entity=this;
 		
 	}
 }

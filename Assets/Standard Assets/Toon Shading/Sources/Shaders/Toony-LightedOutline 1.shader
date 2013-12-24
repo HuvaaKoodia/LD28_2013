@@ -9,7 +9,6 @@ Shader "Toon/Lighted Outline OnTop" {
 
 	SubShader {
 		Tags { "RenderType"="Opaque" }
-		ZTest Always
 		
 		
 		UsePass "Toon/Lighted/FORWARD"

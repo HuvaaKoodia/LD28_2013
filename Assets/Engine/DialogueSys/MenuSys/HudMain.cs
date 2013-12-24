@@ -8,11 +8,13 @@ public class HudMain : MonoBehaviour {
 	public BackToMenuMain back_to_menu;
 	public UIButton BackToMapButton;
 	
+	public PlayerHud PlayerHud_;
+	
 	public System.Action OnBackToMapPressedEvent;
 	
 	// Use this for initialization
 	void Start () {
-		ShowBackToMapButton(false);
+		//ShowBackToMapButton(false);
 	}
 	
 	// Update is called once per frame
@@ -65,7 +67,6 @@ public class HudMain : MonoBehaviour {
  			x_off=10 ;
 			y_off-=40;
 		}
-		
 	}
 	
 	public void ClearActionDataPanels(){
