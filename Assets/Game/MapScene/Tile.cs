@@ -4,11 +4,9 @@ using System.Collections.Generic;
 
 public class Tile : MonoBehaviour 
 {
-	public int id;
 	public Rect size;
 	public Vector3 position;
 	public GameObject tileObject;
-	public GameObject tileGround;
 	
 	public Vector2 TilePosition;
 		

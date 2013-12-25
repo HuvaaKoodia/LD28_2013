@@ -28,12 +28,41 @@ public class GameDatabase : MonoBehaviour {
 		CharacterGraphics.Add("Freelancer",Resources.Load("FreelancerGraphics")as GameObject);
 		CharacterGraphics.Add("Dealer",Resources.Load("DealerGraphics")as GameObject);
 		
-		tiledata_map=new TileData[mapload.Maps[0].map_data.GetLength(0),mapload.Maps[0].map_data.GetLength(1)];
+		MapData md = mapload.Maps[0];
 		
-		for (int i=0;i<tiledata_map.GetLength(0);i++){
-			for (int j=0;j<tiledata_map.GetLength(1);j++){
+		int w=md.map_data.GetLength(0);
+		int h=md.map_data.GetLength(1);
+		
+		tiledata_map=new TileData[w,h];
+		
+		for (int i=0;i<w;i++){
+			for (int j=0;j<h;j++){
 				tiledata_map[i,j]=new TileData();
 				tiledata_map[i,j].TilePosition=new Vector2(i,j);
+				
+				string LocationName="Street";
+				switch (md.map_data[i,j])
+				{
+					case "p":
+						LocationName="PoliceStation";
+					break;
+					case "a":
+						LocationName="Alley";
+					break;
+					case "n":
+						LocationName="NewsStation";
+					break;
+					case "u":
+						LocationName="DrugStash";
+					break;
+					case "c":
+						LocationName="CityHall";
+					break;
+					case "f":
+						LocationName="FoXXXy";
+					break;
+				}
+				tiledata_map[i,j].SetLocation(new LocationData(LocationName));//DEV. TODO. load location data from locationdatabase
 			}
 		}
 	}
@@ -46,7 +75,6 @@ public class GameDatabase : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 	
 	private int SortActions(CharacterActionData a,CharacterActionData b){
@@ -73,20 +101,16 @@ public class GameDatabase : MonoBehaviour {
 		
 		//reset data & handle turn start variables
 		foreach(var c in Characters)
-		{
-			if (c.OnMovingAwayFromTile){
-				c.OnMovingAwayFromTile=false;
-			}
-						
+		{						
 			c.RecoverStun(1);
 		}
 		
-		foreach (var tile in tiledata_map){
+		foreach (TileData tile in tiledata_map){
 			tile.ActionsThisTurn.Clear();
 			List<CharacterActionData> raw_actions=new List<CharacterActionData>();
-			if (tile.characters.Count>0){
+			if (tile.GameCharacters.Count>0){
 				//first pass -> gather actions
-				foreach (var c in tile.characters){
+				foreach (var c in tile.GameCharacters){
 					if (c.CurrentAction!=null){
 						raw_actions.Add(c.CurrentAction);
 					}
@@ -94,7 +118,7 @@ public class GameDatabase : MonoBehaviour {
 				//second pass -> sort according to event order
 				raw_actions.Sort(SortActions);
 			
-				//third pass -> interrup actions
+				//third pass -> action consequences & relay information
 				for (int i=0;i<raw_actions.Count;i++){
 					var a = raw_actions[i];
 					tile.ActionsThisTurn.Add(a);
@@ -116,11 +140,9 @@ public class GameDatabase : MonoBehaviour {
 								//both attack each other -> ignore other
 								a.Target.CurrentAction.IgnoreThis=true;
 							}else{
-								//target attacks someone else ->don't interrupt
+								//target attacks someone else-> don't interrupt, maybe they win and get to fight again
 							}
 						}
-						//else
-						//	a.Target.CurrentAction.Interrupted=true;
 						
 						GameCharacterData victor,loser;
 						//calculate winner
@@ -143,7 +165,7 @@ public class GameDatabase : MonoBehaviour {
 								victor,
 								loser,
 								"OnVictory",
-								new QueryData(new LocationData("TEMP"),victor.Data,loser.Data,"OnVictory")
+								new QueryData(tile.Location,victor.Data,loser.Data,"OnVictory")
 							)
 						);
 						//defeat event
@@ -152,11 +174,9 @@ public class GameDatabase : MonoBehaviour {
 								loser,
 								victor,
 								"OnDefeat",
-								new QueryData(new LocationData("TEMP"),loser.Data,victor.Data,"OnDefeat")	
+								new QueryData(tile.Location,loser.Data,victor.Data,"OnDefeat")	
 							)
 						);
-						
-						//DEV.TODO get locationdata from current tile
 						continue;
 					}
 					
@@ -204,6 +224,9 @@ public class GameDatabase : MonoBehaviour {
 		foreach (var c in Characters){
 			if (c.CurrentAction!=null){
 				if (!c.CurrentAction.Interrupted){
+					
+					c.OnMovingAwayFromTile=false;
+			
 					if (c.CurrentAction._Event=="OnWalk"||c.CurrentAction._Event=="OnRun"){
 						c.OnMovingAwayFromTile=true;
 					}
@@ -232,32 +255,27 @@ public class GameDatabase : MonoBehaviour {
 			foreach(var c in Characters)
 			{
 				if (c.TempMovement){
-					var t=c.CurrentTempTile().Data;
-					
+					var t=c.CurrentTile().Data;
 					
 					if (t.HasOtherCharacters(c)){
-						
-						//if (c.CurPos!=c.TempPos){
 						if (c.OnMovingAwayFromTile){
 							//can move away no matter what
 						}
 						else{
 							
 							if (c.CurrentPos==c.TurnStartPos){
-								
-							
-							bool stopped=false;
-							foreach(var c2 in t.characters)
-							{
-								if (c2.OldPos==c.NextPos()){
-									//other character comes from characters destination -> stay in this tile
-									c.EndPathToCurrentPos();
-									c.EndMovement();
-									stopped=true;
+								bool stopped=false;
+								foreach(var c2 in t.GameCharacters)
+								{
+									if (c2.OldPos==c.NextPos()){
+										//other character comes from characters destination -> stay in this tile
+										c.EndPathToCurrentPos();
+										c.EndMovement();
+										stopped=true;
+									}
 								}
-							}
-							if (stopped)
-								continue;
+								if (stopped)
+									continue;
 							}
 							else{
 								c.EndPathToCurrentPos();
@@ -269,13 +287,13 @@ public class GameDatabase : MonoBehaviour {
 					
 					{
 						//move to next tile
-						t.characters.Remove(c);
+						t.RemoveCharacter(c);
 						c.OldPos=t.TilePosition;
 						
 						c.MoveToNextTempPos();
 						
-						t=c.CurrentTempTile().Data;
-						t.characters.Add(c);
+						t=c.CurrentTile().Data;
+						t.AddCharacter(c);
 						
 //						if (first_move&&t.HasOtherCharacters(c)){
 //							//next_tile_has character
@@ -348,6 +366,6 @@ public class GameDatabase : MonoBehaviour {
 		}
 		
 		CurrentCharacter=Characters[current_player_index++];
-		CurrentTileData=CurrentCharacter.CurrentTempTile().Data;
+		CurrentTileData=CurrentCharacter.CurrentTile().Data;
 	}
 }

@@ -131,7 +131,7 @@ public class DialogueManager : MonoBehaviour {
 			var rule=core_database.rule_database.CheckQuery(query);
 			if (rule==null)
 				return;
-			data=rule.Data;
+			data=rule.Link;
 		}
 		
 		if (data.Type=="SKIP"){
@@ -164,7 +164,7 @@ public class DialogueManager : MonoBehaviour {
         var data = core_database.rule_database.CheckQuery(query);
 		
         if (data != null)
-            OpenDialogue(data.Data,query);
+            OpenDialogue(data.Link,query);
         else
         {
             Debug.Log("Query " + query + " yielded no result");

@@ -21,16 +21,11 @@ public class MapManager : MonoBehaviour
 	private List<Tile> tiles = new List<Tile>();
 	
 	public Tile[,] tiles_map;
-	public MapLoader ml;
-	
-	public bool GenerateOnStartUp=true;
+
 	// Use this for initialization
 	void Start ()
 	{
-		if (GenerateOnStartUp){
-			//ml=GameObject.FindGameObjectWithTag("Databases").GetComponent<MapLoader>();
-			GenerateGrid();
-		}
+
 	}
 	
 	// Update is called once per frame
@@ -39,7 +34,7 @@ public class MapManager : MonoBehaviour
 		//GridSelection();
 	}
 	
-	public void GenerateGrid()
+	public void GenerateGrid(GameDatabase GDB,MapLoader ml)
 	{
 	MapData md = ml.Maps[0];
 		
@@ -50,22 +45,22 @@ public class MapManager : MonoBehaviour
 
 		for (int i = 0; i < gridX; i++)
 		{
-			for (int e = 0; e < gridY; e++)
+			for (int j = 0; j < gridY; j++)
 			{	
-				Tile go = Instantiate(tileCrossroad, new Vector3(i*tileCrossroad.size.width, 0, e*tileCrossroad.size.height), Quaternion.identity) as Tile;
+				Tile go = Instantiate(tileCrossroad, new Vector3(i*tileCrossroad.size.width, 0, j*tileCrossroad.size.height), Quaternion.identity) as Tile;
 				tiles.Add(go);	
-				tiles_map[i,e]=go;
-				go.TilePosition=new Vector2(i,e);
+				tiles_map[i,j]=go;
+				go.TilePosition=new Vector2(i,j);
+				go.SetData(GDB.tiledata_map[i,j]);
 			}
 		}	
 		
-		int tempId = 0;
 		for (int i = 0; i < gridX; i++)
 		{
 			for (int e = 0; e < gridY; e++)
 			{
 				var pos=tiles_map[i,e].transform.position;
-				//Debug.Log(tiles[i*e+1].tileObject);
+
 				switch (md.map_data[i,e])
 				{
 					case "p":
@@ -86,28 +81,8 @@ public class MapManager : MonoBehaviour
 					case "f":
 						tiles_map[i,e].tileObject = (GameObject)Instantiate(foxxyPrefab, pos, foxxyPrefab.transform.rotation);
 					break;
-//					case "|":
-//						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileStraight, tiles_map[i,e].transform.position, tileStraight.transform.rotation);
-//					break;
-//					case "x":
-//						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileCrossroad, tiles_map[i,e].transform.position, tileCrossroad.transform.rotation);
-//					break;
-//					case "-":
-//						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileStraight, tiles_map[i,e].transform.position, Quaternion.Euler(new Vector3(-90,0,0)));
-//					break;
-//					case "t":
-//						tiles_map[i,e].tileGround = (GameObject)Instantiate(tileDeadend, tiles_map[i,e].transform.position, tileDeadend.transform.rotation);
-//					break;
-					
 				}
-				int ii=0;
 			}
-		}
-		
-		
-		for (int i = 0; i < tiles.Count; i++)
-		{
-			tiles[i].id = tempId++;
 		}
 	}
 	
@@ -117,19 +92,5 @@ public class MapManager : MonoBehaviour
 		{
 			t.UpdateObjects();
 		}
-	}
-	
-	void GridSelection()
-	{
-		RaycastHit hit = new RaycastHit();
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		
-		if(Physics.Raycast(ray, out hit, 10) && hit.transform.gameObject.layer == LayerMask.NameToLayer("Tile") )
-       	{			
-			Tile t = hit.transform.parent.GetComponent<Tile>();
-			
-			Debug.Log(tiles.Contains(t));
-			Debug.Log(t.id);
-       	}		
 	}	
 }

@@ -128,7 +128,19 @@ namespace DialogueSystem{
 					Debug.LogError("Function [" + f + "] in rule: [" + best_match.Name + "] not valid.");
 					//DEV. did you mean?
 				}
-                
+				
+                //calls
+				
+				foreach(var call in best_match.Calls){
+					var spl=Subs.Split(call," ");
+					
+					foreach (var character in query.Location.Characters){
+						if (character.Type==spl[0]){
+							CheckQuery(new QueryData(query.Location,character,query.Target,spl[1]));
+						}
+					}
+				}
+				
                 return best_match;
             }
 			return null;
@@ -228,6 +240,11 @@ namespace DialogueSystem{
 					{
 						r.temp_functions.Add(f);
 					}
+					
+					foreach (var c in bas.temp_calls)
+					{
+						r.temp_calls.Add(c);
+					}
 				}
 
 				//create data/references
@@ -257,12 +274,17 @@ namespace DialogueSystem{
 				{
 					rule.Functions.Add(f);
 				}
+				
+				foreach (var c in r.temp_calls)
+				{
+					rule.Calls.Add(c);
+				}
 			
 				if (r.Link!=""){
 					var Data=core.dialogue_database.ParseDialogueData(r.Link);
 					if (Data==null)
 						Debug.LogError("Link: "+r.Link+" is faulty in rule called "+r.Name);
-					rule.Data=Data;
+					rule.Link=Data;
 				}
 				//to correct scope
 				AddToScope(new RuleScope(r.Location,r._Event,r.Actor,r.Target),rule);

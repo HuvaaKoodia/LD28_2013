@@ -4,18 +4,32 @@ using System.Collections.Generic;
 
 public class TileData
 {
-	public List<GameCharacterData> characters=new List<GameCharacterData>();
-	
+	public LocationData Location{get;private set;}
 	public Vector2 TilePosition;
 	
-	public List<CharacterActionData> ActionsThisTurn=new List<CharacterActionData>();
-
-	public string LocationName="Street";//DEV.todo Imp. LocationData in tileData
-
+	public List<GameCharacterData> GameCharacters{get;private set;}
+	public List<CharacterActionData> ActionsThisTurn{get;private set;}
+	
+	public TileData(){
+		GameCharacters=new List<GameCharacterData>();
+		ActionsThisTurn=new List<CharacterActionData>();
+	}
+	
+	public void AddCharacter (GameCharacterData c)
+	{
+		GameCharacters.Add(c);
+	}
+	
+	public void RemoveCharacter (GameCharacterData c)
+	{
+		GameCharacters.Remove(c);
+	}
+	
+	
 	public bool HasOtherCharacters (GameCharacterData character)
 	{
 		int amount=0;
-		foreach (var c in characters){
+		foreach (var c in GameCharacters){
 			if (c==character) continue;
 			//Dev.stealth check
 			amount++;
@@ -26,12 +40,17 @@ public class TileData
 	public bool HasOtherCharactersNotMoving (GameCharacterData character)
 	{
 		int amount=0;
-		foreach (var c in characters){
+		foreach (var c in GameCharacters){
 			if (c==character) continue;
 			//Dev.stealth check 
-			if (!c.OnMovingAwayFromTile)
+			if (!c.OnMovingAwayFromTile&&c.CurrentPosIsTurnStartPos())
 				amount++;
 		}
 		return amount>0;
+	}
+
+	public void SetLocation (LocationData data)
+	{
+		Location=data;
 	}
 }

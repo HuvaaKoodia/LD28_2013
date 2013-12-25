@@ -45,9 +45,9 @@ public class ActionsSceneController : MonoBehaviour {
 		if (GDB.planning_turn){
 			//stun effects for all
 			
-			foreach (var c in controller.SceneMan.Location.Characters){
-				if (c.CharacterData.IsStunned()){				
-					var go=Instantiate(StunEffect,c.transform.position+Vector3.up*0.8f,Quaternion.identity);
+			foreach (var c in GDB.CurrentTileData.GameCharacters){
+				if (c.IsStunned()){
+					var go=Instantiate(StunEffect,c.ActionMain.transform.position+Vector3.up*0.8f,Quaternion.identity);
 				}
 			}
 			
@@ -60,14 +60,11 @@ public class ActionsSceneController : MonoBehaviour {
 			}
 			else{
 				controller.dial_man_2.CheckQuery(
-					new QueryData(controller.SceneMan.Location_Data,GDB.CurrentCharacter.Data,
+					new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,
 					GDB.CurrentCharacter.Data,"OnClickBasic")
 				);
 			}
 		}
-		
-								
-		
 	}
 	
 	void OnAnswerButtonClick(AnswerButtonMain button){
@@ -78,7 +75,7 @@ public class ActionsSceneController : MonoBehaviour {
 			GDB.CurrentCharacter,
 			target,
 			button.Data.ToEvent,
-			new QueryData(controller.SceneMan.Location_Data,GDB.CurrentCharacter.Data,target.Data,button.Data.ToEvent)
+			new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,target.Data,button.Data.ToEvent)
 		);
 		
 		GDB.CurrentCharacter.CurrentAction=action;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
@@ -102,7 +99,7 @@ public class ActionsSceneController : MonoBehaviour {
 						InterractTargetData=target.CharacterData;
 						
 						controller.dial_man_1.CheckQuery(
-						new QueryData(controller.SceneMan.Location_Data,GDB.CurrentCharacter.Data,
+						new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,
 						target.Entity,"OnClick"));
 					}
 				}
@@ -147,14 +144,13 @@ public class ActionsSceneController : MonoBehaviour {
 						}
 						
 						//add panel
-						var loc=new LocationData("ActionTexts");
-						var q=new QueryData(loc,CurrentAction.Character.Data,CurrentAction.Target.Data,CurrentAction._Event);
+						var q=new QueryData(new LocationData("ActionTexts"),CurrentAction.Character.Data,CurrentAction.Target.Data,CurrentAction._Event);
 						var r=controller.dial_man_1.core_database.rule_database.CheckQuery(q);
 						
 						var ActionTextData=new DialogueData("ERROR!!!1!");
 						var ActionTextQuery=CurrentAction.Query;
 						if (r!=null){
-							ActionTextData=r.Data;
+							ActionTextData=r.Link;
 						}
 						
 						hud.AddActionDataTextPanel(ActionTextData,ActionTextQuery);

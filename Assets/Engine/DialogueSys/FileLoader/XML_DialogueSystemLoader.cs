@@ -130,6 +130,13 @@ namespace DialogueSystem.FileIO
 									foreach (var s in spl)
 										r.temp_functions.Add(s);
 								}
+								
+								if (a.Name == "Call")
+								{
+									var spl = Subs.Split(a.InnerText,";");
+									foreach (var s in spl)
+										r.temp_calls.Add(s);
+								}
                             }
                         }
                     }

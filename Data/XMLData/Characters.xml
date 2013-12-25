@@ -12,12 +12,15 @@
 	  
 	<Var>MovementSpeed 2</Var>
 	<Var>VehicleSpeed 4</Var>
+	<Var>ViewRange 2</Var>
 	
 	<Var>DealerMadeDealPolitician false</Var>
-	<Var>CallGirlSexPolitician false</Var>
-	<Var>PolicePoliticianBlackmail false</Var>
-	<Var>DealerMadeDrugDealJunkie false</Var>
-	<Var>FreelancerPolitcianBlackmail false</Var>
+	<Var>CallGirlServicePolitician false</Var>
+	<Var>PoliceBlackmailPolitician false</Var>
+	<Var>PoliceArrestPolitician false</Var>
+	<Var>DealerDrugDealJunkie false</Var>
+	<Var>JunkieStealAnyone false</Var>
+	<Var>FreelancerBlackmailPolitician false</Var>
 </Character>
 
   <Character Type="PLAYER" Name="Policeman" Base="PLAYER_BASE">
@@ -59,6 +62,7 @@
   <Var>HasGun true</Var>
   
   <Var>Money 100</Var>
+  <Var min="0">Drugs 3</Var>
   
   <Var>MovementSpeed 2</Var>
   </Character>

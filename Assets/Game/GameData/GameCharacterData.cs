@@ -9,6 +9,7 @@ public class GameCharacterData{
 	
 	public CharacterData Data;
 	public MapCharacter Main{get;private set;}
+	public CharacterMain ActionMain{get;private set;}
 	
 	public Vector2 TurnStartPos {get;private set;}
 	public Vector2 CurrentPos {get;private set;}
@@ -50,12 +51,12 @@ public class GameCharacterData{
 	{
 		return mapman.tiles_map[(int)TurnStartPos.x,(int)TurnStartPos.y];
 	}
-	public Tile CurrentTempTile ()
+	public Tile CurrentTile ()
 	{
 		return mapman.tiles_map[(int)CurrentPos.x,(int)CurrentPos.y];
 	}
 
-	public void EndPathToCurrentPos ()
+	public void EndPathToCurrentPos()
 	{
 		if (Path_positions.Count>0){
 			while (!CurrentPosIsLastPathPos()){
@@ -70,8 +71,12 @@ public class GameCharacterData{
 		Main.mapman=mapman;
 		Main.SetCharacterData(Data);
 	}
-
 	
+	public void SetActionMain(CharacterMain main){
+		ActionMain=main;
+		main.SetCharacterData(this);
+	}
+
 	public bool TempMovement{get{return temp_movement;}}
 	
 	public void StarMovement(){
@@ -94,25 +99,23 @@ public class GameCharacterData{
 			return Path_positions[temp_index+1];
 		return CurrentPos;
 	}
-	
-	public Vector2 CurrentTempPos(){
-		return CurrentPos;
-	}
 
 	public bool CurrentPosIsLastPathPos ()
 	{
 		return CurrentPos==Path_positions[Path_positions.Count-1];
 	}
 	
+	public bool CurrentPosIsTurnStartPos()
+	{
+		return CurrentPos==TurnStartPos;
+	}
+	
 	//path 
 	public void CalculatePath(Vector2 endPos)
 	{
-
 		int max_movement=(int)Data.Facts.GetFloat("MovementSpeed");
-		
 		Path_positions.Clear();
-		//find path
-		
+
 		int ex=(int)endPos.x,ey=(int)endPos.y;
 		int tx=(int)TurnStartPos.x;
 		int ty=(int)TurnStartPos.y;
@@ -120,8 +123,6 @@ public class GameCharacterData{
 		
 		while (true)
 		{
-			
-			
  			Path_positions.Add(new Vector2(tx,ty));
 			
 			if (max_movement==0) break;
@@ -161,11 +162,8 @@ public class GameCharacterData{
  				if (x_abs==0)
 				{
 					y_abs=0;
-					
 					x_abs=(int)Mathf.Sign(x_dif);
-					
-					//if (tx+x_abs>1)
-					
+
 					if (tx+x_abs>mapman.gridX-1||tx+x_abs<0){
 						x_abs*=-1;
 					}
@@ -178,19 +176,8 @@ public class GameCharacterData{
 					if (ty+y_abs>mapman.gridY-1||ty+y_abs<0){
 						y_abs*=-1; 
 					}
-					
-					//if (x_abs==0&&y_abs==0){
-							
-					//}
+
 				}
-//				else{
-//					if (Mathf.Abs(y_dif)>Mathf.Abs(x_dif)){
-//						x_abs=0;
-//					}
-//					else{
-//						y_abs=0; 
-//					}
-//				}
 			}
 			
 			tx+=x_abs;

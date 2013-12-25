@@ -22,25 +22,26 @@ public class SceneManager : MonoBehaviour {
 		
 	}
 	
+	//Load action scene characters
 	public void LoadScene(TileData data,GameCharacterData currentCharacter){
 		//dev.TODO have a real location for each tiledata.
-		Location.SetLocation(Core.location_database.GetLocation(data.LocationName));
+		Location.SetLocation(data.Location);
 		
 		var go=Instantiate(CharacterPrefab,CurrentCharacterPos.position,Quaternion.AngleAxis(90,Vector3.up)) as GameObject;
 		CurrentPlayer=go.GetComponent<CharacterMain>();
 		
-		CurrentPlayer.SetCharacterData(currentCharacter);
+		currentCharacter.SetActionMain(CurrentPlayer);
 		
 		var add_to_pos=Vector3.right*1;
 		
-		foreach (var c in data.characters){
-			if (c==currentCharacter||c.OnMovingAwayFromTile) continue;
+		foreach (var c in data.GameCharacters){
+			if (c==currentCharacter||c.OnMovingAwayFromTile||!c.CurrentPosIsTurnStartPos()) continue;
 			
 			go=Instantiate(CharacterPrefab,CurrentCharacterPos.position+add_to_pos,Quaternion.AngleAxis(270,Vector3.up)) as GameObject;
 			var cm=go.GetComponent<CharacterMain>();
 			
-			cm.SetCharacterData(c);
-			Location.AddCharacter(cm);
+			c.SetActionMain(cm);
+			//Location.AddCharacter(cm);
 			
 			add_to_pos+=Vector3.right*1;
 		}
@@ -49,7 +50,7 @@ public class SceneManager : MonoBehaviour {
 //			Debug.Log(f.Key+" "+f.Value.Value);
 //		}
 
-		Location.AddCharacter(CurrentPlayer);
+		//Location.AddCharacter(CurrentPlayer);
 		
 	}
 	

@@ -1,11 +1,25 @@
 <Root>
 	
+	<!-- Stat effects-->
+	
 	<Rule Name="OnStealActor" Base="PlayerToPlayer">
 		<Location>ActionEffects</Location>
 		<Event>OnStealActor</Event>
+		<Criterion>Actor.Name E Junkie</Criterion>
 		<Result>
+			<Call>Player OnStealInfo</Call>
 			<Function>Actor.StealFromTarget</Function>
 			<Assign>Actor.VP = 0</Assign>
 		</Result>
 	</Rule>
+
+	<!-- Info effects-->
+	
+	<Rule Name="StealInfo1" Base="PlayerToPlayer">
+		<Event>OnJunkieStealInfo</Event>
+		<Result>
+			<Assign>JunkieStealAnyone E true</Assign>
+		</Result>
+	</Rule>
+	
 </Root>

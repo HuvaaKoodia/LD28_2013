@@ -15,7 +15,10 @@ public class LocationMain :MonoBehaviour{
 		Characters = new List<CharacterMain>();
         Objects = new List<ObjectMain>();
     }
-
+	
+	public void ClearLocation(){
+	}
+	
 	public void SetLocation (LocationData locationData)
 	{
 		Characters.Clear();
@@ -26,13 +29,19 @@ public class LocationMain :MonoBehaviour{
 	public void AddCharacter (CharacterMain c)
 	{
 		Characters.Add(c);
-		//Location.Characters.Add((CharacterData)c.Entity);
+		Location.Characters.Add((CharacterData)c.Entity);
+	}
+	
+	public void RemoveCharacter (CharacterMain c)
+	{
+		Characters.Remove(c);
+		Location.Characters.Remove((CharacterData)c.Entity);
 	}
 
 	public void AddObject (ObjectMain o)
 	{
 		Objects.Add(o);
-		//Location.Objects.Add((ObjectData)o.Entity);
+		Location.Objects.Add((ObjectData)o.Entity);
 	}
 
 	public void RemoveEntity (EntityData target)
