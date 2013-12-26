@@ -78,6 +78,8 @@ public class GameDatabase : MonoBehaviour {
 	}
 	
 	private int SortActions(CharacterActionData a,CharacterActionData b){
+		if (a==null) return -1;
+		if (b==null) return 1;
 		int ai=-1,bi=-1;
 		for (int i=0;i<EventOrder.Length;i++){
 			var e = EventOrder[i];
@@ -182,14 +184,18 @@ public class GameDatabase : MonoBehaviour {
 					
 					if (a._Event=="OnArrest"){
 						//arrest interrups any lower order actions
-						a.Target.CurrentAction.Interrupted=true;
+						a.Target.CurrentAction.Interrupt(a.Character);
 						continue;
 					}
 					
 					if (a._Event=="OnSearch"){							
 						//search interrupts any lower order actions the target might do.
 						if (SortActions(a.Character.CurrentAction,a.Target.CurrentAction)<0){//DEV. check for 0 if two people can search
-							a.Target.CurrentAction.Interrupted=true;							
+							if (a.Target.CurrentAction._Event=="OnWait"){
+								a.Target.CurrentAction.IgnoreThis=true;
+							}else{
+								a.Target.CurrentAction.Interrupt(a.Character);
+							}
 						}
 						continue;
 					}
@@ -201,8 +207,9 @@ public class GameDatabase : MonoBehaviour {
 							var a2 = raw_actions[j];
 							if (a2.Target==a.Character){
 								//movement action doesn't interrupt other movement actions
-								if (a2._Event!="OnRun"&&a2._Event!="OnWalk"&&a2._Event!="OnWait")
-									a2.Interrupted=true; 
+								if (a2._Event!="OnRun"&&a2._Event!="OnWalk"&&a2._Event!="OnWait"){
+									a2.Interrupt(a.Character);
+								}
 							}
 						}
 						continue;
@@ -222,23 +229,26 @@ public class GameDatabase : MonoBehaviour {
 		
 		//action effects
 		foreach (var c in Characters){
+			if (c.OnMovingAwayFromTile){
+				c.OnMovingAwayFromTile=false;
+				c.CurrentTile().Data.AddCharacter(c);
+			}
 			if (c.CurrentAction!=null){
 				if (!c.CurrentAction.Interrupted){
-					
-					c.OnMovingAwayFromTile=false;
-			
+
 					if (c.CurrentAction._Event=="OnWalk"||c.CurrentAction._Event=="OnRun"){
 						c.OnMovingAwayFromTile=true;
+						c.CurrentTile().Data.RemoveCharacter(c);
 					}
 					
 					//effect
 					var r=Core.rule_database.CheckQuery(new QueryData(
-						new LocationData("ActionEffects"),
-						c.Data,
+						c.CurrentAction.Query.Location,
+						c.CurrentAction.Character.Data,
 						c.CurrentAction.Target.Data,
-						c.CurrentAction._Event
+						c.CurrentAction._Event+"Effect"
 					));
-					int i=0;
+					
 				}
 				c.CurrentAction=null;
 			}

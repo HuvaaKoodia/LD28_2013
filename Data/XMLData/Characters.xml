@@ -1,6 +1,6 @@
 <Root>
 
-<Character Type="BASETYPE" Name="PLAYER_BASE">
+<Character Type="BASE" Name="PLAYER_BASE">
 	<Var>Gender Male</Var>
 	<Var>HasGun false</Var>
     <Var>HasVehicle false</Var>
@@ -20,6 +20,7 @@
 	<Var>PoliceArrestPolitician false</Var>
 	<Var>DealerDrugDealJunkie false</Var>
 	<Var>JunkieStealAnyone false</Var>
+	<Var>JunkieHadDrugs false</Var>
 	<Var>FreelancerBlackmailPolitician false</Var>
 </Character>
 
@@ -33,8 +34,9 @@
   </Character>
   
   <Character Type="PLAYER" Name="Junkie" Base="PLAYER_BASE">
-  <Var>Money 0</Var>
-
+  <Var>Money 3</Var>
+  <Var>Drugs 1</Var>
+  
   <Var>MovementSpeed 2</Var>
   </Character>
   

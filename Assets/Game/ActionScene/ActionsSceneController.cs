@@ -44,10 +44,9 @@ public class ActionsSceneController : MonoBehaviour {
 
 		if (GDB.planning_turn){
 			//stun effects for all
-			
 			foreach (var c in GDB.CurrentTileData.GameCharacters){
 				if (c.IsStunned()){
-					var go=Instantiate(StunEffect,c.ActionMain.transform.position+Vector3.up*0.8f,Quaternion.identity);
+					Instantiate(StunEffect,c.ActionMain.transform.position+Vector3.up*0.8f,Quaternion.identity);
 				}
 			}
 			
@@ -72,11 +71,15 @@ public class ActionsSceneController : MonoBehaviour {
 		if (target==null)
 			target=GDB.CurrentCharacter;
 		var action=new CharacterActionData(
-			GDB.CurrentCharacter,
+			GDB.CurrentCharacter, 
 			target,
 			button.Data.ToEvent,
 			new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,target.Data,button.Data.ToEvent)
 		);
+		
+		foreach (var c in GDB.CurrentTileData.Location.Characters){
+			Debug.Log("name: "+c.Name);
+		}
 		
 		GDB.CurrentCharacter.CurrentAction=action;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 		
@@ -118,37 +121,28 @@ public class ActionsSceneController : MonoBehaviour {
 					else{
 						//next action
 						var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
-						CurrentAction=action;
-					
+						QueryData action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,action._Event);
+						
 						if (action.IgnoreThis){
 							continue;
-						}else
-						if (action.Interrupted){
-							CurrentAction=new CharacterActionData(
-								action.Character,
-								action.Target,
-								"OnInterrupt",
-								action.Query
-							);
-						
-							if (action.Character!=GDB.CurrentCharacter) continue;
-						}else
-						if (action.Stunned){
-							CurrentAction=new CharacterActionData(
-								action.Character,
-								action.Target,
-								"OnStun",
-								action.Query
-							);
-							if (action.Character!=GDB.CurrentCharacter) continue;
+						}
+						else if (action.Interrupted){
+							if (action.Character!=GDB.CurrentCharacter) continue;//don't show interrupted message for other players.
+							
+							action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,"OnInterrupt");
+						}
+						else if (action.Stunned){
+							if (action.Character!=GDB.CurrentCharacter) continue;//don't show stun message for other players.
+							
+							action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,"OnStun");
 						}
 						
 						//add panel
-						var q=new QueryData(new LocationData("ActionTexts"),CurrentAction.Character.Data,CurrentAction.Target.Data,CurrentAction._Event);
-						var r=controller.dial_man_1.core_database.rule_database.CheckQuery(q);
+
+						var r=controller.dial_man_1.core_database.rule_database.CheckQuery(action_q);
 						
 						var ActionTextData=new DialogueData("ERROR!!!1!");
-						var ActionTextQuery=CurrentAction.Query;
+						var ActionTextQuery=action_q;
 						if (r!=null){
 							ActionTextData=r.Link;
 						}
@@ -162,7 +156,6 @@ public class ActionsSceneController : MonoBehaviour {
 	}
 	
 	int current_action=0;
-	CharacterActionData CurrentAction=null;
 	
 	//DEV.TEMP
 	void DEBUG_print_character_facts(){

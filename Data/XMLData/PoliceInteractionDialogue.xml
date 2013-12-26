@@ -7,42 +7,13 @@
 
 	</Dialogue>
 	
-	<Dialogue Name="OnSearch_PoliceToAny_HasDrugs">
-	<Link>"Arrest him (5VP)" type ENDL</Link>
-	<Link>"I'll let you go for some greens." type ENDL</Link>
-	</Dialogue>
-	
-	<Dialogue Name="OnSearch_PoliceToAny_NoDrugs">
-	<Link>"You found no drugs on the person." type ENDL</Link>
-	</Dialogue>
-	
-	<Rule Name="OnSearchPlayer1" Base="PlayerToPlayer">
-		<Event>OnSearch</Event>
-		<Criterion>Actor.Name E Policeman</Criterion>
-		<Criterion>Target.Drugs G 0</Criterion>
-		<Result>
-			<Link>OnSearch_PoliceToAny_HasDrugs</Link>
-			<Assign>Target.Drugs = 0</Assign>
-			<Assign>Actor.VP + 1</Assign>
-		</Result>
-	</Rule>
-	
-	<Rule Name="OnSearchPlayer2" Base="PlayerToPlayer">
-		<Event>OnSearch</Event>
-		<Criterion>Actor.Name E Policeman</Criterion>
-		<Criterion>Target.Drugs E 0</Criterion>
-		<Result>
-			<Link>OnSearch_PoliceToAny_NoDrugs</Link>
-		</Result>
-	</Rule>
-	
 	<Rule Name="SegwayAway">
 		<Actor>PLAYER</Actor>
 		<Target>PLAYER</Target>
 		<Event>SelectWalkLink</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Result>
-			<Link>"-Segway away." to PLAYER OnWalk</Link>
+			<Link>"Segway away." to PLAYER OnWalk</Link>
 		</Result>
 	</Rule>
 	
@@ -52,7 +23,7 @@
 		<Event>SelectRunLink</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Result>
-			<Link>"-Segway away. FAST!" to PLAYER OnRun</Link>
+			<Link>"Segway away. FAST!" to PLAYER OnRun</Link>
 		</Result>
 	</Rule>
 

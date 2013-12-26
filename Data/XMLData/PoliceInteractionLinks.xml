@@ -1,5 +1,40 @@
 <Root>
 
+	<!-- Arrest -->
+
+	<Rule Name="OnArrestPolicemanJunkie1" Base="PlayerToPlayer">
+		<Event>SelectArrestLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Criterion>Target.Name E Junkie</Criterion>
+		<Criterion>Actor.JunkieStealAnyone E true</Criterion>
+		<Result>
+			<Link>"Arrest the Junkie for stealing" to PLAYER OnArrest</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnArrestPolicemanJunkie2" Base="PlayerToPlayer">
+		<Event>SelectArrestLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Criterion>Target.Name E Junkie</Criterion>
+		<Criterion>Actor.DealerDrugDealJunkie E true</Criterion>
+		<Result>
+			<Link>"Arrest the Junkie for buying drugs." to PLAYER OnArrest</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnArrestPolicemanJunkie2" Base="PlayerToPlayer">
+		<Event>SelectArrestLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Criterion>Target.Name E Junkie</Criterion>
+		<Criterion>Actor.JunkieHadDrugs E true</Criterion>
+		<Result>
+			<Link>"Arrest the Junkie for carrying drugs." to PLAYER OnArrest</Link>
+		</Result>
+	</Rule>
+	
+	
+	<!-- Search -->
+
 	<Rule Name="OnSearchPolicemanJunkie" Base="PlayerToPlayer">
 		<Event>SelectSearchLink</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
@@ -42,15 +77,6 @@
 		<Criterion>Target.Name E Freelancer</Criterion>
 		<Result>
 			<Link>"Search the Freelancer journalist for any incriminating material" to PLAYER OnSearch</Link>
-		</Result>
-	</Rule>
-	
-	<Rule Name="OnSearchPlayer2" Base="PlayerToPlayer">
-		<Event>SelectInterrogateLink</Event>
-		<Criterion>Actor.Name E Policeman</Criterion>
-		<Criterion>Target.Name E Junkie</Criterion>
-		<Result>
-			<Link>"Imma interrogate u now." to PLAYER OnInterrogate</Link>
 		</Result>
 	</Rule>
 </Root>

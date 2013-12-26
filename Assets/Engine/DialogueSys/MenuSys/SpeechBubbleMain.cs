@@ -30,7 +30,7 @@ public class SpeechBubbleMain : MonoBehaviour {
 
 	public void setText (string text)
 	{
-		text_label.text=Subs.autofit_text(text,(int)sprite.width,text_label.font);
+		text_label.text=Subs.autofit_text(text,(int)sprite.width,text_label.bitmapFont);
 	}
 	
 	public void appear()

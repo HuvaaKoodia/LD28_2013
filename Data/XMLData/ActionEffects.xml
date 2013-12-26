@@ -1,13 +1,23 @@
 <Root>
 	
+	<!-- Search effects -->
+	
+	<Rule Name="OnSearchActorEffect" Base="PlayerToPlayer">
+		<Event>OnSearchEffect</Event>
+		<Criterion>Target.Name E Junkie</Criterion>
+		<Criterion>Target.Drugs G 0</Criterion>
+		<Result>
+			<Assign>Actor.JunkieHadDrugs = true</Assign>
+		</Result>
+	</Rule>
+	
 	<!-- Stat effects-->
 	
-	<Rule Name="OnStealActor" Base="PlayerToPlayer">
-		<Location>ActionEffects</Location>
-		<Event>OnStealActor</Event>
+	<Rule Name="OnStealActorEffect" Base="PlayerToPlayer">
+		<Event>OnStealActorEffect</Event>
 		<Criterion>Actor.Name E Junkie</Criterion>
 		<Result>
-			<Call>Player OnStealInfo</Call>
+			<Call>PLAYER OnJunkieStealInfo</Call>
 			<Function>Actor.StealFromTarget</Function>
 			<Assign>Actor.VP = 0</Assign>
 		</Result>
@@ -17,8 +27,9 @@
 	
 	<Rule Name="StealInfo1" Base="PlayerToPlayer">
 		<Event>OnJunkieStealInfo</Event>
+		<Criterion>Actor.Stun E 0</Criterion>
 		<Result>
-			<Assign>JunkieStealAnyone E true</Assign>
+			<Assign>Actor.JunkieStealAnyone E true</Assign>
 		</Result>
 	</Rule>
 	

@@ -9,9 +9,11 @@ public class CharacterActionData{
 	public string _Event {get;private set;}
 	public QueryData Query {get;private set;}
 	
-	public bool Interrupted{get;set;}
+	public bool Interrupted{get;private set;}
 	public bool Stunned{get;set;}
 	public bool IgnoreThis{get;set;}
+	
+	//public CharacterData Interrupter{get;private set;}
 	
 	public CharacterActionData(GameCharacterData character,GameCharacterData target,string _event,QueryData query){
 		Character=character;
@@ -19,6 +21,11 @@ public class CharacterActionData{
 		Query=query;
 		_Event=_event;
 		Interrupted=false;
+	}
+	
+	public void Interrupt(GameCharacterData interrupter){
+		Interrupted=true;
+		Target=interrupter;
 	}
 	
 }

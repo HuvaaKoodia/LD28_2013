@@ -17,12 +17,19 @@ public class TileData
 	
 	public void AddCharacter (GameCharacterData c)
 	{
+		if (GameCharacters.Contains(c)){
+			Debug.LogWarning("Tile already has the character "+c.Name);
+			return;
+		}
+		
 		GameCharacters.Add(c);
+		Location.Characters.Add(c.Data);
 	}
 	
 	public void RemoveCharacter (GameCharacterData c)
 	{
 		GameCharacters.Remove(c);
+		Location.Characters.Remove(c.Data);
 	}
 	
 	

@@ -108,15 +108,15 @@ public class GameMapController : MonoBehaviour {
 					var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.AngleAxis(90,Vector3.up)) as MapCharacter;
 					GameCharacterData data=new GameCharacterData("Player "+(temp_i+1));
 					
-					t.Data.AddCharacter(data);
-					
 					data.mapman=MapMan;
 					
 					data.Data=GDB.Core.character_database.GetCharacterLazy(temp_names[temp_i++]);
 					data.SetMain(c);
 	  			
 					data.SetStartPosition(t.TilePosition);
+					
 					GDB.Characters.Add(data);
+					t.Data.AddCharacter(data);
 				}
 			}
 		}

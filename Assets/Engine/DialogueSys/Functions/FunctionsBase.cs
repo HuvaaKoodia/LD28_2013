@@ -16,9 +16,9 @@ namespace DialogueSystem{
 		public void LoadMethods(){
 			methods=GetType().GetMethods();
 
-			foreach (var m in methods){
-				Debug.Log(m.ToString());
-			}
+			//foreach (var m in methods){
+			//	Debug.Log(m.ToString());
+			//}
 		}
 
 		public bool InvokeMethod (QueryData query,string f)
