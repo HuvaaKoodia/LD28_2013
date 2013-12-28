@@ -43,6 +43,11 @@ public class TileData
 		}
 		return amount>0;
 	}
+
+	public bool HasCharacter (GameCharacterData data)
+	{
+		return GameCharacters.Contains(data);
+	}
 	
 	public bool HasOtherCharactersNotMoving (GameCharacterData character)
 	{

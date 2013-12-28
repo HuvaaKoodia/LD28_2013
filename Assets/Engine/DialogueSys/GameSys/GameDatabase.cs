@@ -20,6 +20,9 @@ public class GameDatabase : MonoBehaviour {
 	public TileData[,] tiledata_map;
 	public TileData CurrentTileData;
 	
+	//location data
+	TileData PoliceStationTile;
+	
 	void Awake(){
 		CharacterGraphics.Add("Policeman",Resources.Load("PoliceGraphics") as GameObject);
 		CharacterGraphics.Add("Junkie",Resources.Load("BumGraphics")as GameObject);
@@ -45,6 +48,7 @@ public class GameDatabase : MonoBehaviour {
 				{
 					case "p":
 						LocationName="PoliceStation";
+						PoliceStationTile=tiledata_map[i,j];
 					break;
 					case "a":
 						LocationName="Alley";
@@ -184,7 +188,7 @@ public class GameDatabase : MonoBehaviour {
 					
 					if (a._Event=="OnArrest"){
 						//arrest interrups any lower order actions
-						a.Target.CurrentAction.Interrupt(a.Character);
+						a.Target.CurrentAction.Interrupt(a.Character);						
 						continue;
 					}
 					
@@ -233,6 +237,10 @@ public class GameDatabase : MonoBehaviour {
 				c.OnMovingAwayFromTile=false;
 				c.CurrentTile().Data.AddCharacter(c);
 			}
+								
+			//c.RecoverStun(1);
+			c.RecoverArrest(1);
+
 			if (c.CurrentAction!=null){
 				if (!c.CurrentAction.Interrupted){
 
@@ -248,6 +256,12 @@ public class GameDatabase : MonoBehaviour {
 						c.CurrentAction.Target.Data,
 						c.CurrentAction._Event+"Effect"
 					));
+					
+					if (c.CurrentAction._Event=="OnArrest"){
+						//and lock the target up
+						c.CurrentAction.Target.Arrest(3);
+						c.CurrentAction.Target.MoveToPosition(PoliceStationTile);
+					}
 					
 				}
 				c.CurrentAction=null;
@@ -294,33 +308,23 @@ public class GameDatabase : MonoBehaviour {
 							}
 						}					
 					}
+					//move to next tile
+					t.RemoveCharacter(c);
+					c.OldPos=t.TilePosition;
 					
-					{
-						//move to next tile
-						t.RemoveCharacter(c);
-						c.OldPos=t.TilePosition;
-						
-						c.MoveToNextTempPos();
-						
-						t=c.CurrentTile().Data;
-						t.AddCharacter(c);
-						
-//						if (first_move&&t.HasOtherCharacters(c)){
-//							//next_tile_has character
-//							
-//							c.EndPathToTempPos();
-//							c.EndTempMovement();
-//						}
-						
-						if (c.CurrentPos==c.TurnStartPos||c.CurrentPosIsLastPathPos()){
-							//still in startpos or in last pos -> moving done
-							c.EndPathToCurrentPos();
-							c.EndMovement();
-						}
-						else{
-							//still moving
-							chars_still_moving=true;
-						}
+					c.MoveToNextTempPos();
+					
+					t=c.CurrentTile().Data;
+					t.AddCharacter(c);
+					
+					if (c.CurrentPos==c.TurnStartPos||c.CurrentPosIsLastPathPos()){
+						//still in startpos or in last pos -> moving done
+						c.EndPathToCurrentPos();
+						c.EndMovement();
+					}
+					else{
+						//still moving
+						chars_still_moving=true;
 					}
 				}
 			}

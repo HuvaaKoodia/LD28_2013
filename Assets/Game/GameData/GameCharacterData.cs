@@ -15,12 +15,16 @@ public class GameCharacterData{
 	public Vector2 CurrentPos {get;private set;}
 	public Vector2 OldPos {get;set;} 
 	
+	public bool Inactive{get;private set;}
+	
 	//private Vector2 MoveToPos;
 	
 	public string Name{get;private set;}
 	
 	public CharacterActionData CurrentAction;
 	 
+	public int ArrestedTurns{get;private set;}
+	
 	int temp_index;
 	bool temp_movement;
 	
@@ -31,6 +35,7 @@ public class GameCharacterData{
 	public GameCharacterData(string name){
 		Name=name;
 		OnMovingAwayFromTile=false;
+		ArrestedTurns=0;
 	}
 	
 	public void Stun(int turns){
@@ -42,9 +47,30 @@ public class GameCharacterData{
 		return Data.Facts.GetFloat("Stun")>0;
 	}
 	
+	public void Arrest(int turns)
+	{
+		Inactive=true;
+		ArrestedTurns+=turns;
+	}
+
+	public bool IsArrested ()
+	{
+		return ArrestedTurns>0;
+	}
+	
 	public void RecoverStun(int turns)
 	{
-		Data.Facts.AddFactValue("Stun",-turns);
+		Data.Facts.AddFactValue("Stun",-turns);	
+	}
+	
+	public void RecoverArrest(int turns)
+	{
+		ArrestedTurns--;
+		
+		if (ArrestedTurns==0){
+			CurrentTile().Data.AddCharacter(this);
+			Inactive=false;
+		}
 	}
 	
 	public Tile TurnStartTile ()
@@ -203,5 +229,11 @@ public class GameCharacterData{
 	public void SetStartPosition (Vector2 tilePosition)
 	{
 		TurnStartPos=CurrentPos=tilePosition;
+	}
+
+	public void MoveToPosition(TileData tile)
+	{
+		CurrentTile().Data.RemoveCharacter(this);
+		SetStartPosition(tile.TilePosition);
 	}
 }

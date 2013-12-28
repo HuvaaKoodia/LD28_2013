@@ -3,17 +3,17 @@
 	<Rule Name="OnBuySexPoliticianToCallGirl" Base="PlayerToPlayer">
 		<Event>SelectBuySexLink</Event>
 		<Criterion>Actor.Name E Politician</Criterion>
-		<Criterion>Actor.Name E CallGirl</Criterion>
-		<Criterion>Actor.Money E 5</Criterion>
+		<Criterion>Target.Name E CallGirl</Criterion>
+		<Criterion>Actor.Money GE 10</Criterion>
 		<Result>
-			<Link>"Buy sex from the local Call Girl" to PLAYER OnSellSex</Link>
+			<Link>"Buy services from the local Call Girl" to PLAYER OnBuySex</Link>
 		</Result>
 	</Rule>
 	
 	<Rule Name="OnSellPropertyPoliticianToDealer" Base="PlayerToPlayer">
 		<Event>SelectSellPropertyLink</Event>
 		<Criterion>Actor.Name E Politician</Criterion>
-		<Criterion>Actor.Name E Dealer</Criterion>
+		<Criterion>Target.Name E Dealer</Criterion>
 		<Result>
 			<Link>"Suggest a deal with the Dealer" to PLAYER OnSellProperty</Link>
 		</Result>

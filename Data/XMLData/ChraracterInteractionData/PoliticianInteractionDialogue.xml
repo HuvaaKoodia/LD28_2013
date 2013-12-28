@@ -2,6 +2,5 @@
 	<Dialogue Name="OnInteract_PoliticianToAny">
 	<Link>select PLAYER SelectBuySexLink</Link>
 	<Link>select PLAYER SelectSellPropertyLink</Link>
-
 	</Dialogue>
 </Root>

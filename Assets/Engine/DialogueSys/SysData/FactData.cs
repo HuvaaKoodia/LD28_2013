@@ -18,7 +18,8 @@ namespace DialogueSystem{
 		}
 		
 		private float min,max;
-		private bool has_min_value,has_max_value;
+		public bool has_min_value{get;private set;}
+		public bool has_max_value{get;private set;}
 		
         //public string Key{get;private set;}
 		public bool IsString{get {return ValueObject.GetType()==typeof(string);}}

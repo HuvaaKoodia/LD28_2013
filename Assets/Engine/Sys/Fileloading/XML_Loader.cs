@@ -27,6 +27,21 @@ public class XML_Loader{
 		return float.Parse(element[name].InnerText);
 	}
 	
+	public static string getAttStr(XmlNode element,string name){
+		if (element.Attributes[name]==null) return "";
+		return element.Attributes[name].Value;
+	}
+	
+	public static int getAttInt(XmlNode element,string name){
+		if (element.Attributes[name]==null) return 0;
+		return int.Parse(element.Attributes[name].Value);
+	}
+	
+	public static float getAttFlt(XmlNode element,string name){
+		if (element.Attributes[name]==null) return 0f;
+		return float.Parse(element.Attributes[name].Value);
+	}
+	
 	//adding elements
 	public static XmlElement addElement(XmlElement element,string name){
 		var node=element.OwnerDocument.CreateElement(name);

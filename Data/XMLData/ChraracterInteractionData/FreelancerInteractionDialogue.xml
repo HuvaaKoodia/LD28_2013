@@ -7,7 +7,7 @@
 
 	</Dialogue>
 	
-	<Rule Name="OnSellInfo" Base="PlayerToPlayer">
+	<Rule Name="OnSellInfoFreelancer" Base="PlayerToPlayer">
 		<Event>OnSell</Event>
 		<Criterion>Actor.Name E Freelancer</Criterion>
 		<Result>
@@ -17,7 +17,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnBuyInfo" Base="PlayerToPlayer">
+	<Rule Name="OnBuyInfoFreelancer" Base="PlayerToPlayer">
 		<Event>OnBuy</Event>
 		<Criterion>Actor.Name E Freelancer</Criterion>
 		<Result>

@@ -10,7 +10,7 @@
 		</Result>
 	</Rule>
 
-	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
+	<Rule Name="OnStunText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnStun</Event>
 		<Result>
@@ -20,7 +20,7 @@
 	
 <!-- Any actor texts -->	
 
-	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
+	<Rule Name="OnStealText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnStealActor</Event>
 		<Result>
@@ -28,7 +28,7 @@
 		</Result>
 	</Rule>
 
-	<Rule Name="OnInterruptText" Base="PlayerToPlayer">
+	<Rule Name="OnWaitText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnWait</Event>
 		<Result>
@@ -44,7 +44,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnDefendText" Base="PlayerToPlayer">
+	<Rule Name="OnDefendText1" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnDefend</Event>
 		<Criterion>Actor.Gender E Male</Criterion>
@@ -53,7 +53,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnDefendText" Base="PlayerToPlayer">
+	<Rule Name="OnDefendText2" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnDefend</Event>
 		<Criterion>Actor.Gender E Female</Criterion>
@@ -62,7 +62,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnDefendText" Base="PlayerToPlayer">
+	<Rule Name="OnVictoryText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnVictory</Event>
 		<Result>
@@ -70,7 +70,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnDefendText" Base="PlayerToPlayer">
+	<Rule Name="OnDefeatText" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnDefeat</Event>
 		<Result>
@@ -116,7 +116,7 @@
 	
 	<!--Move events-->
 	
-	<Rule Name="OnWalkText" Base="PlayerToPlayer">
+	<Rule Name="OnWalkText1" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnWalk</Event>
 		<Result>
@@ -124,7 +124,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnRunText" Base="PlayerToPlayer">
+	<Rule Name="OnRunText1" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnRun</Event>
 		<Result>
@@ -132,7 +132,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnWalkText" Base="PlayerToPlayer">
+	<Rule Name="OnWalkText2" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnWalk</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
@@ -141,7 +141,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnRunText" Base="PlayerToPlayer">
+	<Rule Name="OnRunText2" Base="PlayerToPlayer">
 		<Location>ActionTexts</Location>
 		<Event>OnRun</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>

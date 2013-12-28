@@ -1,8 +1,17 @@
 <Root>
 
-	<!-- Arrest -->
+	<!-- Arrest links-->
 
-	<Rule Name="OnArrestPolicemanJunkie1" Base="PlayerToPlayer">
+	<Rule Name="TEMP_TEST_1" Base="PlayerToPlayer">
+		<Event>SelectArrestLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Criterion>Target.Name E Junkie</Criterion>
+		<Result>
+			<Link>"Arrest the Junkie for science" to PLAYER OnArrest</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="PolicemanArrestJunkie1" Base="PlayerToPlayer">
 		<Event>SelectArrestLink</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Criterion>Target.Name E Junkie</Criterion>
@@ -12,28 +21,28 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnArrestPolicemanJunkie2" Base="PlayerToPlayer">
+	<Rule Name="PolicemanArrestJunkie2" Base="PlayerToPlayer">
 		<Event>SelectArrestLink</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Criterion>Target.Name E Junkie</Criterion>
-		<Criterion>Actor.DealerDrugDealJunkie E true</Criterion>
+		<Criterion>Actor.JunkieBuyDrugs E true</Criterion>
 		<Result>
 			<Link>"Arrest the Junkie for buying drugs." to PLAYER OnArrest</Link>
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnArrestPolicemanJunkie2" Base="PlayerToPlayer">
+	<Rule Name="PolicemanArrestJunkie3" Base="PlayerToPlayer">
 		<Event>SelectArrestLink</Event>
 		<Criterion>Actor.Name E Policeman</Criterion>
 		<Criterion>Target.Name E Junkie</Criterion>
-		<Criterion>Actor.JunkieHadDrugs E true</Criterion>
+		<Criterion>Actor.JunkieHasDrugs E true</Criterion>
 		<Result>
 			<Link>"Arrest the Junkie for carrying drugs." to PLAYER OnArrest</Link>
 		</Result>
 	</Rule>
 	
 	
-	<!-- Search -->
+	<!-- Search links-->
 
 	<Rule Name="OnSearchPolicemanJunkie" Base="PlayerToPlayer">
 		<Event>SelectSearchLink</Event>

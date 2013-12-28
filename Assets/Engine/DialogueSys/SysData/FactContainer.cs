@@ -37,7 +37,10 @@ namespace DialogueSystem{
 				else if (type==typeof(bool)){
 					f=new FactData((bool)Value.ValueObject);
 				}
-			
+				if (Value.has_min_value)
+					f.MinValue=Value.MinValue;
+				if (Value.has_max_value)
+					f.MaxValue=Value.MaxValue;
 				Facts.Add(Key, f);
 				return f;
 			}

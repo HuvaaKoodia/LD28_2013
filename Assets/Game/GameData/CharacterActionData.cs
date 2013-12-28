@@ -27,5 +27,4 @@ public class CharacterActionData{
 		Interrupted=true;
 		Target=interrupter;
 	}
-	
 }

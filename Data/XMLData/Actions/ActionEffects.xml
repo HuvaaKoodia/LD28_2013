@@ -1,0 +1,71 @@
+<Root>
+	
+	<!-- Arrest effects -->
+	
+	<Rule Name="OnArrestEffect1" Base="PlayerToPlayer">
+		<Event>OnArrestEffect</Event>
+		<Criterion>Target.Name E Junkie</Criterion>
+		<Result>
+			<Assign>Actor.JunkieHasDrugs = false</Assign>
+			<Assign>Actor.JunkieStealAnyone = false</Assign>
+			<Assign>Actor.JunkieBuyDrugs = false</Assign>
+		</Result>
+	</Rule>
+	
+	<!-- Search effects -->
+	
+	<Rule Name="OnSearchActorEffect" Base="PlayerToPlayer">
+		<Event>OnSearchEffect</Event>
+		<Criterion>Target.Name E Junkie</Criterion>
+		<Criterion>Target.Drugs G 0</Criterion>
+		<Result>
+			<Assign>Actor.JunkieHadDrugs = true</Assign>
+		</Result>
+	</Rule>
+	
+	<!-- Stat effects-->
+	
+	<Rule Name="OnStealActorEffect" Base="PlayerToPlayer">
+		<Event>OnStealActorEffect</Event>
+		<Criterion>Actor.Name E Junkie</Criterion>
+		<Result>
+			<Function>Actor.StealFromTarget</Function>
+			<Assign>Actor.VP = 0</Assign>
+			<!-- Send info to all characters in current location.-->
+			<Call>PLAYER OnJunkieStealInfo</Call>
+		</Result>
+	</Rule>
+
+	<Rule Name="OnBuySexEffect" Base="PlayerToPlayer">
+		<Event>OnBuySexEffect</Event>
+		<Criterion>Actor.Name E Politician</Criterion>
+		<Result>
+			<Assign>Actor.VP + 1</Assign>
+			<Assign>Actor.Money - 10</Assign>
+			<Assign>Target.Money + 10</Assign>
+
+			<Call>PLAYER OnPoliticianBuySex</Call>
+		</Result>
+	</Rule>
+	
+	<!-- Info effects-->
+	
+	<Rule Name="InfoBase" Base="PlayerToPlayer">
+		<Criterion>Actor.Stun E 0</Criterion>
+	</Rule>
+	
+	<Rule Name="Info1" Base="InfoBase">
+		<Event>OnJunkieStealInfo</Event>
+		<Result>
+			<Assign>Actor.JunkieStealAnyone E true</Assign>
+		</Result>
+	</Rule>
+	
+	<Rule Name="Info2" Base="InfoBase">
+		<Event>OnPoliticianBuySex</Event>
+		<Result>
+			<Assign>Actor.PoliticianBuySex E true</Assign>
+		</Result>
+	</Rule>
+	
+</Root>

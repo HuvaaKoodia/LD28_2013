@@ -36,6 +36,7 @@ namespace DialogueSystem{
     }
 	
 	public class TempRuleData{
+		public bool already_compiled=false;
 		public string Link = "", Name, Base="",
 		Location = RuleScope.NoLocation, _Event = RuleScope.NoEvent, Actor = RuleScope.NoActor,Target=RuleScope.NoTarget;
 		public List<string> temp_criterions=new List<string>();

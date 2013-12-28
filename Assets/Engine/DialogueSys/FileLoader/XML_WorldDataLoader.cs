@@ -72,8 +72,10 @@ namespace DialogueSystem.FileIO
                     if (n.Name == "Var"){
 						var spl = n.InnerText.Split(' ');
                 		var f=obj.Facts.AddFact(spl[0], FactData.ParseStringToData(n.InnerText.Substring(spl[0].Length+1)),false);
-                    	//if (n.Attributes["Min"]!=null)
-							//f.MinValue=n.Attributes["Min"].
+                    	if (n.Attributes["min"]!=null)
+							f.MinValue=getAttFlt(n,"Min");
+						if (n.Attributes["max"]!=null)
+							f.MinValue=getAttFlt(n,"Max");
 					}
                     else if (n.Name == "Object") {
                         obj.Objects.Add(n.InnerText);

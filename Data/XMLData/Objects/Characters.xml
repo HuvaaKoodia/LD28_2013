@@ -15,12 +15,13 @@
 	<Var>ViewRange 2</Var>
 	
 	<Var>DealerMadeDealPolitician false</Var>
-	<Var>CallGirlServicePolitician false</Var>
+	<Var>PoliticianBuySex false</Var>
 	<Var>PoliceBlackmailPolitician false</Var>
 	<Var>PoliceArrestPolitician false</Var>
-	<Var>DealerDrugDealJunkie false</Var>
+	<Var>DealerSellDrugs false</Var>
+	<Var>JunkieBuyDrugs false</Var>
 	<Var>JunkieStealAnyone false</Var>
-	<Var>JunkieHadDrugs false</Var>
+	<Var>JunkieHasDrugs false</Var>
 	<Var>FreelancerBlackmailPolitician false</Var>
 </Character>
 

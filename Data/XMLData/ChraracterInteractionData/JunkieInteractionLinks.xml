@@ -9,7 +9,7 @@
 		</Result>
 	</Rule>
 	
-	<Rule Name="OnBuyDrugsJunkie" Base="PlayerToPlayer">
+	<Rule Name="OnStealJunkie" Base="PlayerToPlayer">
 		<Event>SelectStealLink</Event>
 		<Criterion>Actor.Name E Junkie</Criterion>
 		<Criterion>Target.Stun G 0</Criterion>

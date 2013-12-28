@@ -38,6 +38,7 @@ public class GameMapController : MonoBehaviour {
 		
 		hudman.OnBackToMapPressedEvent+=OnNextTurn;
 		hudman.ShowBackToMapButton(true);
+		hudman.ClearActionDataPanels();
 		
 		//game state
 		if (GDB.CurrentCharacter!=null){
@@ -54,12 +55,17 @@ public class GameMapController : MonoBehaviour {
 					//if (GDB.CurrentCharacter.OnTheMove){
 					move_characters_phase=true;
 				}
-				else{
-					if (GDB.CurrentCharacter.IsStunned()){
-						hudman.AddActionDataTextPanel("You are stunned for this turn.");
-						allow_input=false;
-					}
+				
+				if (GDB.CurrentCharacter.IsArrested()){
+					hudman.AddActionDataTextPanel("You are in jail.\n"+GDB.CurrentCharacter.ArrestedTurns+" turns left.");
+					allow_input=false;
 				}
+				else if (GDB.CurrentCharacter.IsStunned()){
+					hudman.AddActionDataTextPanel("You are stunned for this turn.");
+					allow_input=false;
+				}
+				
+				
 			}
 			
 			if (player_text==0){
@@ -74,15 +80,14 @@ public class GameMapController : MonoBehaviour {
 			MapMan.GenerateGrid(GDB,GameObject.FindGameObjectWithTag("Databases").GetComponent<MapLoader>());
 			
 			foreach(var data in GDB.Characters){
-				data.mapman=MapMan;
+				data.mapman=MapMan;//DEV.todo. Get rid of map man references. -> use TileData objects instead
+				if (data.Inactive) continue;
 				
 				var t=data.TurnStartTile();
-				
 				var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.AngleAxis(90,Vector3.up)) as MapCharacter;
 				data.SetMain(c);
 				
-				data.Main.gameObject.SetActive(false);
-				//c.transform.position=t.TilePosition;
+				data.Main.gameObject.SetActive(false);	
 			}
 			
 			//temp
@@ -143,9 +148,6 @@ public class GameMapController : MonoBehaviour {
 					foreach(var p in GDB.CurrentCharacter.Path_positions){
 						PathLines.Add(Instantiate(PathObjPrefab,MapMan.tiles_map[(int)p.x,(int)p.y].transform.position,Quaternion.identity) as GameObject);
 					}
-					
-					//create_path_mode=false;
-
 				}
 			}
 		}
@@ -155,12 +157,6 @@ public class GameMapController : MonoBehaviour {
 			if (GDB.AllMoved()){
 				move_characters_phase=false;
 				wait_for_moving_to_end=false;
-				
-				//check for interactions
-//				if (GDB.CurrentCharacter.CurrentTempTile().Data.HasOtherCharacters(GDB.CurrentCharacter)){
-//					GDB.CurrentTileData=GDB.CurrentCharacter.CurrentTempTile().Data;
-//					must_interact=true;
-//				}
 			}
 		}
 
@@ -192,11 +188,13 @@ public class GameMapController : MonoBehaviour {
 		}
 		
 				
-		if (!goto_action_scene&&GDB.CurrentCharacter!=null){
-			//visual characters
+		if (!start_screen_on&&!goto_action_scene&&GDB.CurrentCharacter!=null){
+			//current character view range
 			foreach(var data in GDB.Characters){
+				if (data.Inactive||GDB.CurrentCharacter.Inactive) continue;
 				bool show_c=false;
 				if (data==GDB.CurrentCharacter) show_c=true;
+				
 				
 				if (Vector3.Distance(GDB.CurrentCharacter.Main.transform.position,data.Main.transform.position)<
 					data.Data.Facts.GetFloat("ViewRange"))

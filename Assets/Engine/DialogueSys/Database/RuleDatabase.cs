@@ -210,84 +210,97 @@ namespace DialogueSystem{
         }
 
 		//Data compile sys
-		List<TempRuleData> temp_rules=new List<TempRuleData>();
+		Dictionary<string,TempRuleData> temp_rules=new Dictionary<string,TempRuleData>();
+		
+		void CompileRule(TempRuleData r){
+			if (r.already_compiled) return;
+			r.already_compiled=true;
+			
+			if (r.Base!="")
+			{
+				TempRuleData _base=temp_rules[r.Base];
+			
+				//recursively compile base rule
+				CompileRule(_base);
+			
+				if (r.Location==RuleScope.NoLocation){r.Location=_base.Location;}
+				if (r.Actor==RuleScope.NoActor){r.Actor=_base.Actor;}
+				if (r.Target==RuleScope.NoTarget){r.Target=_base.Target;}
+				if (r._Event==RuleScope.NoEvent){r._Event=_base._Event;}
+				if (r.Link==""){r.Link=_base.Link;}
+
+				foreach (var c in _base.temp_criterions){
+					r.temp_criterions.Add(c);
+				}
+				
+				foreach (var a in _base.temp_assigns)
+				{
+					r.temp_assigns.Add(a);
+				}
+				
+				foreach (var f in _base.temp_functions)
+				{
+					r.temp_functions.Add(f);
+				}
+				
+				foreach (var c in _base.temp_calls)
+				{
+					r.temp_calls.Add(c);
+				}
+			}
+		}
 		
 		public void ParseDataBase(CoreDatabase core)
 		{
 			foreach (var r in temp_rules){
+				
+				var rule_temp=r.Value;
+				
+				//incorporate base rule
+				CompileRule(rule_temp);
+				
+				//create data
+				RuleData rule_data=new RuleData(rule_temp.Name);
 
-				//incorporate base
-				if (r.Base!="")
-				{
-					var bas=temp_rules.Find(t=>t.Name==r.Base);
-
-					if (r.Location==RuleScope.NoLocation){r.Location=bas.Location;}
-					if (r.Actor==RuleScope.NoActor){r.Actor=bas.Actor;}
-					if (r.Target==RuleScope.NoTarget){r.Target=bas.Target;}
-					if (r._Event==RuleScope.NoEvent){r._Event=bas._Event;}
-					if (r.Link==""){r.Link=bas.Link;}
-
-					foreach (var c in bas.temp_criterions){
-						r.temp_criterions.Add(c);
-					}
-					
-					foreach (var a in bas.temp_assigns)
-					{
-						r.temp_assigns.Add(a);
-					}
-					
-					foreach (var f in bas.temp_functions)
-					{
-						r.temp_functions.Add(f);
-					}
-					
-					foreach (var c in bas.temp_calls)
-					{
-						r.temp_calls.Add(c);
-					}
-				}
-
-				//create data/references
-				RuleData rule=new RuleData(r.Name);
-
-				foreach (var c in r.temp_criterions){
+				foreach (var c in rule_temp.temp_criterions){
 					var spl=c.Split(' ');
 					
 					if (spl.Length==1){
 						//reference to a predefined criterion
 						CriterionData crit=core.criterion_database.GetCriterion(c);
-						rule.AddCriterion(crit);
+						rule_data.AddCriterion(crit);
 					}
 					else{
 						//inline criterion
-						core.criterion_database.ParseCriterionCommand(c,rule.Criterions);
+						core.criterion_database.ParseCriterionCommand(c,rule_data.Criterions);
 					}
 				}
 				
-				foreach (var a in r.temp_assigns)
+				foreach (var a in rule_temp.temp_assigns)
 				{
 					AssignData ass = new AssignData(a);
-					rule.AddAssign(ass);
+					rule_data.AddAssign(ass);
 				}
 				
-				foreach (var f in r.temp_functions)
+				foreach (var f in rule_temp.temp_functions)
 				{
-					rule.Functions.Add(f);
+					rule_data.Functions.Add(f);
 				}
 				
-				foreach (var c in r.temp_calls)
+				foreach (var c in rule_temp.temp_calls)
 				{
-					rule.Calls.Add(c);
+					rule_data.Calls.Add(c);
 				}
 			
-				if (r.Link!=""){
-					var Data=core.dialogue_database.ParseDialogueData(r.Link);
+				if (rule_temp.Link!=""){
+					var Data=core.dialogue_database.ParseDialogueData(rule_temp.Link);
 					if (Data==null)
-						Debug.LogError("Link: "+r.Link+" is faulty in rule called "+r.Name);
-					rule.Link=Data;
+						Debug.LogError("Link: "+rule_temp.Link+" is faulty in rule called "+rule_temp.Name);
+					rule_data.Link=Data;
 				}
-				//to correct scope
-				AddToScope(new RuleScope(r.Location,r._Event,r.Actor,r.Target),rule);
+				
+				//add to correct scope
+				AddToScope(new RuleScope(rule_temp.Location,rule_temp._Event,rule_temp.Actor,rule_temp.Target),rule_data);
 			}
 
             //sorting rule lists
@@ -301,12 +314,15 @@ namespace DialogueSystem{
 				Debug.Log(s.Key +" size: "+s.Value.Count);
 			}
 			*/
-            temp_rules = null;
+			
+			//get rid of temp data
+            temp_rules.Clear();
+			temp_rules=null;
 		}
 		
 		public void addTempRule(TempRuleData r)
 		{
-			temp_rules.Add(r);
+			temp_rules.Add(r.Name,r);
 		}
 
         private int comparer(RuleData r1, RuleData r2) {
