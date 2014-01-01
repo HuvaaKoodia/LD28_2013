@@ -35,7 +35,7 @@ public class SceneManager : MonoBehaviour {
 		var add_to_pos=Vector3.right*1;
 		
 		foreach (var c in data.GameCharacters){
-			if (c==currentCharacter||c.OnMovingAwayFromTile||!c.CurrentPosIsTurnStartPos()||c.Inactive) continue;
+			if (c==currentCharacter||c.OnMovingAwayFromTile||!c.CurrentPosIsTurnStartPos()||c.Inactive||c.IsHiding) continue;
 			
 			go=Instantiate(CharacterPrefab,CurrentCharacterPos.position+add_to_pos,Quaternion.AngleAxis(270,Vector3.up)) as GameObject;
 			var cm=go.GetComponent<CharacterMain>();

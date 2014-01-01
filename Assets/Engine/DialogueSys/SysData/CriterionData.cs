@@ -10,27 +10,34 @@ namespace DialogueSystem{
        
 		public const float Precision=0.001f;
 		public CriterionComparer Comparer;
-		public string Name{get;private set;}//DEV temp
-        public bool Normal { get; private set; }
-		public string Command{get;private set;}
+		
+		public string 	Name	{get;private set;}
+    	public bool 	Normal	{get;private set;}
+		public string 	Command	{get;private set;}
+		public System.Type ValueType{get;private set;}
 
 		public CriterionData(string name,string Value){
 			set_criterion(new FactData(Value).Symbol,Comparison.EQUAL);
             set_name(name);
+			ValueType=Value.GetType();
 		}
+		
         public CriterionData(string name, float Value, Comparison operation)
         {
 			set_criterion(new FactData(Value).Symbol,operation);
             set_name(name);
+			ValueType=Value.GetType();
 		}
         public CriterionData(string name, bool Value)
         {
 			set_criterion(new FactData(Value).Symbol,Comparison.EQUAL);
             set_name(name);
+			ValueType=Value.GetType();
 		}
 		
 		public CriterionData(FactData data,Comparison operation){
 			set_criterion(data.Symbol,operation);
+			ValueType=data.ValueObject.GetType();
 		}
 		
 		private void set_criterion(float Value,Comparison operation){

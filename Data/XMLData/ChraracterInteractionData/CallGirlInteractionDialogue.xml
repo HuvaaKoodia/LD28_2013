@@ -1,9 +1,13 @@
 <Root>
 
+	<Dialogue Name="OnMapActions_CallGirl">
+	<Link>select PLAYER SelectMapMoveLink</Link>
+	<Link>select PLAYER SelectMapWaitLink</Link>
+	</Dialogue>
+
 	<Dialogue Name="OnInteract_CallGirlToAny">
 	<Link>select PLAYER SelectSellSexLink</Link>
 	<Link>select PLAYER SelectAttackLink</Link>
-
 	</Dialogue>
 	
 	<Rule Name="OnSellSex" Base="PlayerToPlayer">

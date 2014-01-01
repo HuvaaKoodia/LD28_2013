@@ -10,7 +10,7 @@ public class CharacterActionData{
 	public QueryData Query {get;private set;}
 	
 	public bool Interrupted{get;private set;}
-	public bool Stunned{get;set;}
+	public bool ShowOnlyForCurrentCharacter{get;set;}
 	public bool IgnoreThis{get;set;}
 	
 	//public CharacterData Interrupter{get;private set;}

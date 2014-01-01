@@ -9,15 +9,18 @@
 	<Var min="0">Addiction 0</Var>
 	<Var min="0">Stun 0</Var>
 	<Var min="0">VP 0</Var>
-	  
+	 
+	<Var>HidingSpeed 1</Var>
 	<Var>MovementSpeed 2</Var>
 	<Var>VehicleSpeed 4</Var>
 	<Var>ViewRange 2</Var>
 	
+	<!--Freelancer info-->
 	<Var>DealerMadeDealPolitician false</Var>
 	<Var>PoliticianBuySex false</Var>
 	<Var>PoliceBlackmailPolitician false</Var>
 	<Var>PoliceArrestPolitician false</Var>
+	
 	<Var>DealerSellDrugs false</Var>
 	<Var>JunkieBuyDrugs false</Var>
 	<Var>JunkieStealAnyone false</Var>

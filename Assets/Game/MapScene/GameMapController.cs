@@ -5,13 +5,14 @@ using DialogueSystem;
 
 public class GameMapController : MonoBehaviour {
 	
+	GameController controller;
 	GameDatabase GDB;
 	HudMain hudman;
 	
 	public MapCharacter MapCharacterPrefab;
-	public MapManager MapMan;
+	public MapGenerator MapMan;
 	
-	List<GameObject> PathLines=new List<GameObject>();
+	List<GameObject> PathDots=new List<GameObject>();
 	public GameObject PathObjPrefab;
 	
 	bool create_path_mode,move_characters_phase=false,wait_for_moving_to_end=false,goto_action_scene=false;
@@ -25,12 +26,15 @@ public class GameMapController : MonoBehaviour {
 		hudman.OnBackToMapPressedEvent-=OnNextTurn;
 		GDB.NextPlayersTurn();
 		hudman.go_hud.SetText(GDB.CurrentCharacter.Name,GDB.planning_turn);
-		hudman.PlayerHud_.SetPlayer(GDB.CurrentCharacter.Name,GDB.CurrentCharacter.Data);
+		hudman.PlayerHud_.SetPlayer(GDB.CurrentCharacter);
+		
+		controller.dial_man_1.OnAnswerButtonPressedEvent-=PressMapActionButton;
 		Application.LoadLevel(Application.loadedLevel);
 	}
 	
 	// Use this for initialization
 	void Start (){
+		controller=GameObject.FindGameObjectWithTag("GameControllers").GetComponent<GameController>();
 		hudman=GameObject.FindGameObjectWithTag("HudSystem").GetComponent<HudMain>();
 		GDB=GameObject.FindGameObjectWithTag("Databases").GetComponent<GameDatabase>();
 		
@@ -39,6 +43,9 @@ public class GameMapController : MonoBehaviour {
 		hudman.OnBackToMapPressedEvent+=OnNextTurn;
 		hudman.ShowBackToMapButton(true);
 		hudman.ClearActionDataPanels();
+		
+		controller.dial_man_1.StopDialogue();
+		controller.dial_man_2.StopDialogue();
 		
 		//game state
 		if (GDB.CurrentCharacter!=null){
@@ -51,6 +58,8 @@ public class GameMapController : MonoBehaviour {
 				hudman.OnBackToMapPressedEvent-=OnNextTurn;
 			}
 			else{
+				controller.dial_man_1.OnAnswerButtonPressedEvent+=PressMapActionButton;
+				
  				if (GDB.action_turn){
 					//if (GDB.CurrentCharacter.OnTheMove){
 					move_characters_phase=true;
@@ -64,14 +73,12 @@ public class GameMapController : MonoBehaviour {
 					hudman.AddActionDataTextPanel("You are stunned for this turn.");
 					allow_input=false;
 				}
-				
-				
 			}
 			
 			if (player_text==0){
 				player_text=1;
 				hudman.go_hud.SetText(GDB.CurrentCharacter.Name,GDB.planning_turn);
-				hudman.PlayerHud_.SetPlayer(GDB.CurrentCharacter.Name,GDB.CurrentCharacter.Data);
+				hudman.PlayerHud_.SetPlayer(GDB.CurrentCharacter);
 			}
 		}
 		
@@ -87,12 +94,22 @@ public class GameMapController : MonoBehaviour {
 				var c=Instantiate(MapCharacterPrefab,t.transform.position,Quaternion.AngleAxis(90,Vector3.up)) as MapCharacter;
 				data.SetMain(c);
 				
-				data.Main.gameObject.SetActive(false);	
+				data.Main.graphics_offset.gameObject.SetActive(false);
 			}
 			
 			//temp
 			foreach (var s in GDB.CharacterGraphics.Keys){
 				temp_names.Add(s);
+			}
+			
+			//map actions
+			if (GDB.planning_turn){
+				if (allow_input&&GDB.CurrentCharacter!=null){
+					controller.dial_man_1.CheckQuery(
+						new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,
+						GDB.CurrentCharacter.Data,"OnMapActions")
+					);
+				}
 			}
 		}
 	}
@@ -134,10 +151,10 @@ public class GameMapController : MonoBehaviour {
 				if(Subs.GetObjectMousePos(out comp,100,"Tile"))
 			   	{
 					//remove path dots
-					while(PathLines.Count>0){
-	              		var p=PathLines[0];
+					while(PathDots.Count>0){
+	              		var p=PathDots[0];
 		              	Destroy(p);
-		              	PathLines.RemoveAt(0);
+		              	PathDots.RemoveAt(0);
 		            }
 					
 					Tile t =comp.transform.parent.GetComponent<Tile>();
@@ -146,7 +163,7 @@ public class GameMapController : MonoBehaviour {
 					GDB.CurrentCharacter.CalculatePath(t.TilePosition);
 					
 					foreach(var p in GDB.CurrentCharacter.Path_positions){
-						PathLines.Add(Instantiate(PathObjPrefab,MapMan.tiles_map[(int)p.x,(int)p.y].transform.position,Quaternion.identity) as GameObject);
+						PathDots.Add(Instantiate(PathObjPrefab,MapMan.tiles_map[(int)p.x,(int)p.y].transform.position,Quaternion.identity) as GameObject);
 					}
 				}
 			}
@@ -193,25 +210,50 @@ public class GameMapController : MonoBehaviour {
 			foreach(var data in GDB.Characters){
 				if (data.Inactive||GDB.CurrentCharacter.Inactive) continue;
 				bool show_c=false;
+				
+				//in view range
+				if (Vector3.Distance(GDB.CurrentCharacter.Main.transform.position,data.Main.transform.position)<
+					data.Data.Facts.GetFloat("ViewRange")
+					)show_c=true;
+				
+				//target hiding or current char running
+				if (data.CurrentMovementType==CharacterMovementType.Hiding
+					||GDB.CurrentCharacter.CurrentMovementType==CharacterMovementType.Running
+					) show_c=false;
+				
+				//current char -> always show
 				if (data==GDB.CurrentCharacter) show_c=true;
 				
-				
-				if (Vector3.Distance(GDB.CurrentCharacter.Main.transform.position,data.Main.transform.position)<
-					data.Data.Facts.GetFloat("ViewRange"))
-				show_c=true;
-				
-				data.Main.gameObject.SetActive(show_c);
-				//c.transform.position=t.TilePosition;
+				data.Main.graphics_offset.gameObject.SetActive(show_c);
 			}
 		}
 	}
 	void ClearPathDots()
 	{
-		while(PathLines.Count>0){
-			var p=PathLines[0];
+		while(PathDots.Count>0){
+			var p=PathDots[0];
 			Destroy(p);
-			PathLines.RemoveAt(0);
+			PathDots.RemoveAt(0);
 		}
+	}
+	
+	void PressMapActionButton(AnswerButtonMain button){
+		if (button.Data.ToEvent=="OnMapWait"){
+			ClearPathDots();
+			GDB.CurrentCharacter.RemovePath();
+		}
+		if (button.Data.ToEvent=="OnMapMove"){
+			
+		}
+		
+		if (button.Data.ToEvent=="OnMapUseVehicle"){
+			GDB.CurrentCharacter.ToggleRunning();
+		}
+		
+		if (button.Data.ToEvent=="OnMapHide"){
+			GDB.CurrentCharacter.ToggleHiding();
+		}
+		hudman.PlayerHud_.SetPlayer(GDB.CurrentCharacter);
 	}
 	
 }

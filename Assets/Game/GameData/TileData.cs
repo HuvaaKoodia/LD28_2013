@@ -39,7 +39,8 @@ public class TileData
 		foreach (var c in GameCharacters){
 			if (c==character) continue;
 			//Dev.stealth check
-			amount++;
+			if (!c.IsHiding)
+				amount++;
 		}
 		return amount>0;
 	}
@@ -55,7 +56,7 @@ public class TileData
 		foreach (var c in GameCharacters){
 			if (c==character) continue;
 			//Dev.stealth check 
-			if (!c.OnMovingAwayFromTile&&c.CurrentPosIsTurnStartPos())
+			if (!c.OnMovingAwayFromTile&&c.CurrentPosIsTurnStartPos()&&!c.IsHiding)
 				amount++;
 		}
 		return amount>0;

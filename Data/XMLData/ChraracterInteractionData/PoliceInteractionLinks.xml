@@ -1,5 +1,35 @@
 <Root>
 
+<!--MapScene links-->
+
+	<Rule Name="MapAction_UseVehicle" Base="PlayerToPlayer">
+		<Event>SelectUseVehicleLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Result>
+			<Link>"Toggle sirens" to PLAYER OnMapUseVehicle</Link>
+		</Result>
+	</Rule>
+	
+
+<!-- ActionScene links-->
+	
+	<Rule Name="SegwayAway" Base="PlayerToPlayer">
+		<Event>SelectWalkLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Result>
+			<Link>"Segway away." to PLAYER OnWalk</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="SegwayAwayFast" Base="PlayerToPlayer">
+		<Event>SelectRunLink</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Result>
+			<Link>"Segway away. FAST!" to PLAYER OnRun</Link>
+		</Result>
+	</Rule>
+
+
 	<!-- Arrest links-->
 
 	<Rule Name="TEMP_TEST_1" Base="PlayerToPlayer">

@@ -1,11 +1,23 @@
 <Root>
 
+	<Dialogue Name="OnMapActions_Freelancer">
+	<Link>select PLAYER SelectSellInfoToNewsStationLink</Link>
+	<Link>select PLAYER SelectHideLink</Link>
+	<Link>select PLAYER SelectMapMoveLink</Link>
+	<Link>select PLAYER SelectMapWaitLink</Link>
+	</Dialogue>
+
 	<Dialogue Name="OnInteract_FreelancerToAny">
 	<Link>select PLAYER SelectSellInfoLink</Link>
 	<Link>select PLAYER SelectBuyInfoLink</Link>
-	<Link>select PLAYER SelectHideLink</Link>
-
 	</Dialogue>
+	
+	
+	
+	
+	
+	
+	<!-- Old Temp data -->
 	
 	<Rule Name="OnSellInfoFreelancer" Base="PlayerToPlayer">
 		<Event>OnSell</Event>

@@ -24,12 +24,15 @@ public class GameDatabase : MonoBehaviour {
 	TileData PoliceStationTile;
 	
 	void Awake(){
+		//graphics assets
 		CharacterGraphics.Add("Policeman",Resources.Load("PoliceGraphics") as GameObject);
 		CharacterGraphics.Add("Junkie",Resources.Load("BumGraphics")as GameObject);
 		CharacterGraphics.Add("CallGirl",Resources.Load("CallGirlGraphics")as GameObject);
 		CharacterGraphics.Add("Politician",Resources.Load("PoliticianGraphics")as GameObject);
 		CharacterGraphics.Add("Freelancer",Resources.Load("FreelancerGraphics")as GameObject);
 		CharacterGraphics.Add("Dealer",Resources.Load("DealerGraphics")as GameObject);
+		
+		//creating map
 		
 		MapData md = mapload.Maps[0];
 		
@@ -105,12 +108,6 @@ public class GameDatabase : MonoBehaviour {
 	public void ActionTurnStart(){
 		CalculateMovements();
 		
-		//reset data & handle turn start variables
-		foreach(var c in Characters)
-		{						
-			c.RecoverStun(1);
-		}
-		
 		foreach (TileData tile in tiledata_map){
 			tile.ActionsThisTurn.Clear();
 			List<CharacterActionData> raw_actions=new List<CharacterActionData>();
@@ -128,10 +125,8 @@ public class GameDatabase : MonoBehaviour {
 				for (int i=0;i<raw_actions.Count;i++){
 					var a = raw_actions[i];
 					tile.ActionsThisTurn.Add(a);
-   					if (a.Character.IsStunned()){
-						a.Stunned=true;
-					}
-					if (a.Interrupted||a.Stunned||a.IgnoreThis) continue;
+
+					if (a.Interrupted||a.IgnoreThis) continue;
 					
 					if (a._Event=="OnAttack"){
 						
@@ -163,7 +158,12 @@ public class GameDatabase : MonoBehaviour {
 							loser=a.Character;
 						}
 						
-						loser.Stun(1);
+						raw_actions.Remove(loser.CurrentAction);
+						loser.CurrentAction=new CharacterActionData(loser,victor,"OnStun",
+							new QueryData(new LocationData("ActionTexts"),loser.Data,victor.Data,"OnStun")
+						);
+						loser.CurrentAction.ShowOnlyForCurrentCharacter=true;
+						raw_actions.Add(loser.CurrentAction);
 						
 						//victory event
 						tile.ActionsThisTurn.Add(
@@ -238,7 +238,7 @@ public class GameDatabase : MonoBehaviour {
 				c.CurrentTile().Data.AddCharacter(c);
 			}
 								
-			//c.RecoverStun(1);
+			c.RecoverStun(1);
 			c.RecoverArrest(1);
 
 			if (c.CurrentAction!=null){
@@ -263,6 +263,10 @@ public class GameDatabase : MonoBehaviour {
 						c.CurrentAction.Target.MoveToPosition(PoliceStationTile);
 					}
 					
+					if (c.CurrentAction._Event=="OnStun"){
+						c.Stun(1);
+					}
+					
 				}
 				c.CurrentAction=null;
 			}
@@ -272,7 +276,7 @@ public class GameDatabase : MonoBehaviour {
 	public void CalculateMovements(){
 		foreach(var c in Characters)
 		{
-			c.StarMovement();
+			c.StartMovement();
 		}
 		while(true){
 			bool chars_still_moving=false;
@@ -281,32 +285,35 @@ public class GameDatabase : MonoBehaviour {
 				if (c.TempMovement){
 					var t=c.CurrentTile().Data;
 					
-					if (t.HasOtherCharacters(c)){
-						if (c.OnMovingAwayFromTile){
-							//can move away no matter what
-						}
-						else{
-							
-							if (c.CurrentPos==c.TurnStartPos){
-								bool stopped=false;
-								foreach(var c2 in t.GameCharacters)
-								{
-									if (c2.OldPos==c.NextPos()){
-										//other character comes from characters destination -> stay in this tile
-										c.EndPathToCurrentPos();
-										c.EndMovement();
-										stopped=true;
-									}
-								}
-								if (stopped)
-									continue;
+					if (c.CurrentMovementType==CharacterMovementType.Normal){
+						//check for other characters on path
+						if (t.HasOtherCharacters(c)){
+							if (c.OnMovingAwayFromTile){
+								//can move away no matter what
 							}
 							else{
-								c.EndPathToCurrentPos();
-								c.EndMovement();
-								continue;
-							}
-						}					
+								
+								if (c.CurrentPos==c.TurnStartPos){
+									bool stopped=false;
+									foreach(var c2 in t.GameCharacters)
+									{
+										if (c2.OldPos==c.NextPos()){
+											//other character comes from characters destination -> stay in this tile
+											c.EndPathToCurrentPos();
+											c.EndMovement();
+											stopped=true;
+										}
+									}
+									if (stopped)
+										continue;
+								}
+								else{
+									c.EndPathToCurrentPos();
+									c.EndMovement();
+									continue;
+								}
+							}					
+						}
 					}
 					//move to next tile
 					t.RemoveCharacter(c);
@@ -332,6 +339,13 @@ public class GameDatabase : MonoBehaviour {
 			if (!chars_still_moving)
 				break;
 		}
+		
+		foreach(var c in Characters)
+		{
+			if (c.CurrentMovementType==CharacterMovementType.Running&&c.CurrentTile().Data.HasOtherCharacters(c)){
+				c.ToggleRunning();
+			}
+		}
 	}
 	
 	public void PlanningTurnStart(){
@@ -340,14 +354,17 @@ public class GameDatabase : MonoBehaviour {
 		{
 			c.SetTurnStartPosToPathEnd();
 			c.Path_positions.Clear();
-
+			
+			if (c.CurrentMovementType==CharacterMovementType.Running){
+				c.ToggleRunning();
+			}
 		}
 	}
 	
 	public void MoveAll(){
 		foreach(var c in Characters)
 		{
-			c.StartMoving();
+			c.StartMovingGraphics();
 		}
 	}
 	

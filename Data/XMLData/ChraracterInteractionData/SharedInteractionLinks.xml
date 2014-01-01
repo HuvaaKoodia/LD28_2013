@@ -6,6 +6,24 @@
 		<Link>select PLAYER SelectRunLink</Link>
 	</Dialogue>
 
+	<!-- MapSceneLinks -->
+	
+	<Rule Name="MapAction_Move" Base="PlayerToPlayer">
+		<Event>SelectMapMoveLink</Event>
+		<Result>
+			<Link>"Move" to PLAYER OnMapMove</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="MapAction_Wait" Base="PlayerToPlayer">
+		<Event>SelectMapWaitLink</Event>
+		<Result>
+			<Link>"Wait" to PLAYER OnMapWait</Link>
+		</Result>
+	</Rule>
+	
+	<!-- ActionSceneLinks -->
+	
 	<Rule Name="Wait" Base="PlayerToPlayer">
 		<Event>SelectWaitLink</Event>
 		<Result>

@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DialogueSystem;
 
 public class MapCharacter : CharacterMain {
 	
-	public MapManager mapman;
+	public MapGenerator mapman;
 	bool moving=false;
 	
 	public bool Moving{get{return moving;}}
@@ -17,9 +18,9 @@ public class MapCharacter : CharacterMain {
 	private Tile target;
 	
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
-		
+		Functions=new CharacterFunctions();
 	}
 	
 	// Update is called once per frame

@@ -1,13 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Engine\DialogueSys\Database\RuleDatabase.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\ActionScene\ActionsSceneController.cs">
     <Files>
-      <File FileName="Assets\Engine\DialogueSys\FileLoader\XML_GameDataLoader.cs" Line="51" Column="40" />
-      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game\MapScene\GameMapController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Engine\DialogueSys\Database\RuleDatabase.cs" Line="138" Column="4" />
-      <File FileName="Assets\Engine\DialogueSys\FileLoader\XML_WorldDataLoader.cs" Line="75" Column="52" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="291" Column="36" />
+      <File FileName="Assets\Game\MapScene\GameMapController.cs" Line="76" Column="5" />
+      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="126" Column="9" />
+      <File FileName="Assets\Engine\DialogueSys\Database\RuleDatabase.cs" Line="222" Column="6" />
+      <File FileName="Assets\Engine\DialogueSys\SysData\CriterionData.cs" Line="41" Column="4" />
+      <File FileName="Assets\Game\GameData\GameCharacterData.cs" Line="25" Column="86" />
+      <File FileName="Assets\Engine\DialogueSys\MenuSys\HudMain.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\Sys\PlayerHud.cs" Line="15" Column="20" />
+      <File FileName="Assets\Game\MapScene\Tile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\MapScene\MapCharacter.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\SceneManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\GameData\TileData.cs" Line="42" Column="20" />
+      <File FileName="Assets\Game\MapScene\MapGenerator.cs" Line="8" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -60,7 +60,7 @@ public class DialogueManager : MonoBehaviour {
 		ChangeDialogue(data,query);
 	}
 
-    public  void StopDialogue()
+    public void StopDialogue()
     {
         DIALOGUE_ON = false;
         CurrentDialogue = null;

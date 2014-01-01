@@ -47,11 +47,11 @@ namespace DialogueSystem{
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public CriterionData ParseCriterionCommand(string var_name,string value)
+        public CriterionData ParseCriterionCommand(string var_name,string _value)
         {
             Comparison o = Comparison.EQUAL;
 
-            var spl = value.Split(' ');
+            var spl = _value.Split(' ');
 
             switch (spl[0])
             {
@@ -66,8 +66,7 @@ namespace DialogueSystem{
             {
                 float f = float.Parse(spl[1]);
 				return new CriterionData(var_name, f, o);
-            }
-
+			}
             catch (Exception e)
             {
                 //not float

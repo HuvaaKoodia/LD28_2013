@@ -7,7 +7,7 @@ namespace DialogueSystem{
 	public class RuleData{
 		
 		//rule
-		public List<CriterionData> Criterions;
+		public List<CriterionData> Criterions,CriterionFunctions;
         public string Name { get; private set; }
 		
 		//result TODO. IMP. ResultData object
@@ -19,7 +19,8 @@ namespace DialogueSystem{
 		
 		public RuleData(string name){
 			Criterions=new List<CriterionData>();
-            Assignments=new List<AssignData>();
+            CriterionFunctions=new List<CriterionData>();
+			Assignments=new List<AssignData>();
 			Functions=new List<string>();
 			Calls=new List<string>();
             Name = name;
@@ -40,6 +41,7 @@ namespace DialogueSystem{
 		public string Link = "", Name, Base="",
 		Location = RuleScope.NoLocation, _Event = RuleScope.NoEvent, Actor = RuleScope.NoActor,Target=RuleScope.NoTarget;
 		public List<string> temp_criterions=new List<string>();
+		public List<string> temp_criterion_functions=new List<string>();
 		public List<string> temp_assigns = new List<string>();
 		public List<string> temp_functions = new List<string>();
 		public List<string> temp_calls = new List<string>();

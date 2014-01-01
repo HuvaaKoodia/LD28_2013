@@ -62,7 +62,6 @@ namespace DialogueSystem{
 #if DEBUG
             Debug.Log("\nChecking for rules in possible scopes:");
 #endif
-			
             foreach (var s in scopes)
             {
 				bool break_scopes_check=false;
@@ -116,13 +115,12 @@ namespace DialogueSystem{
 				{
 					var spl=Subs.Split(f,".");
 					if (spl.Length>1){
-						
 						var cont=query.GetEntityData(spl[0]);
 						
-						if (cont.Entity.Functions.InvokeMethod(query,spl[1])) break;
+						if (cont.Entity.Functions.InvokeMethod(query,spl[1],out _obj)) break;
 					}
 					else{
-						if (Core.sys_functions.InvokeMethod(query,f)) break;
+						if (Core.sys_functions.InvokeMethod(query,f,out _obj)) break;
 					}
 
 					Debug.LogError("Function [" + f + "] in rule: [" + best_match.Name + "] not valid.");
@@ -145,8 +143,10 @@ namespace DialogueSystem{
             }
 			return null;
 		}
-
-        FactData _temp;//DEV.MICRO.OPT.
+		//DEV.MICRO.OPT.
+		object _obj;
+		FactData _temp;
+		
         private bool CheckRule(RuleData rule,QueryData query) {
             foreach (var c in rule.Criterions)
             {
@@ -206,6 +206,43 @@ namespace DialogueSystem{
                     }
                 }
             }
+			
+			//criterion functions
+			foreach (var c in rule.CriterionFunctions)
+            {
+				//function criterion
+				_obj=null;
+				if (c.Command!=""){
+					var cont=query.GetEntityData(c.Command);
+					
+					cont.Entity.Functions.InvokeMethod(query,c.Name,out _obj);
+				}
+				else{
+					Core.sys_functions.InvokeMethod(query,c.Name,out _obj);
+				}
+				if (_obj==null){
+					Debug.LogWarning("Criterion function: "+c.Name+" returned nothing!");
+					return false;
+				}
+				
+				var str=_obj.ToString();
+				float symbol=SymbolDatabase.StringToSymbol(_obj.ToString());
+			
+//				if (c.ValueType==typeof(float)){
+//					symbol=(float)_obj;
+//				}
+//				else if (c.ValueType==typeof(string)){
+//					symbol=SymbolDatabase.get (string)_obj;
+//				}
+//				else if (c.ValueType==typeof(bool)){
+//					
+//				}
+				
+				
+				if (!c.Comparer.Check(symbol))
+					return false;//check fails -> rule fails!
+            }
+			
             return true;//all criterions pass the test
         }
 
@@ -231,6 +268,10 @@ namespace DialogueSystem{
 
 				foreach (var c in _base.temp_criterions){
 					r.temp_criterions.Add(c);
+				}
+				
+				foreach (var c in _base.temp_criterion_functions){
+					r.temp_criterion_functions.Add(c);
 				}
 				
 				foreach (var a in _base.temp_assigns)
@@ -271,9 +312,14 @@ namespace DialogueSystem{
 						rule_data.AddCriterion(crit);
 					}
 					else{
-						//inline criterion
+						//inline criterion(s) 
 						core.criterion_database.ParseCriterionCommand(c,rule_data.Criterions);
 					}
+				}
+				
+				foreach (var c in rule_temp.temp_criterion_functions){
+					//inline criterion function
+					core.criterion_database.ParseCriterionCommand(c,rule_data.CriterionFunctions);
 				}
 				
 				foreach (var a in rule_temp.temp_assigns)

@@ -1,4 +1,25 @@
 <Root>
+<!-- MapScene links -->
+	<Rule Name="SelectSellInfoToNewsStation" Base="PlayerToPlayer">
+		<Event>SelectSellInfoToNewsStationLink</Event>
+		<!--<Location>NewsStation</Location>-->
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Function>Actor.HasInfoFreelancer E true</Function>
+		<Result>
+			<Link>"Report info to DailyNews" to PLAYER OnMapSellNews</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="SelectHideLink" Base="PlayerToPlayer">
+		<Event>SelectHideLink</Event>
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Result>
+			<Link>"Toggle hiding" to PLAYER OnMapHide</Link>
+		</Result>
+	</Rule>
+
+<!-- ActionScene links -->
+
 
 	<Rule Name="OnSellInfoFreelancerToPolitician" Base="PlayerToPlayer">
 		<Event>SelectSellInfoLink</Event>

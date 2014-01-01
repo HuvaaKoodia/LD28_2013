@@ -12,7 +12,6 @@ namespace DialogueSystem{
 		}
 		
 		public void StealFromTarget(){
-			
 			Debug.Log(current_query.Actor.Name+ " stealing from "+ current_query.Target.Name);
 			
 			Debug.Log("Actor money "+ current_query.Actor.Facts.GetFloat("Money"));
@@ -23,6 +22,15 @@ namespace DialogueSystem{
 			
 			Debug.Log("Actor money "+ current_query.Actor.Facts.GetFloat("Money"));
 			Debug.Log("Target money "+ current_query.Target.Facts.GetFloat("Money"));
+		}
+		
+		public bool HasInfoFreelancer()
+		{
+			return
+				current_query.Actor.Facts.GetBool("DealerMadeDealPolitician")||
+				current_query.Actor.Facts.GetBool("PoliticianBuySex")||
+				current_query.Actor.Facts.GetBool("PoliceBlackmailPolitician")||
+				current_query.Actor.Facts.GetBool("PoliceArrestPolitician");
 		}
 	}
 }

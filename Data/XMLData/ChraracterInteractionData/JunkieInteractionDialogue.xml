@@ -1,4 +1,9 @@
 <Root>
+	<Dialogue Name="OnMapActions_Junkie">
+	<Link>select PLAYER SelectUseDrugsLink</Link>
+	<Link>select PLAYER SelectMapMoveLink</Link>
+	<Link>select PLAYER SelectMapWaitLink</Link>
+	</Dialogue>
 
 	<Dialogue Name="OnInteract_JunkieToAny">
 	<Link>select PLAYER SelectBuyLink</Link>

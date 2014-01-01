@@ -15,13 +15,12 @@ namespace DialogueSystem{
 
 		public void LoadMethods(){
 			methods=GetType().GetMethods();
-
-			//foreach (var m in methods){
-			//	Debug.Log(m.ToString());
-			//}
 		}
-
-		public bool InvokeMethod (QueryData query,string f)
+		/// <summary>
+		/// Invokes the method.
+		/// Returns true if method was found and returned
+		/// </param>
+		public bool InvokeMethod (QueryData query,string f,out object obj)
 		{
 			current_query=query;
 			var spl=Subs.Split(f," ");
@@ -29,7 +28,7 @@ namespace DialogueSystem{
 			{
 				if (m.Name==spl[0]){
 					if (spl.Length==1){
-						m.Invoke(this,null);
+						obj=m.Invoke(this,null);
 						return true;
 					}
 					else{
@@ -37,11 +36,12 @@ namespace DialogueSystem{
 						for (int i=0;i<args.GetLength(0);i++){
 							args[i]=spl[i];
 						}
-						m.Invoke(this,args);
+						obj=m.Invoke(this,args);
 						return true;
 					}
 				}
 			}
+			obj=null;
 			return false;
 		}
 	}

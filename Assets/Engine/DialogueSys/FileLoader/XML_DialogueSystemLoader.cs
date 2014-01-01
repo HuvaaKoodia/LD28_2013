@@ -96,6 +96,12 @@ namespace DialogueSystem.FileIO
                             foreach (var s in spl)
                                 r.temp_criterions.Add(s);
                         }
+						else if (n.Name == "Function") //criterion function
+                        {
+							var spl = Subs.Split(n.InnerText,";");
+                            foreach (var s in spl)
+                                r.temp_criterion_functions.Add(s);
+                        }
                         else if (n.Name == "Location")
                         {
                             r.Location = n.InnerText;

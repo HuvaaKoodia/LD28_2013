@@ -6,58 +6,57 @@ public class ActionsSceneController : MonoBehaviour {
 
 	GameController controller;
 	public Transform CurrentCharacterPos;
-	
+
 	GameDatabase GDB;
 	HudMain hud;
-	
+
 	GameCharacterData InterractTargetData;
-	
+
 	public GameObject StunEffect;
-	
+
 	bool allow_input;
-	
+
 	// Use this for initialization
 	void Start (){
 		allow_input=true;
-		
+
 		controller=GameObject.FindGameObjectWithTag("GameControllers").GetComponent<GameController>();
-		
+
 		controller.SceneMan.CurrentCharacterPos=CurrentCharacterPos;
 		//controller.SceneMan.LoadScene();
-		
+
 		GDB=GameObject.FindGameObjectWithTag("Databases").GetComponent<GameDatabase>();
-		
+
 		controller.SceneMan.LoadScene(GDB.CurrentTileData,GDB.CurrentCharacter);
-		
+
 		hud=GameObject.FindGameObjectWithTag("HudSystem").GetComponent<HudMain>();
 		hud.ShowBackToMapButton(true);
-		
+
 		hud.OnBackToMapPressedEvent+=OnExit;
-		
+
 		hud.ShowBackToMapButton(false);
-		
+
 		controller.dial_man_1.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
 		//controller.dial_man_2.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
-		
+
 		//DEBUG_print_character_facts();
-		
+
+		//stun effects for all
+		foreach (var c in GDB.CurrentTileData.GameCharacters){
+			if (c.IsStunned()){
+				Instantiate(StunEffect,c.ActionMain.transform.position+Vector3.up*0.8f,Quaternion.identity);
+			}
+		}
+
+		if (GDB.CurrentCharacter.IsStunned()){
+			hud.AddActionDataTextPanel("You are stunned for this turn.");
+			allow_input=false;
+
+			hud.ShowBackToMapButton(true);
+		}
 
 		if (GDB.planning_turn){
-			//stun effects for all
-			foreach (var c in GDB.CurrentTileData.GameCharacters){
-				if (c.IsStunned()){
-					Instantiate(StunEffect,c.ActionMain.transform.position+Vector3.up*0.8f,Quaternion.identity);
-				}
-			}
-			
-			if (GDB.CurrentCharacter.IsStunned()){
-				
-				hud.AddActionDataTextPanel("You are stunned for this turn.");
-				allow_input=false;
-				
-				hud.ShowBackToMapButton(true);
-			}
-			else{
+			if (!GDB.CurrentCharacter.IsStunned()){
 				controller.dial_man_2.CheckQuery(
 					new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,
 					GDB.CurrentCharacter.Data,"OnClickBasic")
@@ -65,108 +64,105 @@ public class ActionsSceneController : MonoBehaviour {
 			}
 		}
 	}
-	
+
 	void OnAnswerButtonClick(AnswerButtonMain button){
 		GameCharacterData target=InterractTargetData;
 		if (target==null)
 			target=GDB.CurrentCharacter;
 		var action=new CharacterActionData(
-			GDB.CurrentCharacter, 
+			GDB.CurrentCharacter,
 			target,
 			button.Data.ToEvent,
 			new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,target.Data,button.Data.ToEvent)
-		);
-		
+			);
+
 		foreach (var c in GDB.CurrentTileData.Location.Characters){
 			Debug.Log("name: "+c.Name);
 		}
-		
-		GDB.CurrentCharacter.CurrentAction=action;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-		
+
+		GDB.CurrentCharacter.CurrentAction=action;
 		hud.ShowBackToMapButton(true);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
-		//input
-		if (GDB.planning_turn&&allow_input){
-			if (Input.GetMouseButtonDown(0)){
-				Component com;
-				
-				if (Subs.GetObjectMousePos(out com,100,"Character"))
-				{
-					CharacterMain target=com.GetComponent<CharacterMain>();
-					
-					if (target.Entity!=GDB.CurrentCharacter.Data){
-						InterractTargetData=target.CharacterData;
-						
-						controller.dial_man_1.CheckQuery(
-						new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,
-						target.Entity,"OnClick"));
+		if (allow_input){
+			//input
+			if (GDB.planning_turn){
+				if (Input.GetMouseButtonDown(0)){
+					Component com;
+
+					if (Subs.GetObjectMousePos(out com,100,"Character"))
+					{
+						CharacterMain target=com.GetComponent<CharacterMain>();
+
+						if (target.Entity!=GDB.CurrentCharacter.Data){
+							InterractTargetData=target.CharacterData;
+
+							controller.dial_man_1.CheckQuery(
+							new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,
+							target.Entity,"OnClick"));
+						}
 					}
 				}
 			}
-		}
-		else if (GDB.action_turn){
-			if (Input.GetKeyDown(KeyCode.Space)){
-				
-				while (true){
-					if (current_action>GDB.CurrentTileData.ActionsThisTurn.Count-1)
-					{
-						//all actions done.
-						hud.ShowBackToMapButton(true);
-						break;
-					}
-					else{
-						//next action
-						var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
-						QueryData action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,action._Event);
-						
-						if (action.IgnoreThis){
-							continue;
-						}
-						else if (action.Interrupted){
-							if (action.Character!=GDB.CurrentCharacter) continue;//don't show interrupted message for other players.
-							
-							action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,"OnInterrupt");
-						}
-						else if (action.Stunned){
-							if (action.Character!=GDB.CurrentCharacter) continue;//don't show stun message for other players.
-							
-							action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,"OnStun");
-						}
-						
-						//add panel
+			else if (GDB.action_turn){
+				if (Input.GetKeyDown(KeyCode.Space)){
 
-						var r=controller.dial_man_1.core_database.rule_database.CheckQuery(action_q);
-						
-						var ActionTextData=new DialogueData("ERROR!!!1!");
-						var ActionTextQuery=action_q;
-						if (r!=null){
-							ActionTextData=r.Link;
+					while (true){
+						if (current_action>GDB.CurrentTileData.ActionsThisTurn.Count-1)
+						{
+							//all actions done.
+							hud.ShowBackToMapButton(true);
+							break;
 						}
-						
-						hud.AddActionDataTextPanel(ActionTextData,ActionTextQuery);
-						break;
+						else{
+							//next action
+							var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
+							QueryData action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,action._Event);
+
+							if (action.Character.IsHiding||action.IgnoreThis){
+								continue;
+							}
+							else if (action.Interrupted){
+								if (action.Character!=GDB.CurrentCharacter) continue;//don't show interrupted message for other players.
+
+								action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,"OnInterrupt");
+							}
+							else if (action.ShowOnlyForCurrentCharacter){
+								if (action.Character!=GDB.CurrentCharacter) continue;//don't show message for other players.
+							}
+
+							//add panel
+
+							var r=controller.dial_man_1.core_database.rule_database.CheckQuery(action_q);
+
+							var ActionTextData=new DialogueData("ERROR!!!1!");
+							if (r!=null){
+								ActionTextData=r.Link;
+							}
+
+							hud.AddActionDataTextPanel(ActionTextData,action_q);
+							break;
+						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	int current_action=0;
-	
+
 	//DEV.TEMP
 	void DEBUG_print_character_facts(){
 		GDB.CurrentCharacter.Data.Print_character_facts();
 	}
-	
+
 	void OnExit()
 	{
 		hud.ClearActionDataPanels();
 		//DEBUG_print_character_facts();
-		
+
 		controller.dial_man_1.StopDialogue();
 		controller.dial_man_2.StopDialogue();
 		GDB. NextPlayersTurn();

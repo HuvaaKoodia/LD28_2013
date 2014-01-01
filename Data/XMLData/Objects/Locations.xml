@@ -1,6 +1,15 @@
 <Root>
+<!--DEV. unused -->
+
   <Location Name="Street">
 	<Var>CurrentPlayer Policeman</Var>
     <Var>Crowded false</Var>
   </Location>
+  
+  <Location Name="PoliceStation"></Location>
+  <Location Name="Alley"></Location>
+  <Location Name="NewsStation"></Location>
+  <Location Name="DrugStash"></Location>
+  <Location Name="CityHall"></Location>
+  <Location Name="FoXXXy"></Location>
 </Root>

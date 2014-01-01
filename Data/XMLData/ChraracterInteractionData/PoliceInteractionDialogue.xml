@@ -1,31 +1,15 @@
 <Root>
 
+	<Dialogue Name="OnMapActions_Policeman">
+	<Link>select PLAYER SelectUseVehicleLink</Link>
+	<Link>select PLAYER SelectMapMoveLink</Link>
+	<Link>select PLAYER SelectMapWaitLink</Link>
+	</Dialogue>
+
 	<Dialogue Name="OnInteract_PoliceToAny">
 	<Link>select PLAYER SelectArrestLink</Link>
 	<Link>select PLAYER SelectSearchLink</Link>
 	<Link>select PLAYER SelectAttackLink</Link>
-
 	</Dialogue>
-	
-	<Rule Name="SegwayAway">
-		<Actor>PLAYER</Actor>
-		<Target>PLAYER</Target>
-		<Event>SelectWalkLink</Event>
-		<Criterion>Actor.Name E Policeman</Criterion>
-		<Result>
-			<Link>"Segway away." to PLAYER OnWalk</Link>
-		</Result>
-	</Rule>
-	
-	<Rule Name="SegwayAwayFast">
-		<Actor>PLAYER</Actor>
-		<Target>PLAYER</Target>
-		<Event>SelectRunLink</Event>
-		<Criterion>Actor.Name E Policeman</Criterion>
-		<Result>
-			<Link>"Segway away. FAST!" to PLAYER OnRun</Link>
-		</Result>
-	</Rule>
-
 	
 </Root>

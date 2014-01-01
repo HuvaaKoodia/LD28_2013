@@ -1,0 +1,50 @@
+<Root>
+	<Rule Name="OnMapActionsPlayer1" Base="PlayerToPlayer">
+		<Event>OnMapActions</Event>
+		<Criterion>Actor.Name E Policeman</Criterion>
+		<Result>
+			<Link>OnMapActions_Policeman</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnMapActionsPlayer2" Base="PlayerToPlayer">
+		<Event>OnMapActions</Event>
+		<Criterion>Actor.Name E Junkie</Criterion>
+		<Result>
+			<Link>OnMapActions_Junkie</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnMapActionsPlayer3" Base="PlayerToPlayer">
+		<Event>OnMapActions</Event>
+		<Criterion>Actor.Name E CallGirl</Criterion>
+		<Result>
+			<Link>OnMapActions_CallGirl</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnMapActionsPlayer4" Base="PlayerToPlayer">
+		<Event>OnMapActions</Event>
+		<Criterion>Actor.Name E Freelancer</Criterion>
+		<Result>
+			<Link>OnMapActions_Freelancer</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnMapActionsPlayer5" Base="PlayerToPlayer">
+		<Event>OnMapActions</Event>
+		<Criterion>Actor.Name E Politician</Criterion>
+		<Result>
+			<Link>OnMapActions_Politician</Link>
+		</Result>
+	</Rule>
+	
+	<Rule Name="OnMapActionsPlayer6" Base="PlayerToPlayer">
+		<Event>OnMapActions</Event>
+		<Criterion>Actor.Name E Dealer</Criterion>
+		<Result>
+			<Link>OnMapActions_Dealer</Link>
+		</Result>
+	</Rule>
+
+</Root>

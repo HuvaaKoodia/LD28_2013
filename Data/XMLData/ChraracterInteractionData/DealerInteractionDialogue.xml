@@ -1,5 +1,10 @@
 <Root>
 
+	<Dialogue Name="OnMapActions_Dealer">
+	<Link>select PLAYER SelectMapMoveLink</Link>
+	<Link>select PLAYER SelectMapWaitLink</Link>
+	</Dialogue>
+
 	<Dialogue Name="OnInteract_DealerToAny">
 	<Link>select PLAYER SelectSellLink</Link>
 	<Link>select PLAYER SelectBuyLink</Link>

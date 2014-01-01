@@ -3,9 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using DialogueSystem;
 
+public enum CharacterMovementType {Normal,Hiding,Running}
+
 public class GameCharacterData{
 	
-	public MapManager mapman;	
+	public CharacterMovementType CurrentMovementType{get;private set;}
+	
+	public MapGenerator mapman;	
 	
 	public CharacterData Data;
 	public MapCharacter Main{get;private set;}
@@ -16,14 +20,14 @@ public class GameCharacterData{
 	public Vector2 OldPos {get;set;} 
 	
 	public bool Inactive{get;private set;}
-	
-	//private Vector2 MoveToPos;
+
+	public bool IsHiding{get {return CurrentMovementType==CharacterMovementType.Hiding;}}
+	public bool IsRunning{get {return CurrentMovementType==CharacterMovementType.Running;}}
 	
 	public string Name{get;private set;}
+	public int ArrestedTurns{get;private set;}
 	
 	public CharacterActionData CurrentAction;
-	 
-	public int ArrestedTurns{get;private set;}
 	
 	int temp_index;
 	bool temp_movement;
@@ -36,6 +40,16 @@ public class GameCharacterData{
 		Name=name;
 		OnMovingAwayFromTile=false;
 		ArrestedTurns=0;
+		
+		CurrentMovementType=CharacterMovementType.Normal;
+	}
+	
+	public void ToggleHiding(){
+		CurrentMovementType=CurrentMovementType==CharacterMovementType.Hiding?CharacterMovementType.Normal:CharacterMovementType.Hiding;
+	}
+	
+	public void ToggleRunning(){
+		CurrentMovementType=CurrentMovementType==CharacterMovementType.Running?CharacterMovementType.Normal:CharacterMovementType.Running;
 	}
 	
 	public void Stun(int turns){
@@ -105,7 +119,7 @@ public class GameCharacterData{
 
 	public bool TempMovement{get{return temp_movement;}}
 	
-	public void StarMovement(){
+	public void StartMovement(){
 		temp_index=0;
 		temp_movement=true;
 		CurrentPos=TurnStartPos;
@@ -137,21 +151,38 @@ public class GameCharacterData{
 	}
 	
 	//path 
+	public void RemovePath()
+	{
+		Path_positions.Clear();
+	}
+	
+	int max_movement=0;
 	public void CalculatePath(Vector2 endPos)
 	{
-		int max_movement=(int)Data.Facts.GetFloat("MovementSpeed");
-		Path_positions.Clear();
-
 		int ex=(int)endPos.x,ey=(int)endPos.y;
-		int tx=(int)TurnStartPos.x;
-		int ty=(int)TurnStartPos.y;
-	
+		int tx=(int)GetPathEndPos().x;
+		int ty=(int)GetPathEndPos().y;
 		
+		if (max_movement>0){
+			if (mapman.tiles_map[tx,ty].Blocked()){
+				max_movement=0;
+			}
+		}
+		
+		if (max_movement==0){
+			max_movement=GetMovementSpeed();
+			Path_positions.Clear();
+			
+			tx=(int)TurnStartPos.x;
+			ty=(int)TurnStartPos.y;
+		}
+		
+			
 		while (true)
 		{
- 			Path_positions.Add(new Vector2(tx,ty));
-			
-			if (max_movement==0) break;
+			var pos=new Vector2(tx,ty);
+			if (!Path_positions.Contains(pos))
+ 			Path_positions.Add(pos);
 			
 			int x_dif=ex-tx;
 			int y_dif=ey-ty;
@@ -159,6 +190,10 @@ public class GameCharacterData{
 			if (x_dif==0&&y_dif==0){
 				break;
 			}
+			
+			if (max_movement==0) break;
+			
+			max_movement--;
 			
 			int y_abs=(int)(Mathf.Sign(y_dif)*Mathf.Min(1,Mathf.Abs(y_dif)));
 			int x_abs=(int)(Mathf.Sign(x_dif)*Mathf.Min(1,Mathf.Abs(x_dif)));
@@ -174,14 +209,12 @@ public class GameCharacterData{
 			
 			var NEXT_POS=mapman.tiles_map[tx+x_abs,ty+y_abs];
 			
-			
 			if (NEXT_POS.TilePosition==endPos){
 				tx+=x_abs;
 				ty+=y_abs;
 				continue;
 			}
 			 
-			
 			if (NEXT_POS.Blocked()){
 				//move to other direction
 				
@@ -208,22 +241,25 @@ public class GameCharacterData{
 			
 			tx+=x_abs;
 			ty+=y_abs;
-			max_movement--;
+			
 		}
 	}
 
-	public void StartMoving()
+	public void StartMovingGraphics()
 	{
 		Main.Move(Path_positions);
 	}
 	
-	public void SetTurnStartPosToPathEnd ()
+	public void SetTurnStartPosToPathEnd()
+	{
+		TurnStartPos=GetPathEndPos();
+	}
+	
+	public Vector2 GetPathEndPos()
 	{
 		if (Path_positions.Count>0)
-			TurnStartPos=Path_positions[Path_positions.Count-1];
-		else
-			TurnStartPos=CurrentPos;
-
+			return Path_positions[Path_positions.Count-1];
+		return CurrentPos;
 	}
 
 	public void SetStartPosition (Vector2 tilePosition)
@@ -235,5 +271,14 @@ public class GameCharacterData{
 	{
 		CurrentTile().Data.RemoveCharacter(this);
 		SetStartPosition(tile.TilePosition);
+	}
+
+	public int GetMovementSpeed()
+	{
+		if (CurrentMovementType==CharacterMovementType.Hiding)
+			return (int)Data.Facts.GetFloat("HidingSpeed");
+		if (CurrentMovementType==CharacterMovementType.Running)
+			return (int)Data.Facts.GetFloat("VehicleSpeed");
+		return (int)Data.Facts.GetFloat("MovementSpeed");
 	}
 }

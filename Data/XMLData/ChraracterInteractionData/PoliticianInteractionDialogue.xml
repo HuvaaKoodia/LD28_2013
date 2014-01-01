@@ -1,4 +1,10 @@
 <Root>
+
+	<Dialogue Name="OnMapActions_Politician">
+	<Link>select PLAYER SelectMapMoveLink</Link>
+	<Link>select PLAYER SelectMapWaitLink</Link>
+	</Dialogue>
+
 	<Dialogue Name="OnInteract_PoliticianToAny">
 	<Link>select PLAYER SelectBuySexLink</Link>
 	<Link>select PLAYER SelectSellPropertyLink</Link>
