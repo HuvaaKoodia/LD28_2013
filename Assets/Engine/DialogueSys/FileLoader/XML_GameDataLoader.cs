@@ -14,7 +14,9 @@ namespace DialogueSystem.FileIO
     {
         public CoreDatabase core_database;
         public string DataFolder = "Data/",XMLDataFolder="Data/XMLData";
-
+		
+		public bool WriteExamples=true;
+		
         void Awake()
         {
             XML_sys.OnRead += read;
@@ -36,8 +38,10 @@ namespace DialogueSystem.FileIO
         //examples
         public void write()
         {
-            var xml_ex = new XML_ExampleDataWriter();
-            xml_ex.writeAll(DataFolder);
+			if (WriteExamples){
+	            var xml_ex = new XML_ExampleDataWriter();
+	            xml_ex.writeAll(DataFolder);
+			}
         }
 		
 		/// <summary>

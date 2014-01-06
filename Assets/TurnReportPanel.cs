@@ -10,19 +10,22 @@ public class TurnReportPanel : MonoBehaviour {
 	
 	
 	public void SetStats(GameCharacterData character){
-		var text="";
+		string text="",sign;
 		
 		int points=(int)(character.Data.Facts.GetFloat("VP")-character.VP_TurnStart);
+		if (points<0) sign=""; else sign="+";
 		if (points!=0)
-			text+="Victory Points: "+points+"\n";
+			text+="Victory Points: "+sign+" "+points+"\n";
 		
 		points=(int)(character.Data.Facts.GetFloat("Money")-character.Money_TurnStart);
+		if (points<0) sign=""; else sign="+";
 		if (points!=0)
-			text+="Money: "+points+"\n";
+			text+="Money: "+sign+" "+points+"\n";
 		
 		points=(int)(character.Data.Facts.GetFloat("Drugs")-character.Drugs_TurnStart);
+		if (points<0) sign=""; else sign="+";
 		if (points!=0)
-			text+="Drugs: "+points+"\n";
+			text+="Drugs: "+sign+" "+points+"\n";
 		
 		StatsLabel.text=text;
 		

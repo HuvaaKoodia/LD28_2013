@@ -1,17 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game\MapScene\GameMapController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Engine\DialogueSys\FileLoader\XML_GameDataLoader.cs">
     <Files>
-      <File FileName="Assets\Game\GameData\GameCharacterData.cs" Line="25" Column="14" />
-      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="471" Column="3" />
-      <File FileName="Assets\Game\MapScene\GameMapController.cs" Line="31" Column="74" />
-      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="46" Column="23" />
-      <File FileName="Assets\Game\GameData\CharacterActionData.cs" Line="32" Column="20" />
-      <File FileName="Assets\Engine\Sys\Subs.cs" Line="191" Column="1" />
-      <File FileName="Assets\TurnReportPanel.cs" Line="27" Column="24" />
-      <File FileName="Assets\Engine\DialogueSys\MenuSys\HudMain.cs" Line="64" Column="15" />
-      <File FileName="Assets\Game\Sys\PlayerHud.cs" Line="13" Column="2" />
-      <File FileName="Assets\Engine\DialogueSys\GameSys\DialogueManager.cs" Line="198" Column="18" />
+      <File FileName="Assets\Engine\DialogueSys\FileLoader\XML_GameDataLoader.cs" Line="39" Column="28" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\GameDatabase.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\MapScene\GameMapController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\GameData\GameCharacterData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\ActionScene\ActionsSceneController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\GameData\CharacterActionData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\GameSys\SceneManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game\Sys\GameController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\MenuSys\GameOverHud.cs" Line="1" Column="1" />
+      <File FileName="Assets\Engine\DialogueSys\MenuSys\HudMain.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

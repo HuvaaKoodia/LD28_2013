@@ -9,6 +9,7 @@ public class GameCharacterData{
 	
 	public CharacterMovementType CurrentMovementType{get;private set;}
 	
+	public string Name{get;private set;}
 	public bool AI{get;private set;}
 	
 	public CharacterData Data;
@@ -22,12 +23,11 @@ public class GameCharacterData{
 	public Vector2 CurrentPos {get;private set;}
 	public Vector2 OldPos {get;set;} 
 	
-	public bool Inactive{get{return IsArrested()||IsStunned();}}
+	public bool Inactive{get{return IsArrested();}}
 
 	public bool IsHiding{get {return CurrentMovementType==CharacterMovementType.Hiding;}}
 	public bool IsRunning{get {return CurrentMovementType==CharacterMovementType.Running;}}
 	
-	public string Name{get;private set;}
 	public int ArrestedTurns{get;private set;}
 	
 	public CharacterActionData CurrentAction;
@@ -63,6 +63,10 @@ public class GameCharacterData{
 	
 	public void ToggleRunning(){
 		CurrentMovementType=CurrentMovementType==CharacterMovementType.Running?CharacterMovementType.Normal:CharacterMovementType.Running;
+		
+		if (Path_positions.Count>GetMovementSpeed()){
+			ClampPath(GetMovementSpeed());
+		}
 	}
 	
 	public void Stun(int turns){
@@ -297,5 +301,11 @@ public class GameCharacterData{
 	public bool MustInterract()
 	{
 		return !OnMovingAwayFromTile&&TurnStartTileData.HasOtherCharactersNotMoving(this);
+	}
+
+	public void ClampPath (int length)
+	{
+		while (Path_positions.Count>length+1)
+			Path_positions.RemoveAt(Path_positions.Count-1);
 	}
 }

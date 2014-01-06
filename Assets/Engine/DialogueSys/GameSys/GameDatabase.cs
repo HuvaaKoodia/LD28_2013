@@ -469,7 +469,7 @@ public class GameDatabase : MonoBehaviour {
 	{
 		while(CurrentCharacter.AI){
 			
-			if (CurrentCharacter.Inactive){
+			if (CurrentCharacter.Inactive||CurrentCharacter.IsStunned()){
 				NextPlayersTurn();
 				continue;
 			}
@@ -483,9 +483,11 @@ public class GameDatabase : MonoBehaviour {
 
 				if (!use_basic_action){//character actions
 					//get target
-					var target=CurrentCharacter;
-					while(target==CurrentCharacter){
+					GameCharacterData target=null;
+					while(true){
 						target=Subs.GetRandom(CurrentTileData.GameCharacters);
+						if (target==CurrentCharacter||target.OnMovingAwayFromTile||target.Inactive) continue;
+						break;
 					}
 					
 					//get all possible actions
@@ -496,7 +498,7 @@ public class GameDatabase : MonoBehaviour {
 					//select one randomly
 					if (links.Count>0){
 						var random=Subs.GetRandom(links);
-						CurrentCharacter.CurrentAction=new CharacterActionData(CurrentCharacter,CurrentCharacter,random.ToEvent,CurrentTileData.Location);
+						CurrentCharacter.CurrentAction=new CharacterActionData(CurrentCharacter,target,random.ToEvent,CurrentTileData.Location);
 					}
 					else
 						use_basic_action=true;

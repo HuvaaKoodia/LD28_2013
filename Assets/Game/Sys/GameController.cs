@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour {
 
 	bool gameover=false;
 	
+	public bool AllowInput=true;
+	
 	public bool GAMEOVER{
 		get{
 			return gameover;
@@ -44,6 +46,8 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update (){
+		if (!AllowInput) return;
+		
 		if (GAMEOVER){
 			if (Input.GetKey(KeyCode.Return)){
 				//go to main menu

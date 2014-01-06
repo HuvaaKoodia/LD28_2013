@@ -33,17 +33,19 @@ public class ActionsSceneController : MonoBehaviour {
 		hud.ShowBackToMapButton(true);
 
 		hud.OnBackToMapPressedEvent+=OnExit;
+		hud.OnContinuePressedEvent+=NextMessage;
 
 		hud.ShowBackToMapButton(false);
+		hud.ShowContinueButton(false);
 
 		controller.dial_man_1.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
 		//controller.dial_man_2.OnAnswerButtonPressedEvent+=OnAnswerButtonClick;
 
-		//DEBUG_print_character_facts();
-
 		//stun effects for all
 		foreach (var c in GDB.CurrentTileData.GameCharacters){
-			if (c.IsStunned()){
+			if (c.OnMovingAwayFromTile||c.Inactive||c.IsHiding) continue;
+			
+			if (c.IsStunned()){	
 				Instantiate(StunEffect,c.ActionMain.transform.position+Vector3.up*0.8f,Quaternion.identity);
 			}
 		}
@@ -62,6 +64,9 @@ public class ActionsSceneController : MonoBehaviour {
 					GDB.CurrentCharacter.Data,"OnClickBasic")
 				);
 			}
+		}
+		else{
+			hud.ShowContinueButton(true);
 		}
 	}
 
@@ -107,66 +112,71 @@ public class ActionsSceneController : MonoBehaviour {
 			}
 			else if (GDB.action_turn){
 				if (Input.GetKeyDown(KeyCode.Space)){
-
-					while (true){
-						if (current_action>GDB.CurrentTileData.ActionsThisTurn.Count-1)
-						{
-							//all actions done.
-							hud.ShowBackToMapButton(true);
-							break;
-						}
-						else{
-							//next action
-							var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
-							QueryData action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,action._Event);
-
-							if (action.Character.IsHiding||action.IgnoreThis){
-								continue;
-							}
-							else if (action.Interrupted){
-								if (action.Character!=GDB.CurrentCharacter) continue;//don't show interrupted message for other players.
-
-								action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,"OnInterrupt");
-							}
-							else if (action.ShowOnlyForCurrentCharacter){
-								if (action.Character!=GDB.CurrentCharacter) continue;//don't show message for other players.
-							}
-
-							//add panel
-
-							var r=controller.dial_man_1.core_database.rule_database.CheckQuery(action_q);
-
-							var ActionTextData=new DialogueData("ERROR!!!1!");
-							if (r!=null){
-								ActionTextData=r.Link;
-							}
-
-							hud.AddActionDataTextPanel(ActionTextData,action_q);
-							break;
-						}
-					}
+					
 				}
 			}
 		}
 	}
+	
+	void NextMessage(){
+		while (true){
+			if (current_action>GDB.CurrentTileData.ActionsThisTurn.Count-1)
+			{
+				//all actions done.
+				hud.ShowBackToMapButton(true);
+				hud.ShowContinueButton(false);
+				break;
+			}
+			else{
+				//next action
+				var action=GDB.CurrentTileData.ActionsThisTurn[current_action++];
+				QueryData action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,action._Event);
 
-	int current_action=0;
+				if (action.Character.IsHiding||action.IgnoreThis){
+					continue;
+				}
+				else if (action.Interrupted){
+					if (action.Character!=GDB.CurrentCharacter) continue;//don't show interrupted message for other players.
 
-	//DEV.TEMP
-	void DEBUG_print_character_facts(){
-		GDB.CurrentCharacter.Data.Print_character_facts();
+					action_q=new QueryData(new LocationData("ActionTexts"),action.Character.Data,action.Target.Data,"OnInterrupt");
+				}
+				else if (action.ShowOnlyForCurrentCharacter){
+					if (action.Character!=GDB.CurrentCharacter) continue;//don't show message for other players.
+				}
+
+				//add panel
+
+				var r=controller.dial_man_1.core_database.rule_database.CheckQuery(action_q);
+
+				var ActionTextData=new DialogueData("ERROR!!!1!");
+				if (r!=null){
+					ActionTextData=r.Link;
+				}
+
+				hud.AddActionDataTextPanel(ActionTextData,action_q);
+				break;
+			}
+		}
 	}
+		
+	int current_action=0;
 
 	void OnExit()
 	{
-		hud.ClearActionDataPanels();
-		//DEBUG_print_character_facts();
-
-		controller.dial_man_1.StopDialogue();
-		controller.dial_man_2.StopDialogue();
-		GDB. NextPlayersTurn();
 		hud.OnBackToMapPressedEvent-=OnExit;
+		hud.OnContinuePressedEvent-=NextMessage;
 		controller.dial_man_1.OnAnswerButtonPressedEvent-=OnAnswerButtonClick;
 		controller.dial_man_2.OnAnswerButtonPressedEvent-=OnAnswerButtonClick;
+		
+		hud.ShowBackToMapButton(false);
+		hud.ShowContinueButton(false);
+		
+		hud.ClearActionDataPanels();
+		
+		controller.dial_man_1.StopDialogue();
+		controller.dial_man_2.StopDialogue();
+		GDB.NextPlayersTurn();
+				
+		Application.LoadLevel("MapGameScene");
 	}
 }

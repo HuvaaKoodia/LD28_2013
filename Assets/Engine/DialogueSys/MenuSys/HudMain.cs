@@ -6,30 +6,36 @@ public class HudMain : MonoBehaviour {
 
 	public GameOverHud go_hud;
 	public BackToMenuMain back_to_menu;
-	public UIButton BackToMapButton;
+	public UIButton BackToMapButton,ContinueButton;
 	
 	public PlayerHud PlayerHud_;
 	public TurnReportPanel Turn_Report_Panel;
 	
-	public System.Action OnBackToMapPressedEvent;
+	public System.Action OnBackToMapPressedEvent,OnContinuePressedEvent;
 	
 	// Use this for initialization
-	void Start () {
-		//ShowBackToMapButton(false);
-	}
+	void Start () {}
 	
 	public void ShowBackToMapButton(bool show)
 	{
 		BackToMapButton.gameObject.SetActive(show);
 	}
 	
-	void BackToMapButtonPressed(){
+	public void ShowContinueButton(bool show)
+	{
+		ContinueButton.gameObject.SetActive(show);
+	}
+	
+	void ContinueButtonPressed(){
 		
+		if (OnContinuePressedEvent!=null)
+			OnContinuePressedEvent();
+	}
+	
+	void BackToMapButtonPressed(){
 		ShowBackToMapButton(false);
 		if (OnBackToMapPressedEvent!=null)
 			OnBackToMapPressedEvent();
-		
-		Application.LoadLevel("MapGameScene");
 	}
 	
 	//addition text panels

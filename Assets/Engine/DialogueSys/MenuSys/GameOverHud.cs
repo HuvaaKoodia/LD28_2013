@@ -7,6 +7,9 @@ public class GameOverHud : MonoBehaviour {
 	public UISprite sprite;
 	public UILabel gameover_label,desc_label,other_label;
 	
+	
+	public System.Action OnContinuePressed;
+	
 	// Use this for initialization
 	void Start (){
 		This.alpha=0;
@@ -17,11 +20,19 @@ public class GameOverHud : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {}
 	
-	public void SetText(string text,bool movement_phase){
+	
+	public void SetText(GameCharacterData data,bool planning_phase){
+		if (data.AI)
+			SetText("AI",planning_phase);
+		else
+			SetText(data.Name,planning_phase);
+	}
+	
+	public void SetText(string text,bool planning_phase){
 		This.alpha=1;
 		desc_label.text=text;
 		
-		if (movement_phase){
+		if (planning_phase){
 			gameover_label.text="Planning phase";
 		}
 		else
@@ -51,5 +62,10 @@ public class GameOverHud : MonoBehaviour {
 		
 			This.alpha+=0.01f;
 		}
+	}
+	
+	public void OnContinueButton(){
+		if (OnContinuePressed!=null)
+			OnContinuePressed();
 	}
 }
