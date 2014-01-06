@@ -9,17 +9,20 @@ public class GameCharacterData{
 	
 	public CharacterMovementType CurrentMovementType{get;private set;}
 	
-	public MapGenerator mapman;	
+	public bool AI{get;private set;}
 	
 	public CharacterData Data;
 	public MapCharacter Main{get;private set;}
 	public CharacterMain ActionMain{get;private set;}
 	
+	public TileData CurrentTileData {get;private set;}
+	public TileData TurnStartTileData {get;private set;}
+	
 	public Vector2 TurnStartPos {get;private set;}
 	public Vector2 CurrentPos {get;private set;}
 	public Vector2 OldPos {get;set;} 
 	
-	public bool Inactive{get;private set;}
+	public bool Inactive{get{return IsArrested()||IsStunned();}}
 
 	public bool IsHiding{get {return CurrentMovementType==CharacterMovementType.Hiding;}}
 	public bool IsRunning{get {return CurrentMovementType==CharacterMovementType.Running;}}
@@ -36,12 +39,22 @@ public class GameCharacterData{
 	
 	public bool OnMovingAwayFromTile{get;set;}
 
-	public GameCharacterData(string name){
+	public GameCharacterData(string name,bool ai){
 		Name=name;
 		OnMovingAwayFromTile=false;
 		ArrestedTurns=0;
 		
+		AI=ai;
+		
 		CurrentMovementType=CharacterMovementType.Normal;
+	}
+	public float Money_TurnStart,VP_TurnStart,Drugs_TurnStart;
+	
+	public void SetTurnStartValues()
+	{
+		Money_TurnStart=Data.Facts.GetFloat("Money");
+		VP_TurnStart=Data.Facts.GetFloat("VP");
+		Drugs_TurnStart=Data.Facts.GetFloat("Drugs");
 	}
 	
 	public void ToggleHiding(){
@@ -63,7 +76,7 @@ public class GameCharacterData{
 	
 	public void Arrest(int turns)
 	{
-		Inactive=true;
+
 		ArrestedTurns+=turns;
 	}
 
@@ -79,23 +92,15 @@ public class GameCharacterData{
 	
 	public void RecoverArrest(int turns)
 	{
+		if (!IsArrested()) return;
+		
 		ArrestedTurns--;
 		
 		if (ArrestedTurns==0){
-			CurrentTile().Data.AddCharacter(this);
-			Inactive=false;
+			CurrentTileData.AddCharacter(this);
 		}
 	}
 	
-	public Tile TurnStartTile ()
-	{
-		return mapman.tiles_map[(int)TurnStartPos.x,(int)TurnStartPos.y];
-	}
-	public Tile CurrentTile ()
-	{
-		return mapman.tiles_map[(int)CurrentPos.x,(int)CurrentPos.y];
-	}
-
 	public void EndPathToCurrentPos()
 	{
 		if (Path_positions.Count>0){
@@ -108,7 +113,6 @@ public class GameCharacterData{
 	public void SetMain(MapCharacter main){
 		Main=main;
 		//Main.on_path_end_Event+=EndMoving;
-		Main.mapman=mapman;
 		Main.SetCharacterData(Data);
 	}
 	
@@ -128,9 +132,11 @@ public class GameCharacterData{
 		temp_movement=false;
 	}
 	
-	public void MoveToNextTempPos(){
-		if (Path_positions.Count>1)
-		CurrentPos=Path_positions[++temp_index];
+	public void MoveToNextTempPos(GameDatabase GDB){
+		if (Path_positions.Count>1){
+			CurrentPos=Path_positions[++temp_index];
+			CurrentTileData=GDB.GetTile(CurrentPos);
+		}
 	}
 
 	public Vector2 NextPos ()
@@ -157,14 +163,14 @@ public class GameCharacterData{
 	}
 	
 	int max_movement=0;
-	public void CalculatePath(Vector2 endPos)
+	public void CalculatePath(Vector2 endPos,GameDatabase GDB)
 	{
 		int ex=(int)endPos.x,ey=(int)endPos.y;
 		int tx=(int)GetPathEndPos().x;
 		int ty=(int)GetPathEndPos().y;
 		
 		if (max_movement>0){
-			if (mapman.tiles_map[tx,ty].Blocked()){
+			if (GDB.tiledata_map[tx,ty].Blocked()){
 				max_movement=0;
 			}
 		}
@@ -206,8 +212,7 @@ public class GameCharacterData{
 					y_abs=0; 
 				}
 			}
-			
-			var NEXT_POS=mapman.tiles_map[tx+x_abs,ty+y_abs];
+			var NEXT_POS=GDB.tiledata_map[tx+x_abs,ty+y_abs];
 			
 			if (NEXT_POS.TilePosition==endPos){
 				tx+=x_abs;
@@ -223,7 +228,7 @@ public class GameCharacterData{
 					y_abs=0;
 					x_abs=(int)Mathf.Sign(x_dif);
 
-					if (tx+x_abs>mapman.gridX-1||tx+x_abs<0){
+					if (tx+x_abs>GDB.MapWidth-1||tx+x_abs<0){
 						x_abs*=-1;
 					}
 				}
@@ -232,16 +237,14 @@ public class GameCharacterData{
 					y_abs=(int)Mathf.Sign(y_dif);
 					x_abs=0;
 					
-					if (ty+y_abs>mapman.gridY-1||ty+y_abs<0){
+					if (ty+y_abs>GDB.MapHeight-1||ty+y_abs<0){
 						y_abs*=-1; 
 					}
-
 				}
 			}
 			
 			tx+=x_abs;
-			ty+=y_abs;
-			
+			ty+=y_abs;	
 		}
 	}
 
@@ -250,9 +253,10 @@ public class GameCharacterData{
 		Main.Move(Path_positions);
 	}
 	
-	public void SetTurnStartPosToPathEnd()
+	public void SetTurnStartPosToPathEnd(GameDatabase GDB)
 	{
 		TurnStartPos=GetPathEndPos();
+		TurnStartTileData=GDB.GetTile(TurnStartPos);
 	}
 	
 	public Vector2 GetPathEndPos()
@@ -262,15 +266,23 @@ public class GameCharacterData{
 		return CurrentPos;
 	}
 
-	public void SetStartPosition (Vector2 tilePosition)
+	public void SetStartPosition(TileData tile)
 	{
-		TurnStartPos=CurrentPos=tilePosition;
+		SetCurrentTile(tile);
+		TurnStartPos=CurrentPos;
+		TurnStartTileData=tile;
+	}
+	
+	public void SetCurrentTile(TileData tile)
+	{
+		CurrentTileData=tile;
+		CurrentPos=tile.TilePosition;
 	}
 
 	public void MoveToPosition(TileData tile)
 	{
-		CurrentTile().Data.RemoveCharacter(this);
-		SetStartPosition(tile.TilePosition);
+		CurrentTileData.RemoveCharacter(this);
+		SetStartPosition(tile);
 	}
 
 	public int GetMovementSpeed()
@@ -280,5 +292,10 @@ public class GameCharacterData{
 		if (CurrentMovementType==CharacterMovementType.Running)
 			return (int)Data.Facts.GetFloat("VehicleSpeed");
 		return (int)Data.Facts.GetFloat("MovementSpeed");
+	}
+
+	public bool MustInterract()
+	{
+		return !OnMovingAwayFromTile&&TurnStartTileData.HasOtherCharactersNotMoving(this);
 	}
 }

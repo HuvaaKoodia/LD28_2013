@@ -12,6 +12,7 @@ public class CharacterActionData{
 	public bool Interrupted{get;private set;}
 	public bool ShowOnlyForCurrentCharacter{get;set;}
 	public bool IgnoreThis{get;set;}
+
 	
 	//public CharacterData Interrupter{get;private set;}
 	
@@ -22,6 +23,10 @@ public class CharacterActionData{
 		_Event=_event;
 		Interrupted=false;
 	}
+	
+	public CharacterActionData(GameCharacterData character,GameCharacterData target,string _event,LocationData location)
+	:this(character,target,_event,new QueryData(location,character.Data,target.Data,_event))
+	{}
 	
 	public void Interrupt(GameCharacterData interrupter){
 		Interrupted=true;

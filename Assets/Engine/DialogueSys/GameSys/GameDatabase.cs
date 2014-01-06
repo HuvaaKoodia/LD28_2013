@@ -7,8 +7,9 @@ public class GameDatabase : MonoBehaviour {
 	
 	public CoreDatabase Core;
 	public MapLoader mapload;
+	public GameController GC;
 	
-	public GameCharacterData CurrentCharacter;
+	public GameCharacterData CurrentCharacter{get;private set;}
 	public List<GameCharacterData> Characters=new List<GameCharacterData>();
 	
 	public int current_player_index=0;
@@ -17,11 +18,19 @@ public class GameDatabase : MonoBehaviour {
 	
 	public bool planning_turn=true,action_turn;
 	
-	public TileData[,] tiledata_map;
+	public TileData[,] tiledata_map{get;private set;}
 	public TileData CurrentTileData;
 	
+	public int MapWidth{get{return tiledata_map.GetLength(0);}}
+	public int MapHeight{get{return tiledata_map.GetLength(1);}}
+	
 	//location data
-	TileData PoliceStationTile;
+	TileData PoliceStationTile,AlleyTile,FoXXXyTile,DrugStashTile,CityHallTile,NewsStationTile;
+
+	public TileData GetTile(Vector2 pos)
+	{
+		return tiledata_map[(int)pos.x,(int)pos.y];
+	}
 	
 	void Awake(){
 		//graphics assets
@@ -33,7 +42,6 @@ public class GameDatabase : MonoBehaviour {
 		CharacterGraphics.Add("Dealer",Resources.Load("DealerGraphics")as GameObject);
 		
 		//creating map
-		
 		MapData md = mapload.Maps[0];
 		
 		int w=md.map_data.GetLength(0);
@@ -55,18 +63,23 @@ public class GameDatabase : MonoBehaviour {
 					break;
 					case "a":
 						LocationName="Alley";
+						AlleyTile=tiledata_map[i,j];
 					break;
 					case "n":
 						LocationName="NewsStation";
+						NewsStationTile=tiledata_map[i,j];
 					break;
 					case "u":
 						LocationName="DrugStash";
+						DrugStashTile=tiledata_map[i,j];
 					break;
 					case "c":
 						LocationName="CityHall";
+						CityHallTile=tiledata_map[i,j];
 					break;
 					case "f":
 						LocationName="FoXXXy";
+						FoXXXyTile=tiledata_map[i,j];
 					break;
 				}
 				tiledata_map[i,j].SetLocation(new LocationData(LocationName));//DEV. TODO. load location data from locationdatabase
@@ -80,8 +93,45 @@ public class GameDatabase : MonoBehaviour {
 		EventOrder=new string[]{"OnAttack","OnArrest","OnRun","OnSearch","OnWalk","OnSell","OnBuy","OnWait","OnStealActor"};
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	public void SetPlayers(int amount){
+		
+		int temp_index=0;
+		foreach (var cg in CharacterGraphics){
+			var name=cg.Key;
+			++temp_index;
+			
+			var c=new GameCharacterData("Player "+temp_index,temp_index>amount);
+			c.Data=Core.character_database.GetCharacterLazy(name);
+			
+			//DEV. TEMP. move to XML data + look for the correct tile (random if many tiles);
+			TileData t=null;
+			if (name=="Policeman")
+				t=PoliceStationTile;
+			if (name=="CallGirl")
+				t=FoXXXyTile;
+			if (name=="Politician")
+				t=CityHallTile;
+			if (name=="Freelancer")
+				t=NewsStationTile;
+			if (name=="Dealer")
+				t=DrugStashTile;
+			if (name=="Junkie"){
+				List<TileData> tiles=new List<TileData>();
+				foreach (var tt in tiledata_map){
+					if (tt.Location.Name=="Street"){
+						tiles.Add(tt);
+					}
+				}
+				t=Subs.GetRandom(tiles);
+			}
+			c.SetStartPosition(t);
+					
+			Characters.Add(c);
+			t.AddCharacter(c);
+		}
+		GameStart();
+		
+		NextPlayersTurn();
 	}
 	
 	private int SortActions(CharacterActionData a,CharacterActionData b){
@@ -124,74 +174,74 @@ public class GameDatabase : MonoBehaviour {
 				//third pass -> action consequences & relay information
 				for (int i=0;i<raw_actions.Count;i++){
 					var a = raw_actions[i];
-					tile.ActionsThisTurn.Add(a);
-
+					
 					if (a.Interrupted||a.IgnoreThis) continue;
 					
 					if (a._Event=="OnAttack"){
 						
-						if (a.Target.IsStunned()){
+						if (a.Target.CurrentAction._Event=="OnStun"){
 							//already stunned don't attack
 							a.IgnoreThis=true;
-							continue;
-						}
-						else
-						if (a.Target.CurrentAction._Event=="OnAttack"){
-							if (a.Target.CurrentAction.Target==a.Character){
-								//both attack each other -> ignore other
-								a.Target.CurrentAction.IgnoreThis=true;
-							}else{
-								//target attacks someone else-> don't interrupt, maybe they win and get to fight again
-							}
-						}
-						
-						GameCharacterData victor,loser;
-						//calculate winner
-						if (Subs.RandomPercent()<50){
-							//attacker is victorious
-							victor=a.Character;
-							loser=a.Target;
 						}
 						else{
-							//defender is victorious
-							victor=a.Target;
-							loser=a.Character;
+							if (a.Target.CurrentAction._Event=="OnAttack"){
+								if (a.Target.CurrentAction.Target==a.Character){
+									//both attack each other -> ignore other
+									a.Target.CurrentAction.IgnoreThis=true;
+								}else{
+									//target attacks someone else-> don't interrupt, maybe they win and get to fight again
+								}
+							}
+						
+							GameCharacterData victor,loser;
+							//calculate winner
+							if (Subs.RandomPercent()<50){
+								//attacker is victorious
+								victor=a.Character;
+								loser=a.Target;
+							}
+							else{
+								//defender is victorious
+								victor=a.Target;
+								loser=a.Character;
+							}
+							
+							tile.ActionsThisTurn.Add(a);
+							
+							if (a.Character!=loser)
+								loser.CurrentAction.IgnoreThis=true;
+							
+							loser.CurrentAction=new CharacterActionData(loser,victor,"OnStun",new LocationData("ActionTexts"));
+							loser.CurrentAction.ShowOnlyForCurrentCharacter=true;
+							raw_actions.Add(loser.CurrentAction);
+							
+							//victory event
+							tile.ActionsThisTurn.Add(
+								new CharacterActionData(
+									victor,
+									loser,
+									"OnVictory",
+									tile.Location
+								)
+							);
+							//defeat event
+							tile.ActionsThisTurn.Add(
+								new CharacterActionData(
+									loser,
+									victor,
+									"OnDefeat",
+									tile.Location
+								)
+							);
 						}
-						
-						raw_actions.Remove(loser.CurrentAction);
-						loser.CurrentAction=new CharacterActionData(loser,victor,"OnStun",
-							new QueryData(new LocationData("ActionTexts"),loser.Data,victor.Data,"OnStun")
-						);
-						loser.CurrentAction.ShowOnlyForCurrentCharacter=true;
-						raw_actions.Add(loser.CurrentAction);
-						
-						//victory event
-						tile.ActionsThisTurn.Add(
-							new CharacterActionData(
-								victor,
-								loser,
-								"OnVictory",
-								new QueryData(tile.Location,victor.Data,loser.Data,"OnVictory")
-							)
-						);
-						//defeat event
-						tile.ActionsThisTurn.Add(
-							new CharacterActionData(
-								loser,
-								victor,
-								"OnDefeat",
-								new QueryData(tile.Location,loser.Data,victor.Data,"OnDefeat")	
-							)
-						);
 						continue;
 					}
-					
+					else
 					if (a._Event=="OnArrest"){
 						//arrest interrups any lower order actions
 						a.Target.CurrentAction.Interrupt(a.Character);						
-						continue;
 					}
-					
+					else
 					if (a._Event=="OnSearch"){							
 						//search interrupts any lower order actions the target might do.
 						if (SortActions(a.Character.CurrentAction,a.Target.CurrentAction)<0){//DEV. check for 0 if two people can search
@@ -201,9 +251,8 @@ public class GameDatabase : MonoBehaviour {
 								a.Target.CurrentAction.Interrupt(a.Character);
 							}
 						}
-						continue;
 					}
-					
+					else
 					if (a._Event=="OnRun"||a._Event=="OnWalk"){
 						
 						//interrupts lower order actions targeting the moving character
@@ -216,26 +265,37 @@ public class GameDatabase : MonoBehaviour {
 								}
 							}
 						}
-						continue;
 					}
-					
+					else
 					if (a._Event=="OnStealActor"){
 						//just do it?
 						
-						continue;
 					}
+					
+					if (a.IgnoreThis)
+						continue;
+					
+					tile.ActionsThisTurn.Add(a);
 				}
 			}
 		}
 	}
-
+	
+	public void GameStart(){
+		foreach (var c in Characters){
+			c.SetTurnStartValues();
+		}
+	}
+	
 	public void ActionTurnEnd(){
-		
 		//action effects
 		foreach (var c in Characters){
+			
+			c.SetTurnStartValues();
+			
 			if (c.OnMovingAwayFromTile){
 				c.OnMovingAwayFromTile=false;
-				c.CurrentTile().Data.AddCharacter(c);
+				c.CurrentTileData.AddCharacter(c);
 			}
 								
 			c.RecoverStun(1);
@@ -246,7 +306,7 @@ public class GameDatabase : MonoBehaviour {
 
 					if (c.CurrentAction._Event=="OnWalk"||c.CurrentAction._Event=="OnRun"){
 						c.OnMovingAwayFromTile=true;
-						c.CurrentTile().Data.RemoveCharacter(c);
+						c.CurrentTileData.RemoveCharacter(c);
 					}
 					
 					//effect
@@ -266,7 +326,6 @@ public class GameDatabase : MonoBehaviour {
 					if (c.CurrentAction._Event=="OnStun"){
 						c.Stun(1);
 					}
-					
 				}
 				c.CurrentAction=null;
 			}
@@ -283,7 +342,7 @@ public class GameDatabase : MonoBehaviour {
 			foreach(var c in Characters)
 			{
 				if (c.TempMovement){
-					var t=c.CurrentTile().Data;
+					var t=c.CurrentTileData;
 					
 					if (c.CurrentMovementType==CharacterMovementType.Normal){
 						//check for other characters on path
@@ -319,9 +378,9 @@ public class GameDatabase : MonoBehaviour {
 					t.RemoveCharacter(c);
 					c.OldPos=t.TilePosition;
 					
-					c.MoveToNextTempPos();
+					c.MoveToNextTempPos(this);
 					
-					t=c.CurrentTile().Data;
+					t=c.CurrentTileData;
 					t.AddCharacter(c);
 					
 					if (c.CurrentPos==c.TurnStartPos||c.CurrentPosIsLastPathPos()){
@@ -342,7 +401,7 @@ public class GameDatabase : MonoBehaviour {
 		
 		foreach(var c in Characters)
 		{
-			if (c.CurrentMovementType==CharacterMovementType.Running&&c.CurrentTile().Data.HasOtherCharacters(c)){
+			if (c.CurrentMovementType==CharacterMovementType.Running&&c.CurrentTileData.HasOtherCharacters(c)){
 				c.ToggleRunning();
 			}
 		}
@@ -352,7 +411,7 @@ public class GameDatabase : MonoBehaviour {
 		
 		foreach(var c in Characters)
 		{
-			c.SetTurnStartPosToPathEnd();
+			c.SetTurnStartPosToPathEnd(this);
 			c.Path_positions.Clear();
 			
 			if (c.CurrentMovementType==CharacterMovementType.Running){
@@ -397,6 +456,107 @@ public class GameDatabase : MonoBehaviour {
 		}
 		
 		CurrentCharacter=Characters[current_player_index++];
-		CurrentTileData=CurrentCharacter.CurrentTile().Data;
+		CurrentTileData=CurrentCharacter.CurrentTileData;
+	}
+	
+	public QueryData OnMapActionsQuery{get{return new QueryData(CurrentTileData.Location,CurrentCharacter.Data,CurrentCharacter.Data,"OnMapActions");}}
+	public QueryData OnClickBasicActionsQuery{get{return new QueryData(CurrentTileData.Location,CurrentCharacter.Data,CurrentCharacter.Data,"OnClickBasic");}}
+	
+	/// <summary>
+	/// Iterates through all the AIs and simutates their AI thoughts.
+	/// </summary>
+	public void SimulateAIs ()
+	{
+		while(CurrentCharacter.AI){
+			
+			if (CurrentCharacter.Inactive){
+				NextPlayersTurn();
+				continue;
+			}
+			
+			if (CurrentCharacter.MustInterract()){
+				
+				bool use_basic_action=true;
+				if (Random.Range(0,100)<50){
+					use_basic_action=false;
+				}
+
+				if (!use_basic_action){//character actions
+					//get target
+					var target=CurrentCharacter;
+					while(target==CurrentCharacter){
+						target=Subs.GetRandom(CurrentTileData.GameCharacters);
+					}
+					
+					//get all possible actions
+					var links=GC.dial_man_1.GetLinks(
+						Core.rule_database.CheckQuery(new QueryData(CurrentTileData.Location,CurrentCharacter.Data,target.Data,"OnClick")).Link
+					);
+					
+					//select one randomly
+					if (links.Count>0){
+						var random=Subs.GetRandom(links);
+						CurrentCharacter.CurrentAction=new CharacterActionData(CurrentCharacter,CurrentCharacter,random.ToEvent,CurrentTileData.Location);
+					}
+					else
+						use_basic_action=true;
+				}
+				
+				if (use_basic_action){//basic interractions
+					var links=GC.dial_man_1.GetLinks(
+						Core.rule_database.CheckQuery(OnClickBasicActionsQuery).Link
+					);
+					var random=Subs.GetRandom(links);
+					CurrentCharacter.CurrentAction=new CharacterActionData(CurrentCharacter,CurrentCharacter,random.ToEvent,CurrentTileData.Location);
+				}
+			}
+			else{
+				//map actions
+				var links=GC.dial_man_1.GetLinks(
+					Core.rule_database.CheckQuery(OnMapActionsQuery).Link
+				);
+				while (true){
+					//effects DEV.reloc to one central place (XML system?)
+					var random=Subs.GetRandom(links);
+					var ToEvent=random.ToEvent;
+					
+					if (CurrentCharacter.OnMovingAwayFromTile)
+						ToEvent="OnMapMove";
+					
+					if (ToEvent=="OnMapWait"){
+						CurrentCharacter.RemovePath();
+						break;
+					}
+					if (ToEvent=="OnMapMove"){
+						//random pos for player
+						TileData t=tiledata_map[Subs.GetRandom(tiledata_map.GetLength(0)),Subs.GetRandom(tiledata_map.GetLength(1))];
+						CurrentCharacter.CalculatePath(t.TilePosition,this);
+						break;
+					}
+					
+					if (ToEvent=="OnMapUseVehicle"){
+						CurrentCharacter.ToggleRunning();
+					}
+					
+					if (ToEvent=="OnMapHide"){
+						CurrentCharacter.ToggleHiding();	
+					}
+					
+					links.Remove(random);
+					continue;
+				}
+			}
+			NextPlayersTurn();
+		}
+	}
+	/// <summary>
+	/// Jumps to the next non AI player.
+	/// In otherwords skips all AIs.
+	/// </summary>
+	public void JumpToNextPlayer ()
+	{
+		while(CurrentCharacter.AI){
+			NextPlayersTurn();
+		}
 	}
 }

@@ -73,7 +73,7 @@ public class ActionsSceneController : MonoBehaviour {
 			GDB.CurrentCharacter,
 			target,
 			button.Data.ToEvent,
-			new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,target.Data,button.Data.ToEvent)
+			GDB.CurrentTileData.Location
 			);
 
 		foreach (var c in GDB.CurrentTileData.Location.Characters){
@@ -100,8 +100,7 @@ public class ActionsSceneController : MonoBehaviour {
 							InterractTargetData=target.CharacterData;
 
 							controller.dial_man_1.CheckQuery(
-							new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,
-							target.Entity,"OnClick"));
+							new QueryData(GDB.CurrentTileData.Location,GDB.CurrentCharacter.Data,target.Entity,"OnClick"));
 						}
 					}
 				}

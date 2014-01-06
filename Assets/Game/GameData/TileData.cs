@@ -14,6 +14,11 @@ public class TileData
 		GameCharacters=new List<GameCharacterData>();
 		ActionsThisTurn=new List<CharacterActionData>();
 	}
+
+	public bool Blocked ()
+	{
+		return Location.Name!="Street";//dev.lazy
+	}
 	
 	public void AddCharacter (GameCharacterData c)
 	{

@@ -21,27 +21,21 @@ public class MapGenerator : MonoBehaviour
 	private List<Tile> tiles = new List<Tile>();
 	
 	public Tile[,] tiles_map;
-
-	// Use this for initialization
-	void Start ()
-	{
-
-	}
 	
-	// Update is called once per frame
-	void Update ()
-	{	
-		//GridSelection();
+	
+	public Tile GetTile(TileData tile)
+	{
+		return tiles_map[(int)tile.TilePosition.x,(int)tile.TilePosition.y];
 	}
 	
 	public void GenerateGrid(GameDatabase GDB,MapLoader ml)
 	{
-	MapData md = ml.Maps[0];
-		
-	gridX=md.map_data.GetLength(0);
-	gridY=md.map_data.GetLength(1);
-		
-	tiles_map=new Tile[gridX,gridY];
+		MapData md = ml.Maps[0];
+			
+		gridX=md.map_data.GetLength(0);
+		gridY=md.map_data.GetLength(1);
+			
+		tiles_map=new Tile[gridX,gridY];
 
 		for (int i = 0; i < gridX; i++)
 		{
@@ -50,7 +44,6 @@ public class MapGenerator : MonoBehaviour
 				Tile go = Instantiate(tileCrossroad, new Vector3(i*tileCrossroad.size.width, 0, j*tileCrossroad.size.height), Quaternion.identity) as Tile;
 				tiles.Add(go);	
 				tiles_map[i,j]=go;
-				go.TilePosition=new Vector2(i,j);
 				go.SetData(GDB.tiledata_map[i,j]);
 			}
 		}	
@@ -85,12 +78,5 @@ public class MapGenerator : MonoBehaviour
 			}
 		}
 	}
-	
-	void UpdateTiles()
-	{
-		foreach (Tile t in tiles)
-		{
-			t.UpdateObjects();
-		}
-	}	
+
 }

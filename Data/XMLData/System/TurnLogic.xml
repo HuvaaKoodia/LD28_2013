@@ -1,0 +1,10 @@
+<Root>
+	<!--- Dev. unused
+	<Rule Name="TurnStartAssigns" Base="PlayerToPlayer">
+		<Event>TurnStartAssigns</Event>
+		<Result>
+		
+		</Result>
+	</Rule>
+	-->
+</Root>

@@ -110,9 +110,11 @@ public class DialogueManager : MonoBehaviour {
             }
 		}*/
 		
-		if (data.HasLinks()){
+		var links=GetLinks(data);
+		
+		if (links.Count>0){
 
-			foreach (var d in data.Links){
+			foreach (var d in links){
 				AddAnswer(d);
 			}	
 		}
@@ -121,22 +123,34 @@ public class DialogueManager : MonoBehaviour {
 			AddAnswer(core_database.dialogue_database.EndDialogueEndConversation);
 		}
 	}
+	
+	/// <summary>
+	/// Dev.Reloc. to dialogue database (static)
+	/// </param>
+	public List<DialogueData> GetLinks(DialogueData data){
+		var list=new List<DialogueData>();
+		
+		if (data.HasLinks()){
 
+			foreach (var d in data.Links){
+				if (d.Type=="SKIP") continue;
+				
+				if (d.LinksToQuery){
+					var query=new QueryData(CurrentQuery.Location,CurrentQuery.Actor,CurrentQuery.Target,d.ToEvent);
+					var rule=core_database.rule_database.CheckQuery(query);
+					if (rule!=null)
+						list.Add(rule.Link);
+				}
+				else
+					list.Add(d);
+			}	
+		}
+		return list;
+	}
+	
 	int y_off=0;
 
 	void AddAnswer(DialogueData data){
-		
-		if (data.LinksToQuery){
-			var query=new QueryData(CurrentQuery.Location,CurrentQuery.Actor,CurrentQuery.Target,data.ToEvent);
-			var rule=core_database.rule_database.CheckQuery(query);
-			if (rule==null)
-				return;
-			data=rule.Link;
-		}
-		
-		if (data.Type=="SKIP"){
-			return;
-		}
 		
 		var go=Instantiate(answer_button_prefab,Vector3.zero,Quaternion.identity) as GameObject;
 		var ab=go.GetComponent<AnswerButtonMain>();
@@ -175,7 +189,7 @@ public class DialogueManager : MonoBehaviour {
     {
         if (link.LinksToRule)
         {
-			//Dev. broken target finder should check every target in area
+			//Dev. broken target finder should check every target in area not just one?
             EntityData target=null;
 			foreach (var c in CurrentQuery.Location.Characters){
                 if (c.Type==link.ToEntity){
@@ -222,6 +236,7 @@ public class DialogueManager : MonoBehaviour {
 			return;
 		}
 		
+		//DEV.temp disabled. realtime dialogue
 		//SelectLink(ans.Data);
 	}
 	

@@ -31,9 +31,9 @@ namespace DialogueSystem
             Type = type;
         }
 		/// <summary>
-		/// Links to rule. i.e. uses a query to get a link for this data.
+		/// Links to rule. i.e. uses a direct rule as link for this data.
 		/// else
-		/// Links to query. i.e .uses a query to get this data is linked.
+		/// Links to query. i.e .uses a query to get the rule to use as a link for this data.
 		/// </param>
 		public DialogueData(string text,string toEntity,string toEvent,bool links_to_rule):this(text)
 		{

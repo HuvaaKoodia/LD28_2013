@@ -9,6 +9,7 @@ public class HudMain : MonoBehaviour {
 	public UIButton BackToMapButton;
 	
 	public PlayerHud PlayerHud_;
+	public TurnReportPanel Turn_Report_Panel;
 	
 	public System.Action OnBackToMapPressedEvent;
 	
@@ -16,9 +17,6 @@ public class HudMain : MonoBehaviour {
 	void Start () {
 		//ShowBackToMapButton(false);
 	}
-	
-	// Update is called once per frame
-	void Update () {}
 	
 	public void ShowBackToMapButton(bool show)
 	{
@@ -58,7 +56,6 @@ public class HudMain : MonoBehaviour {
 		var uir=GetComponent<UIRoot>();
 		var i =uir.GetPixelSizeAdjustment(Screen.height);
 		var width=Screen.width*i;
-		
 		
 		x_off+=(int)ab.x_size+16;
 		
